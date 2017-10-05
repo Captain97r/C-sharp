@@ -20,6 +20,7 @@ namespace calculatorWin7
         double memory = 0.0;
         double LastVal_double = 0.0;
         double Val_double = 0.0;
+
         public Calculator_form()
         {
             InitializeComponent();
@@ -27,13 +28,11 @@ namespace calculatorWin7
             
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
+        private void Form1_Load(object sender, EventArgs e){
 
         }
 
-        private void but_C_Click(object sender, EventArgs e)
-        {
+        private void but_C_Click(object sender, EventArgs e){
             lastVal = "0";
             cal_action = "";
             mainTextBox.Text = "0";
@@ -54,12 +53,10 @@ namespace calculatorWin7
         {
             string temp_text = mainTextBox.Text;
             mainTextBox.Text= temp_text.Remove(temp_text.Length-1);
-            if (mainTextBox.Text == "")
-            {
+            if (mainTextBox.Text == "") {
                 mainTextBox.Text = "0";
             }
-            if (mainTextBox.Text.Length <= 13)
-            {
+            if (mainTextBox.Text.Length <= 13) {
                 mainTextBox.Font = new Font("Microsoft Sans Serif", 18.0f);
             }
         }
@@ -71,32 +68,22 @@ namespace calculatorWin7
                 mainTextBox.Text = "0";
                 flagDelNum = false;
             }
-            if (flagEndNum)
-            {
+            if (flagEndNum) {
 
                 but_C_Click(new object(), new EventArgs());
                 flagEndNum = false;
             }
-
-            if (mainTextBox.Text.IndexOf(",") < 0 && but_sender.Name == "but_coma")
-            {
+            if (mainTextBox.Text.IndexOf(",") < 0 && but_sender.Name == "but_coma") {
                 mainTextBox.Text += ",";
             }
-            else
-            {
-
-                if (mainTextBox.Text == "0")
-                {
+            else {
+                if (mainTextBox.Text == "0"){
                     mainTextBox.Text = "";
                 }
                 if (mainTextBox.Text.Length < 16)
                 {
-
-
-
                     mainTextBox.Text += but_sender.Text;
-                    if (mainTextBox.Text.Length > 13)
-                    {
+                    if (mainTextBox.Text.Length > 13){
                         mainTextBox.Font = new Font("Microsoft Sans Serif", 14.7f);
                     }
                 }
@@ -119,6 +106,7 @@ namespace calculatorWin7
                     mainTextBox.Text = "" + (1 / Val_double);
                     break;
             }
+            lastVal = mainTextBox.Text;
         }
         private void but_binar_actions_Click(object sender, EventArgs e)
         {
@@ -126,8 +114,7 @@ namespace calculatorWin7
             if (cal_action == but_sender.Text && !flagDelNum)
             {
                 flagOneEq = true;
-                compleat_Action(new object(),new EventArgs());
-                
+                compleat_Action(new object(),new EventArgs()); 
             }
             else
             {
@@ -136,7 +123,6 @@ namespace calculatorWin7
                 flagDelNum = true;
                 flagOneEq = true;
                 flagEndNum = false;
-                //     mainTextBox.Text = "0";
             }
         }
 
@@ -149,12 +135,10 @@ namespace calculatorWin7
             }
             if (flagOneEq)
             {
-               
-
-                Val_double = Double.Parse(mainTextBox.Text);
-                
+                Val_double = Double.Parse(mainTextBox.Text);             
                 flagOneEq = false;
             }
+
             if (sender is Button)
             {
                 Button but_sender = (Button)sender;
@@ -168,10 +152,7 @@ namespace calculatorWin7
                     mainTextBox.Text = "" + Val_double;
                     return;
                 }
-
             }
-            //      lastVal = mainTextBox.Text;
-
             switch (cal_action) {
                 case "+":
                     mainTextBox.Text = ""+(LastVal_double + Val_double);
@@ -187,12 +168,8 @@ namespace calculatorWin7
                     mainTextBox.Text = "" + (LastVal_double / Val_double);
                     break;
             }
-
-            // cal_action = "";
             lastVal = mainTextBox.Text;
-
             flagDelNum = true;
-           // flagEndNum = true;
         }
 
         private void but_memory_click(object sender, EventArgs e)
@@ -241,34 +218,34 @@ namespace calculatorWin7
         {
             switch (e.KeyValue)
             {
-                case 48:
+                case 48://Key 0 
                     but_num_click(but_num_0, EventArgs.Empty);
                     break;
-                case 49:
+                case 49://Key 1
                     but_num_click(but_num_1, EventArgs.Empty);
                     break;
-                case 50:
+                case 50://Key 2
                     but_num_click(but_num_2, EventArgs.Empty);
                     break;
-                case 51:
+                case 51://Key 3
                     but_num_click(but_num_3, EventArgs.Empty);
                     break;
-                case 52:
+                case 52://Key 4
                     but_num_click(but_num_4, EventArgs.Empty);
                     break;
-                case 53:
+                case 53://Key 5
                     but_num_click(but_num_5, EventArgs.Empty);
                     break;
-                case 54:
+                case 54://Key 6
                     but_num_click(but_num_6, EventArgs.Empty);
                     break;
-                case 55:
+                case 55://Key 7
                     but_num_click(but_num_7, EventArgs.Empty);
                     break;
-                case 56:
+                case 56://Key 8
                     but_num_click(but_num_8, EventArgs.Empty);
                     break;
-                case 57:
+                case 57://Key 9
                     but_num_click(but_num_9, EventArgs.Empty);
                     break;
                 case 13:// press "Enter"
@@ -280,11 +257,29 @@ namespace calculatorWin7
                 case 189:// press "-"
                     but_binar_actions_Click(but_sub, EventArgs.Empty);
                     break;
+                case 191:// press "-"
+                    but_binar_actions_Click(but_div, EventArgs.Empty);
+                    break;
                 default:
-                //    mainTextBox.Text = ""+ e.KeyValue;
+                 //   mainTextBox.Text = ""+ e.KeyValue;
                     break;
             }
-          
+            if (e.Control && e.KeyCode == Keys.C)//Ctrl+C
+            {
+                Clipboard.SetText(mainTextBox.Text);
+
+            }
+            if (e.Control && e.KeyCode == Keys.V)//Ctrl+V
+            {
+                mainTextBox.Text =  Clipboard.GetText();
+
+            }
+            if (e.Shift && e.KeyCode == Keys.D8)//Shift + 8(*) (mul)
+            {
+                but_binar_actions_Click(but_mul, EventArgs.Empty);
+
+            }
+
         }
         private void non_focus(object sender, EventArgs e)
         {
