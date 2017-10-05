@@ -216,6 +216,22 @@ namespace calculatorWin7
 
         void Form_KeyDown(object o, KeyEventArgs e)
         {
+            if (e.Control && e.KeyCode == Keys.C)//Ctrl+C
+            {
+                Clipboard.SetText(mainTextBox.Text);
+
+            }
+            if (e.Control && e.KeyCode == Keys.V)//Ctrl+V
+            {
+                mainTextBox.Text = Clipboard.GetText();
+
+            }
+            if (e.Shift && e.KeyCode == Keys.D8)//Shift + 8(*) (mul)
+            {
+                but_binar_actions_Click(but_mul, EventArgs.Empty);
+                return;
+            }
+         
             switch (e.KeyValue)
             {
                 case 48://Key 0 
@@ -264,21 +280,7 @@ namespace calculatorWin7
                  //   mainTextBox.Text = ""+ e.KeyValue;
                     break;
             }
-            if (e.Control && e.KeyCode == Keys.C)//Ctrl+C
-            {
-                Clipboard.SetText(mainTextBox.Text);
-
-            }
-            if (e.Control && e.KeyCode == Keys.V)//Ctrl+V
-            {
-                mainTextBox.Text =  Clipboard.GetText();
-
-            }
-            if (e.Shift && e.KeyCode == Keys.D8)//Shift + 8(*) (mul)
-            {
-                but_binar_actions_Click(but_mul, EventArgs.Empty);
-
-            }
+           
 
         }
         private void non_focus(object sender, EventArgs e)
