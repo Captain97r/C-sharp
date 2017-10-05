@@ -10,19 +10,21 @@ using System.Windows.Forms;
 
 namespace calculatorWin7
 {
-    public partial class Form1 : Form
+    public partial class Calculator_form : Form
     {
         string lastVal = "0";
         string cal_action = "";
         bool flagDelNum = false;
-        public Form1()
+        bool flagEndNum = false;
+        bool flagOneEq = false;
+        double memory = 0.0;
+        double LastVal_double = 0.0;
+        double Val_double = 0.0;
+        public Calculator_form()
         {
             InitializeComponent();
-        }
-
-        private void mainTextBox_TextChanged(object sender, EventArgs e)
-        {
-
+            KeyDown += new KeyEventHandler(Form_KeyDown);
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -36,6 +38,9 @@ namespace calculatorWin7
             cal_action = "";
             mainTextBox.Text = "0";
             flagDelNum = false;
+            flagOneEq = false;
+            LastVal_double = 0.0;
+            Val_double = 0.0;
             mainTextBox.Font = new Font("Microsoft Sans Serif", 18.0f);
         }
 
@@ -61,72 +66,229 @@ namespace calculatorWin7
 
         private void but_num_click(object sender, EventArgs e)
         {
+            Button but_sender = (Button)sender;
             if (flagDelNum) {
-                mainTextBox.Text = "";
+                mainTextBox.Text = "0";
                 flagDelNum = false;
             }
-           
+            if (flagEndNum)
+            {
 
-            if(mainTextBox.Text == "0") {
-                    mainTextBox.Text = "";
-                }
-                if (mainTextBox.Text.Length < 16) {
-                Button but_sender = (Button)sender;
-              
-
-                mainTextBox.Text += but_sender.Text;
-                if (mainTextBox.Text.Length > 13) {
-                    mainTextBox.Font = new Font("Microsoft Sans Serif", 14.7f);
-                }
+                but_C_Click(new object(), new EventArgs());
+                flagEndNum = false;
             }
-        }
 
-        private void but_coma_Click(object sender, EventArgs e)
-        {
-            
-            if (mainTextBox.Text.IndexOf(",") < 0){
+            if (mainTextBox.Text.IndexOf(",") < 0 && but_sender.Name == "but_coma")
+            {
                 mainTextBox.Text += ",";
             }
+            else
+            {
+
+                if (mainTextBox.Text == "0")
+                {
+                    mainTextBox.Text = "";
+                }
+                if (mainTextBox.Text.Length < 16)
+                {
+
+
+
+                    mainTextBox.Text += but_sender.Text;
+                    if (mainTextBox.Text.Length > 13)
+                    {
+                        mainTextBox.Font = new Font("Microsoft Sans Serif", 14.7f);
+                    }
+                }
+            }
         }
 
+        private void but_unar_actions_Click(object sender, EventArgs e)
+        {
+            Button but_sender = (Button)sender;
+            double Val_double = Double.Parse(mainTextBox.Text);
+            switch (but_sender.Text)
+            {
+                case "∓":
+                    mainTextBox.Text = "" + (Val_double * -1);
+                    break;
+                case "√":
+                    mainTextBox.Text = "" + (Math.Sqrt(Val_double));
+                    break;
+                case "1/x":
+                    mainTextBox.Text = "" + (1 / Val_double);
+                    break;
+            }
+        }
         private void but_binar_actions_Click(object sender, EventArgs e)
         {
             Button but_sender = (Button)sender;
             if (cal_action == but_sender.Text && !flagDelNum)
             {
+                flagOneEq = true;
                 compleat_Action(new object(),new EventArgs());
+                
             }
             else
             {
                 lastVal = mainTextBox.Text;
                 cal_action = but_sender.Text;
                 flagDelNum = true;
-           //     mainTextBox.Text = "0";
+                flagOneEq = true;
+                flagEndNum = false;
+                //     mainTextBox.Text = "0";
             }
         }
 
         private void compleat_Action(object sender, EventArgs e)
         {
-            int LastVal_int = int.Parse(lastVal);
-            int Val_int = int.Parse(mainTextBox.Text);
+            LastVal_double = Double.Parse(lastVal);
+            if (sender is Button)
+            {
+                flagEndNum = true;
+            }
+            if (flagOneEq)
+            {
+               
+
+                Val_double = Double.Parse(mainTextBox.Text);
+                
+                flagOneEq = false;
+            }
+            if (sender is Button)
+            {
+                Button but_sender = (Button)sender;
+                if (but_sender.Name == "but_eq")
+                {
+                    flagEndNum = true;
+                }
+                if (but_sender.Name == "but_percent")
+                {
+                    Val_double = LastVal_double* Val_double/100;
+                    mainTextBox.Text = "" + Val_double;
+                    return;
+                }
+
+            }
+            //      lastVal = mainTextBox.Text;
+
             switch (cal_action) {
                 case "+":
-                    mainTextBox.Text = ""+(LastVal_int + Val_int);
+                    mainTextBox.Text = ""+(LastVal_double + Val_double);
                     break;
 
                 case "-":
-                    mainTextBox.Text = "" + (LastVal_int - Val_int);
+                    mainTextBox.Text = "" + (LastVal_double - Val_double);
+                    break;
+                case "*":
+                    mainTextBox.Text = "" + (LastVal_double * Val_double);
+                    break;
+                case "/":
+                    mainTextBox.Text = "" + (LastVal_double / Val_double);
                     break;
             }
 
-           // cal_action = "";
-
+            // cal_action = "";
             lastVal = mainTextBox.Text;
+
             flagDelNum = true;
+           // flagEndNum = true;
         }
 
-        private void but_MC_Click(object sender, EventArgs e)
+        private void but_memory_click(object sender, EventArgs e)
         {
+            Button but_sender = (Button)sender;
+          
+            switch (but_sender.Text)
+            {
+                case "MS":
+                    but_MC.Enabled = true;
+                    but_MR.Enabled = true;
+                    memory = Double.Parse(mainTextBox.Text);
+                    label_M.Visible = true;
+                    flagDelNum = true;
+                    break;
+                case "M+":
+                    but_MC.Enabled = true;
+                    but_MR.Enabled = true;
+                    memory += Double.Parse(mainTextBox.Text);
+                    label_M.Visible = true;
+                    flagDelNum = true;
+                    break;
+                case "M-":
+                    but_MC.Enabled = true;
+                    but_MR.Enabled = true;
+                    memory -= Double.Parse(mainTextBox.Text);
+                    label_M.Visible = true;
+                    flagDelNum = true;
+                    break;
+                case "MC":
+                    but_MC.Enabled = false;
+                    but_MR.Enabled = false;
+                    memory = 0 ;
+                    label_M.Visible = false;
+                    break;
+                case "MR":
+                    mainTextBox.Text = "" + memory;
+                    flagDelNum = true;
+                    break;
+            }
+
+       }
+
+
+        void Form_KeyDown(object o, KeyEventArgs e)
+        {
+            switch (e.KeyValue)
+            {
+                case 48:
+                    but_num_click(but_num_0, EventArgs.Empty);
+                    break;
+                case 49:
+                    but_num_click(but_num_1, EventArgs.Empty);
+                    break;
+                case 50:
+                    but_num_click(but_num_2, EventArgs.Empty);
+                    break;
+                case 51:
+                    but_num_click(but_num_3, EventArgs.Empty);
+                    break;
+                case 52:
+                    but_num_click(but_num_4, EventArgs.Empty);
+                    break;
+                case 53:
+                    but_num_click(but_num_5, EventArgs.Empty);
+                    break;
+                case 54:
+                    but_num_click(but_num_6, EventArgs.Empty);
+                    break;
+                case 55:
+                    but_num_click(but_num_7, EventArgs.Empty);
+                    break;
+                case 56:
+                    but_num_click(but_num_8, EventArgs.Empty);
+                    break;
+                case 57:
+                    but_num_click(but_num_9, EventArgs.Empty);
+                    break;
+                case 13:// press "Enter"
+                    compleat_Action(but_eq, EventArgs.Empty);
+                    break;
+                case 187:// press "+"
+                    but_binar_actions_Click(but_pluse, EventArgs.Empty);
+                    break;
+                case 189:// press "-"
+                    but_binar_actions_Click(but_sub, EventArgs.Empty);
+                    break;
+                default:
+                //    mainTextBox.Text = ""+ e.KeyValue;
+                    break;
+            }
+          
+        }
+        private void non_focus(object sender, EventArgs e)
+        {
+            non_focus_label.Focus();
 
         }
     }
