@@ -70,7 +70,7 @@ namespace calculatorWin7
             }
             if (flagEndNum) {
 
-                but_C_Click(new object(), new EventArgs());
+                but_C_Click(null, new EventArgs());
                 flagEndNum = false;
             }
             if (mainTextBox.Text.IndexOf(",") < 0 && but_sender.Name == "but_coma") {
@@ -97,7 +97,7 @@ namespace calculatorWin7
             switch (but_sender.Text)
             {
                 case "∓":
-                    mainTextBox.Text = "" + (Val_double * -1);
+                    mainTextBox.Text = (-Val_double).ToString();
                     break;
                 case "√":
                     mainTextBox.Text = "" + (Math.Sqrt(Val_double));
@@ -114,7 +114,7 @@ namespace calculatorWin7
             if (cal_action == but_sender.Text && !flagDelNum)
             {
                 flagOneEq = true;
-                compleat_Action(new object(),new EventArgs()); 
+                compleat_Action(null,null); 
             }
             else
             {
@@ -142,11 +142,11 @@ namespace calculatorWin7
             if (sender is Button)
             {
                 Button but_sender = (Button)sender;
-                if (but_sender.Name == "but_eq")
+                if (but_sender == but_eq)
                 {
                     flagEndNum = true;
                 }
-                if (but_sender.Name == "but_percent")
+                if (but_sender == but_percent)
                 {
                     Val_double = LastVal_double* Val_double/100;
                     mainTextBox.Text = "" + Val_double;
