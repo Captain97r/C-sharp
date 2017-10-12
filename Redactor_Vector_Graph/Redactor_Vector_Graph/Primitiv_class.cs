@@ -17,17 +17,12 @@ namespace Redactor_Vector_Graph
         List<Point> points_array = new List<Point>(200);
       public  Primitiv(Pen set_pen,Point start)
         {
-            pen = set_pen;
+            pen = (Pen)set_pen.Clone();
             points_array.Add(start);
         }
       public   void Drow(Graphics graphics)
         {
-            Point last_point = points_array[0];
-            foreach (Point point in points_array)
-            {
-                graphics.DrawLine(pen, last_point,point);
-                last_point = point;
-            }
+            graphics.DrawLines(pen,points_array.ToArray());
         }
         public void Add_Point(Point point)
         {
