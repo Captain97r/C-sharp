@@ -29,48 +29,93 @@
         private void InitializeComponent()
         {
             this.PaintBox = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.tool_strip_file = new System.Windows.Forms.ToolStripMenuItem();
+            this.tool_strip_exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.tool_strip_help = new System.Windows.Forms.ToolStripMenuItem();
+            this.tool_strip_about = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // PaintBox
             // 
+            this.PaintBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PaintBox.BackColor = System.Drawing.SystemColors.Window;
-            this.PaintBox.Location = new System.Drawing.Point(278, 12);
+            this.PaintBox.Location = new System.Drawing.Point(12, 42);
             this.PaintBox.Name = "PaintBox";
-            this.PaintBox.Size = new System.Drawing.Size(680, 464);
+            this.PaintBox.Size = new System.Drawing.Size(1246, 568);
             this.PaintBox.TabIndex = 0;
-            this.PaintBox.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel1_Paint);
             this.PaintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
             this.PaintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.PaintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
             // 
-            // button1
+            // menuStrip
             // 
-            this.button1.Location = new System.Drawing.Point(102, 135);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 85);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.menuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tool_strip_file,
+            this.tool_strip_help});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(1278, 33);
+            this.menuStrip.TabIndex = 1;
+            this.menuStrip.Text = "menuStrip1";
             // 
-            // Form1
+            // tool_strip_file
+            // 
+            this.tool_strip_file.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tool_strip_exit});
+            this.tool_strip_file.Name = "tool_strip_file";
+            this.tool_strip_file.Size = new System.Drawing.Size(50, 29);
+            this.tool_strip_file.Text = "File";
+            // 
+            // tool_strip_exit
+            // 
+            this.tool_strip_exit.Name = "tool_strip_exit";
+            this.tool_strip_exit.Size = new System.Drawing.Size(210, 30);
+            this.tool_strip_exit.Text = "Exit";
+            this.tool_strip_exit.Click += new System.EventHandler(this.tool_strip_exit_Click);
+            // 
+            // tool_strip_help
+            // 
+            this.tool_strip_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tool_strip_about});
+            this.tool_strip_help.Name = "tool_strip_help";
+            this.tool_strip_help.Size = new System.Drawing.Size(61, 29);
+            this.tool_strip_help.Text = "Help";
+            // 
+            // tool_strip_about
+            // 
+            this.tool_strip_about.Name = "tool_strip_about";
+            this.tool_strip_about.Size = new System.Drawing.Size(210, 30);
+            this.tool_strip_about.Text = "About";
+            this.tool_strip_about.Click += new System.EventHandler(this.tool_strip_about_Click);
+            // 
+            // Main_Drow_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(970, 488);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(1278, 744);
             this.Controls.Add(this.PaintBox);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Controls.Add(this.menuStrip);
+            this.MainMenuStrip = this.menuStrip;
+            this.Name = "Main_Drow_Form";
+            this.Text = "Super Vector Paint";
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Panel PaintBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem tool_strip_file;
+        private System.Windows.Forms.ToolStripMenuItem tool_strip_exit;
+        private System.Windows.Forms.ToolStripMenuItem tool_strip_help;
+        private System.Windows.Forms.ToolStripMenuItem tool_strip_about;
     }
 }
 

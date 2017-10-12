@@ -51,6 +51,7 @@
     <Compile Include="Main_Drow_Form.Designer.cs">
       <DependentUpon>Main_Drow_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Primitiv_class.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Main_Drow_Form.resx">

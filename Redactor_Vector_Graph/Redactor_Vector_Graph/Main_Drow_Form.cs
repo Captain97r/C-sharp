@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -12,44 +13,46 @@ namespace Redactor_Vector_Graph
 {
     public partial class Main_Drow_Form : Form
     {
-
-        bool Flag_Right_CLick = false;
+        List<Primitiv> primitives_Array = new List<Primitiv>(100);
+        Point[] point_array = {new  Point(12, 40), new Point(24,24), new Point(36,70) };
+        bool flag_right_click = false;
         Graphics graph_PaintBox;
         Point lastPoint = new Point(0,0);
-        Pen pen1 = new Pen(Color.Blue);
+        Pen main_pen = new Pen(Color.Blue);
         public Main_Drow_Form()
         {
             InitializeComponent();
             graph_PaintBox = PaintBox.CreateGraphics();
-            this.Paint += Form1_Paint;
+            PaintBox.Paint += PaintBox_Paint;
         
         }
 
-        private void Form1_Paint(object sender, PaintEventArgs e)
+        private void PaintBox_Paint(object sender, PaintEventArgs e)
         {
-            graph_PaintBox.DrawLine(pen1, 0, 0, 120, 120);
-
-        
+            foreach (Primitiv primitiv in primitives_Array)
+            {
+                primitiv.Drow(graph_PaintBox);
+            }
         }
 
-        private void Panel1_Paint(object sender, PaintEventArgs e)
-        {
-            
-        }
+   
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+         
             graph_PaintBox.Clear(Color.White);
         }
 
         private void PaintBox_MouseDown(object sender, MouseEventArgs e)
         {
+           
             if (e.Button == MouseButtons.Left)
             {
               
-                Flag_Right_CLick = true;
+                flag_right_click = true;
                 lastPoint = new Point(e.X, e.Y);
+                primitives_Array.Add(new Primitiv(main_pen, new Point(e.X, e.Y)));
+                
             }
         }
 
@@ -57,18 +60,31 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-               Flag_Right_CLick = false;
+               flag_right_click = false;
 
             }
         }
 
         private void PaintBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (Flag_Right_CLick)
+            if (flag_right_click)
             {
-                graph_PaintBox.DrawLine(pen1, lastPoint, new Point(e.X,e.Y));
-                lastPoint = new Point(e.X, e.Y);
+
+                primitives_Array.Last().Add_Point(new Point(e.X,e.Y));
+                primitives_Array.Last().Drow(graph_PaintBox);
+                //    PaintBox.Invalidate(new Rectangle(new Point(e.X - 2,e.Y-2),new Size(3,3)));
+
             }
+        }
+
+        private void tool_strip_exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void tool_strip_about_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Vector graph \nVersion: Alpha v0.1 \nMade by kenny5660(Liamaev Mikhail)");
         }
     }
 }
