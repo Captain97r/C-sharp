@@ -6,56 +6,50 @@ using System.Windows.Forms;
 
 namespace Redactor_Vector_Graph
 {
-    public partial class Main_Drow_Form : Form
+    public partial class Main_Draw_Form : Form
     {
-        List<Primitiv> primitives_Array = new List<Primitiv>(100);
-        Point[] point_array = {new  Point(12, 40), new Point(24,24), new Point(36,70) };
-        bool flag_right_click = false;
+        List<Primitiv> primitives_Array = new List<Primitiv>(20);
+        bool flag_left_click = false;
         Graphics graph_PaintBox;
-        Graphics but_main_color_bitmap_g;
-        Bitmap but_main_color_bitmap;
-        Point lastPoint = new Point(0,0);
-        Pen main_pen = new Pen(Color.Blue);
-        public Main_Drow_Form()
+     
+        Pen mainPen = new Pen(Color.Black);
+
+        public Main_Draw_Form()
         {
-            
-          
-          
             InitializeComponent();
-            graph_PaintBox = PaintBox.CreateGraphics();
+            Graphics but_main_color_bitmap_g;
+            Bitmap but_main_color_bitmap;
             PaintBox.Paint += PaintBox_Paint;
             but_main_color_bitmap = new Bitmap(but_main_color.Width, but_main_color.Height);
             but_main_color_bitmap_g = Graphics.FromImage(but_main_color_bitmap);
-            but_main_color_bitmap_g.Clear(main_pen.Color);
+            but_main_color_bitmap_g.Clear(mainPen.Color);
             but_main_color.Image = but_main_color_bitmap;
         }
 
         private void PaintBox_Paint(object sender, PaintEventArgs e)
         {
+            graph_PaintBox = PaintBox.CreateGraphics();
             foreach (Primitiv primitiv in primitives_Array)
             {
-                primitiv.Drow(graph_PaintBox);
+                primitiv.Draw(graph_PaintBox);
             }
         }
 
-   
-
         private void button1_Click(object sender, EventArgs e)
         {
-         
+
             graph_PaintBox.Clear(Color.White);
         }
 
         private void PaintBox_MouseDown(object sender, MouseEventArgs e)
         {
-           
+
             if (e.Button == MouseButtons.Left)
             {
-              
-                flag_right_click = true;
-                lastPoint = new Point(e.X, e.Y);
-                primitives_Array.Add(new Primitiv(main_pen, new Point(e.X, e.Y)));
-                
+
+                flag_left_click = true;
+                primitives_Array.Add(new Primitiv(mainPen, new Point(e.X, e.Y)));
+
             }
         }
 
@@ -63,20 +57,20 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-               flag_right_click = false;
+                flag_left_click = false;
 
             }
         }
 
         private void PaintBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (flag_right_click)
+            if (flag_left_click)
             {
 
-                primitives_Array.Last().Add_Point(new Point(e.X,e.Y));
-                primitives_Array.Last().Drow(graph_PaintBox);
-                //    PaintBox.Invalidate(new Rectangle(new Point(e.X - 2,e.Y-2),new Size(3,3)));
-
+                primitives_Array.Last().Add_Point(new Point(e.X, e.Y));
+                //primitives_Array.Last().Drow(graph_PaintBox);
+                PaintBox.Invalidate(new Rectangle(new Point(e.X - 2, e.Y - 2), new Size(3, 3)));
+                //PaintBox.Invalidate();
             }
         }
 
@@ -92,15 +86,19 @@ namespace Redactor_Vector_Graph
 
         private void but_main_color_Click(object sender, EventArgs e)
         {
+            Graphics but_main_color_bitmap_g;
+            Bitmap but_main_color_bitmap;
             color_dialog_main.ShowDialog();
-            main_pen.Color = color_dialog_main.Color;
-            but_main_color_bitmap_g.Clear(main_pen.Color);
+            but_main_color_bitmap = new Bitmap(but_main_color.Width, but_main_color.Height);
+            but_main_color_bitmap_g = Graphics.FromImage(but_main_color_bitmap);
+            mainPen.Color = color_dialog_main.Color;
+            but_main_color_bitmap_g.Clear(mainPen.Color);
             but_main_color.Image = but_main_color_bitmap;
         }
 
         private void numeric_width_pen_ValueChanged(object sender, EventArgs e)
         {
-            main_pen.Width = (float)numeric_width_pen.Value;
+            mainPen.Width = (float)numeric_width_pen.Value;
         }
     }
 }

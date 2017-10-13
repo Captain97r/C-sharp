@@ -45,17 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main_Drow_Form.cs">
+    <Compile Include="Main_Draw_Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main_Drow_Form.Designer.cs">
-      <DependentUpon>Main_Drow_Form.cs</DependentUpon>
+    <Compile Include="Main_Draw_Form.Designer.cs">
+      <DependentUpon>Main_Draw_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Primitiv_class.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Main_Drow_Form.resx">
-      <DependentUpon>Main_Drow_Form.cs</DependentUpon>
+    <EmbeddedResource Include="Main_Draw_Form.resx">
+      <DependentUpon>Main_Draw_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

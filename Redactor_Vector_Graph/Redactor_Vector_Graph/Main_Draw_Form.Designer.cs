@@ -1,6 +1,6 @@
 ﻿namespace Redactor_Vector_Graph
 {
-    partial class Main_Drow_Form
+    partial class Main_Draw_Form
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Drow_Form));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Draw_Form));
             this.PaintBox = new System.Windows.Forms.Panel();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tool_strip_file = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,13 +45,13 @@
             // PaintBox
             // 
             this.PaintBox.AutoSize = true;
-            this.PaintBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PaintBox.BackColor = System.Drawing.SystemColors.Window;
-            this.PaintBox.Location = new System.Drawing.Point(12, 74);
-            this.PaintBox.MaximumSize = new System.Drawing.Size(1154, 734);
-            this.PaintBox.MinimumSize = new System.Drawing.Size(954, 534);
+            this.PaintBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.PaintBox.Location = new System.Drawing.Point(0, 75);
+            this.PaintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
+            this.PaintBox.MinimumSize = new System.Drawing.Size(954, 555);
             this.PaintBox.Name = "PaintBox";
-            this.PaintBox.Size = new System.Drawing.Size(954, 534);
+            this.PaintBox.Size = new System.Drawing.Size(978, 555);
             this.PaintBox.TabIndex = 0;
             this.PaintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
             this.PaintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
@@ -101,7 +101,7 @@
             // 
             // but_main_color
             // 
-            this.but_main_color.Location = new System.Drawing.Point(12, 39);
+            this.but_main_color.Location = new System.Drawing.Point(12, 36);
             this.but_main_color.Name = "but_main_color";
             this.but_main_color.Size = new System.Drawing.Size(75, 29);
             this.but_main_color.TabIndex = 2;
@@ -110,14 +110,14 @@
             // 
             // numeric_width_pen
             // 
-            this.numeric_width_pen.Location = new System.Drawing.Point(94, 41);
+            this.numeric_width_pen.Location = new System.Drawing.Point(94, 38);
             this.numeric_width_pen.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numeric_width_pen.Name = "numeric_width_pen";
-            this.numeric_width_pen.Size = new System.Drawing.Size(78, 26);
+            this.numeric_width_pen.Size = new System.Drawing.Size(52, 26);
             this.numeric_width_pen.TabIndex = 3;
             this.numeric_width_pen.Value = new decimal(new int[] {
             1,
@@ -126,7 +126,7 @@
             0});
             this.numeric_width_pen.ValueChanged += new System.EventHandler(this.numeric_width_pen_ValueChanged);
             // 
-            // Main_Drow_Form
+            // Main_Draw_Form
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(978, 630);
@@ -134,9 +134,10 @@
             this.Controls.Add(this.but_main_color);
             this.Controls.Add(this.PaintBox);
             this.Controls.Add(this.menuStrip);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
-            this.Name = "Main_Drow_Form";
+            this.Name = "Main_Draw_Form";
             this.Text = "Super Vector Paint";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
