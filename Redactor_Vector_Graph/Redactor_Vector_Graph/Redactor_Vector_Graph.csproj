@@ -55,7 +55,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tools_Class.cs" />
-    <Compile Include="T_Figure_class.cs" />
+    <Compile Include="Figure_class.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Main_Draw_Form.resx">

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Draw_Form));
-            this.PaintBox = new PaintBox();
+            this.PaintBox = new Redactor_Vector_Graph.PaintBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tool_strip_file = new System.Windows.Forms.ToolStripMenuItem();
             this.tool_strip_exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,7 +39,7 @@
             this.but_main_color = new System.Windows.Forms.Button();
             this.numeric_width_pen = new System.Windows.Forms.NumericUpDown();
             this.toolPanel = new System.Windows.Forms.Panel();
-            this.buttonToolCircle = new System.Windows.Forms.Button();
+            this.buttonToolEllipse = new System.Windows.Forms.Button();
             this.buttonToolRect = new System.Windows.Forms.Button();
             this.buttonToolLine = new System.Windows.Forms.Button();
             this.buttonToolPolyLine = new System.Windows.Forms.Button();
@@ -142,7 +142,7 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.toolPanel.Controls.Add(this.buttonToolCircle);
+            this.toolPanel.Controls.Add(this.buttonToolEllipse);
             this.toolPanel.Controls.Add(this.buttonToolRect);
             this.toolPanel.Controls.Add(this.buttonToolLine);
             this.toolPanel.Controls.Add(this.buttonToolPolyLine);
@@ -155,14 +155,14 @@
             this.toolPanel.Size = new System.Drawing.Size(120, 603);
             this.toolPanel.TabIndex = 0;
             // 
-            // buttonToolCircle
+            // buttonToolEllipse
             // 
-            this.buttonToolCircle.Image = global::Redactor_Vector_Graph.Properties.Resources.CircleImage;
-            this.buttonToolCircle.Location = new System.Drawing.Point(5, 115);
-            this.buttonToolCircle.Name = "buttonToolCircle";
-            this.buttonToolCircle.Size = new System.Drawing.Size(54, 54);
-            this.buttonToolCircle.TabIndex = 6;
-            this.buttonToolCircle.UseVisualStyleBackColor = true;
+            this.buttonToolEllipse.Image = global::Redactor_Vector_Graph.Properties.Resources.CircleImage;
+            this.buttonToolEllipse.Location = new System.Drawing.Point(5, 115);
+            this.buttonToolEllipse.Name = "buttonToolEllipse";
+            this.buttonToolEllipse.Size = new System.Drawing.Size(54, 54);
+            this.buttonToolEllipse.TabIndex = 6;
+            this.buttonToolEllipse.UseVisualStyleBackColor = true;
             // 
             // buttonToolRect
             // 
@@ -236,7 +236,7 @@
         private System.Windows.Forms.NumericUpDown numeric_width_pen;
         private System.Windows.Forms.Panel toolPanel;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button buttonToolCircle;
+        private System.Windows.Forms.Button buttonToolEllipse;
         private System.Windows.Forms.Button buttonToolRect;
         private System.Windows.Forms.Button buttonToolLine;
         private System.Windows.Forms.Button buttonToolPolyLine;

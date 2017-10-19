@@ -7,22 +7,22 @@ namespace Redactor_Vector_Graph
 {
     public partial class Main_Draw_Form : Form
     {
-        List<Figure> primitives_Array = new List<Figure>(20);
+        List<Figure> figureArray = new List<Figure>(20);
         ToolTip ToolTipMain = new ToolTip();
         Pen mainPen = new Pen(Color.Black);
         ToolPolyLine toolPolyLine;
         ToolLine toolLine;
         ToolReact toolRect;
-        ToolCircle toolCircle;
+        ToolEllipse toolCircle;
       
 
         public Main_Draw_Form()
         {
             InitializeComponent();
-            toolPolyLine = new ToolPolyLine(buttonToolPolyLine, ref primitives_Array, mainPen,PaintBox);
-            toolLine = new ToolLine(buttonToolLine, ref primitives_Array, mainPen);
-            toolRect = new ToolReact(buttonToolRect, ref primitives_Array, mainPen);
-            toolCircle = new ToolCircle(buttonToolCircle, ref primitives_Array, mainPen);
+            toolPolyLine = new ToolPolyLine(buttonToolPolyLine, ref figureArray, mainPen,PaintBox);
+            toolLine = new ToolLine(buttonToolLine, ref figureArray, mainPen, PaintBox);
+            toolRect = new ToolReact(buttonToolRect, ref figureArray, mainPen, PaintBox);
+            toolCircle = new ToolEllipse(buttonToolEllipse, ref figureArray, mainPen, PaintBox);
             Tool.ActiveTool = toolPolyLine;
             Graphics but_main_color_bitmap_g;
             Bitmap but_main_color_bitmap;
@@ -35,7 +35,8 @@ namespace Redactor_Vector_Graph
 
         private void PaintBox_Paint(object sender, PaintEventArgs e)
         {
-            foreach (Figure primitiv in primitives_Array)
+         
+            foreach (Figure primitiv in figureArray)
             {
                 primitiv.Draw(e.Graphics);
             }
