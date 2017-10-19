@@ -18,18 +18,17 @@ namespace Redactor_Vector_Graph
         public Main_Draw_Form()
         {
             InitializeComponent();
+            ToolTipMain.SetToolTip(buttonToolPolyLine,"Pencil");
+            ToolTipMain.SetToolTip(buttonToolLine, "Line");
+            ToolTipMain.SetToolTip(buttonToolRect, "Rectangle");
+            ToolTipMain.SetToolTip(buttonToolEllipse, "Ellipse");
             toolPolyLine = new ToolPolyLine(buttonToolPolyLine, ref figureArray, mainPen, PaintBox);
             toolLine = new ToolLine(buttonToolLine, ref figureArray, mainPen, PaintBox);
             toolRect = new ToolReact(buttonToolRect, ref figureArray, mainPen, PaintBox);
             toolCircle = new ToolEllipse(buttonToolEllipse, ref figureArray, mainPen, PaintBox);
             Tool.ActiveTool = toolPolyLine;
-            Graphics but_main_color_bitmap_g;
-            Bitmap but_main_color_bitmap;
             PaintBox.Paint += PaintBox_Paint;
-            but_main_color_bitmap = new Bitmap(but_main_color.Width, but_main_color.Height);
-            but_main_color_bitmap_g = Graphics.FromImage(but_main_color_bitmap);
-            but_main_color_bitmap_g.Clear(mainPen.Color);
-            but_main_color.Image = but_main_color_bitmap;
+            Set_button_color(mainPen.Color);
         }
 
         private void PaintBox_Paint(object sender, PaintEventArgs e)
@@ -67,14 +66,10 @@ namespace Redactor_Vector_Graph
 
         private void but_main_color_Click(object sender, EventArgs e)
         {
-            Graphics but_main_color_bitmap_g;
-            Bitmap but_main_color_bitmap;
+            
             color_dialog_main.ShowDialog();
-            but_main_color_bitmap = new Bitmap(but_main_color.Width, but_main_color.Height);
-            but_main_color_bitmap_g = Graphics.FromImage(but_main_color_bitmap);
             mainPen.Color = color_dialog_main.Color;
-            but_main_color_bitmap_g.Clear(mainPen.Color);
-            but_main_color.Image = but_main_color_bitmap;
+            Set_button_color(mainPen.Color);
         }
 
         private void numeric_width_pen_ValueChanged(object sender, EventArgs e)
@@ -92,6 +87,15 @@ namespace Redactor_Vector_Graph
                     PaintBox.Invalidate();
                 }
             }
+        }
+        private void Set_button_color(Color color)
+        {
+            Graphics but_main_color_bitmap_g;
+            Bitmap but_main_color_bitmap;
+            but_main_color_bitmap = new Bitmap(but_main_color.Width, but_main_color.Height);
+            but_main_color_bitmap_g = Graphics.FromImage(but_main_color_bitmap);       
+            but_main_color_bitmap_g.Clear(color);
+            but_main_color.Image = but_main_color_bitmap;
         }
     }
 }
