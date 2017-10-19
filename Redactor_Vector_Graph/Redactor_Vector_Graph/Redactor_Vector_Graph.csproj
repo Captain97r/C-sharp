@@ -51,6 +51,9 @@
     <Compile Include="Main_Draw_Form.Designer.cs">
       <DependentUpon>Main_Draw_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="PaintBoxClass.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Tools_Class.cs" />
     <Compile Include="T_Figure_class.cs" />
     <Compile Include="Program.cs" />

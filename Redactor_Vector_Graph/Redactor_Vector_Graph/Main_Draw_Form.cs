@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Redactor_Vector_Graph
@@ -36,11 +35,9 @@ namespace Redactor_Vector_Graph
 
         private void PaintBox_Paint(object sender, PaintEventArgs e)
         {
-            Graphics graph_PaintBox; ;
-            graph_PaintBox = PaintBox.CreateGraphics();
             foreach (Figure primitiv in primitives_Array)
             {
-                primitiv.Draw(graph_PaintBox);
+                primitiv.Draw(e.Graphics);
             }
         }
 

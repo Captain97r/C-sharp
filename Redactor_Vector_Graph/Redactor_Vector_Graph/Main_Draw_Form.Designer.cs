@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Draw_Form));
-            this.PaintBox = new System.Windows.Forms.Panel();
+            this.PaintBox = new PaintBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tool_strip_file = new System.Windows.Forms.ToolStripMenuItem();
             this.tool_strip_exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -225,7 +225,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel PaintBox;
+        private PaintBox PaintBox;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem tool_strip_file;
         private System.Windows.Forms.ToolStripMenuItem tool_strip_exit;
