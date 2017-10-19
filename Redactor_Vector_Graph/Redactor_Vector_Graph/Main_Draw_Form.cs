@@ -8,18 +8,21 @@ namespace Redactor_Vector_Graph
 {
     public partial class Main_Draw_Form : Form
     {
-        List<T_Figure> primitives_Array = new List<T_Figure>(20);
+        List<Figure> primitives_Array = new List<Figure>(20);
         bool flag_left_click = false;
         ToolTip ToolTipMain = new ToolTip();
-        Tools polyLineTool;
+        Tool toolPolyLine, toolRect, toolLine, toolCircle;
      
         Pen mainPen = new Pen(Color.Black);
 
         public Main_Draw_Form()
         {
             InitializeComponent();
-            polyLineTool = new Tools(this,Redactor_Vector_Graph.Properties.Resources.PolyLineImage, ToolTipMain,"Poly Line");
-
+            toolPolyLine = new Tool(buttonToolPolyLine,typeof(PolyLine));
+            toolRect = new Tool(buttonToolRect, typeof(Rect));
+            toolLine = new Tool(buttonToolLine, typeof(PolyLine));
+            toolCircle = new Tool(buttonToolCircle, typeof(PolyLine));
+            Tool.ActiveTool = toolPolyLine;
             Graphics but_main_color_bitmap_g;
             Bitmap but_main_color_bitmap;
             PaintBox.Paint += PaintBox_Paint;
@@ -33,7 +36,7 @@ namespace Redactor_Vector_Graph
         {
             Graphics graph_PaintBox; ;
             graph_PaintBox = PaintBox.CreateGraphics();
-            foreach (T_Figure primitiv in primitives_Array)
+            foreach (Figure primitiv in primitives_Array)
             {
                 primitiv.Draw(graph_PaintBox);
             }
@@ -42,13 +45,13 @@ namespace Redactor_Vector_Graph
 
         private void PaintBox_MouseDown(object sender, MouseEventArgs e)
         {
-
+          
             if (e.Button == MouseButtons.Left)
             {
 
                 flag_left_click = true;
-                primitives_Array.Add(new T_PolyLine(mainPen, new Point(e.X, e.Y)));
-
+              //  primitives_Array.Add(new PolyLine (mainPen, new Point(e.X, e.Y)));
+                primitives_Array.Add(new Rect(mainPen, new Point(e.X, e.Y)));
             }
         }
 
@@ -68,8 +71,8 @@ namespace Redactor_Vector_Graph
 
                 primitives_Array.Last().Add_Point(new Point(e.X, e.Y));
                 //primitives_Array.Last().Drow(graph_PaintBox);
-                PaintBox.Invalidate(new Rectangle(new Point(e.X - 2, e.Y - 2), new Size(3, 3)));
-                //PaintBox.Invalidate();
+              //  PaintBox.Invalidate(new Rectangle(new Point(e.X - 2, e.Y - 2), new Size(3, 3)));
+                PaintBox.Invalidate();
             }
         }
 

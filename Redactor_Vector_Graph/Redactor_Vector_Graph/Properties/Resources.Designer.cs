@@ -99,5 +99,15 @@ namespace Redactor_Vector_Graph.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RectImage1 {
+            get {
+                object obj = ResourceManager.GetObject("RectImage1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

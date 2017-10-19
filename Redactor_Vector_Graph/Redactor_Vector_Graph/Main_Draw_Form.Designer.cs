@@ -39,11 +39,11 @@
             this.but_main_color = new System.Windows.Forms.Button();
             this.numeric_width_pen = new System.Windows.Forms.NumericUpDown();
             this.toolPanel = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonToolCircle = new System.Windows.Forms.Button();
+            this.buttonToolRect = new System.Windows.Forms.Button();
+            this.buttonToolLine = new System.Windows.Forms.Button();
+            this.buttonToolPolyLine = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_width_pen)).BeginInit();
             this.toolPanel.SuspendLayout();
@@ -142,45 +142,54 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.toolPanel.Controls.Add(this.button4);
-            this.toolPanel.Controls.Add(this.button3);
-            this.toolPanel.Controls.Add(this.button2);
-            this.toolPanel.Controls.Add(this.button1);
+            this.toolPanel.Controls.Add(this.buttonToolCircle);
+            this.toolPanel.Controls.Add(this.buttonToolRect);
+            this.toolPanel.Controls.Add(this.buttonToolLine);
+            this.toolPanel.Controls.Add(this.buttonToolPolyLine);
             this.toolPanel.Controls.Add(this.numeric_width_pen);
             this.toolPanel.Controls.Add(this.but_main_color);
             this.toolPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolPanel.Location = new System.Drawing.Point(0, 33);
             this.toolPanel.MinimumSize = new System.Drawing.Size(110, 0);
             this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(118, 603);
+            this.toolPanel.Size = new System.Drawing.Size(120, 603);
             this.toolPanel.TabIndex = 0;
             // 
-            // button4
+            // buttonToolCircle
             // 
-            this.button4.Location = new System.Drawing.Point(5, 113);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(52, 52);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
+            this.buttonToolCircle.Image = global::Redactor_Vector_Graph.Properties.Resources.CircleImage;
+            this.buttonToolCircle.Location = new System.Drawing.Point(5, 115);
+            this.buttonToolCircle.Name = "buttonToolCircle";
+            this.buttonToolCircle.Size = new System.Drawing.Size(54, 54);
+            this.buttonToolCircle.TabIndex = 6;
+            this.buttonToolCircle.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // buttonToolRect
             // 
-            this.button3.Location = new System.Drawing.Point(63, 113);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(52, 52);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.buttonToolRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RectImage;
+            this.buttonToolRect.Location = new System.Drawing.Point(63, 115);
+            this.buttonToolRect.Name = "buttonToolRect";
+            this.buttonToolRect.Size = new System.Drawing.Size(54, 54);
+            this.buttonToolRect.TabIndex = 5;
+            this.buttonToolRect.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // buttonToolLine
             // 
-            this.button1.Location = new System.Drawing.Point(0, 273);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(52, 52);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonToolLine.Image = global::Redactor_Vector_Graph.Properties.Resources.LineImage;
+            this.buttonToolLine.Location = new System.Drawing.Point(63, 55);
+            this.buttonToolLine.Name = "buttonToolLine";
+            this.buttonToolLine.Size = new System.Drawing.Size(54, 54);
+            this.buttonToolLine.TabIndex = 4;
+            this.buttonToolLine.UseVisualStyleBackColor = true;
+            // 
+            // buttonToolPolyLine
+            // 
+            this.buttonToolPolyLine.Image = global::Redactor_Vector_Graph.Properties.Resources.PolyLineImage;
+            this.buttonToolPolyLine.Location = new System.Drawing.Point(5, 55);
+            this.buttonToolPolyLine.Name = "buttonToolPolyLine";
+            this.buttonToolPolyLine.Size = new System.Drawing.Size(54, 54);
+            this.buttonToolPolyLine.TabIndex = 0;
+            this.buttonToolPolyLine.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -190,15 +199,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1078, 0);
             this.panel2.TabIndex = 4;
-            // 
-            // button2
-            // 
-            this.button2.Image = global::Redactor_Vector_Graph.Properties.Resources.CircleImage;
-            this.button2.Location = new System.Drawing.Point(63, 55);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(52, 52);
-            this.button2.TabIndex = 4;
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // Main_Draw_Form
             // 
@@ -236,10 +236,10 @@
         private System.Windows.Forms.NumericUpDown numeric_width_pen;
         private System.Windows.Forms.Panel toolPanel;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonToolCircle;
+        private System.Windows.Forms.Button buttonToolRect;
+        private System.Windows.Forms.Button buttonToolLine;
+        private System.Windows.Forms.Button buttonToolPolyLine;
     }
 }
 
