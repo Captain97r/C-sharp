@@ -3,12 +3,12 @@ using System.Drawing;
 using System;
 namespace Redactor_Vector_Graph
 {
- 
-   public abstract class Figure
+
+    public abstract class Figure
     {
-       public Pen pen = new Pen(Color.Black);
-       public abstract void Draw(Graphics graphics);
-       public abstract void Add_Point(Point point);
+        public Pen pen = new Pen(Color.Black);
+        public abstract void Draw(Graphics graphics);
+        public abstract void Add_Point(Point point);
     }
 
     public class PolyLine : Figure
@@ -26,7 +26,7 @@ namespace Redactor_Vector_Graph
         }
         public override void Draw(Graphics graphics)
         {
-             graphics.DrawLines(pen,points_array.ToArray());
+            graphics.DrawLines(pen, points_array.ToArray());
         }
 
     }
@@ -73,7 +73,7 @@ namespace Redactor_Vector_Graph
         }
         public override void Draw(Graphics graphics)
         {
-            graphics.DrawLine(pen, startPoint,lastPoint);
+            graphics.DrawLine(pen, startPoint, lastPoint);
         }
 
     }

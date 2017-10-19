@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -15,12 +14,11 @@ namespace Redactor_Vector_Graph
         ToolLine toolLine;
         ToolReact toolRect;
         ToolEllipse toolCircle;
-      
 
         public Main_Draw_Form()
         {
             InitializeComponent();
-            toolPolyLine = new ToolPolyLine(buttonToolPolyLine, ref figureArray, mainPen,PaintBox);
+            toolPolyLine = new ToolPolyLine(buttonToolPolyLine, ref figureArray, mainPen, PaintBox);
             toolLine = new ToolLine(buttonToolLine, ref figureArray, mainPen, PaintBox);
             toolRect = new ToolReact(buttonToolRect, ref figureArray, mainPen, PaintBox);
             toolCircle = new ToolEllipse(buttonToolEllipse, ref figureArray, mainPen, PaintBox);
@@ -36,13 +34,11 @@ namespace Redactor_Vector_Graph
 
         private void PaintBox_Paint(object sender, PaintEventArgs e)
         {
-         
             foreach (Figure primitiv in figureArray)
             {
                 primitiv.Draw(e.Graphics);
             }
         }
-
 
         private void PaintBox_MouseDown(object sender, MouseEventArgs e)
         {
