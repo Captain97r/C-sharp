@@ -38,15 +38,15 @@
             this.color_dialog_main = new System.Windows.Forms.ColorDialog();
             this.but_main_color = new System.Windows.Forms.Button();
             this.numeric_width_pen = new System.Windows.Forms.NumericUpDown();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.toolPanel = new System.Windows.Forms.Panel();
             this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_width_pen)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.toolPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // PaintBox
@@ -110,13 +110,14 @@
             // 
             // but_main_color
             // 
+            this.but_main_color.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.but_main_color.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.but_main_color.FlatAppearance.BorderSize = 0;
             this.but_main_color.Location = new System.Drawing.Point(5, 9);
             this.but_main_color.Name = "but_main_color";
             this.but_main_color.Size = new System.Drawing.Size(52, 24);
             this.but_main_color.TabIndex = 2;
-            this.but_main_color.UseVisualStyleBackColor = true;
+            this.but_main_color.UseVisualStyleBackColor = false;
             this.but_main_color.Click += new System.EventHandler(this.but_main_color_Click);
             // 
             // numeric_width_pen
@@ -137,22 +138,49 @@
             0});
             this.numeric_width_pen.ValueChanged += new System.EventHandler(this.numeric_width_pen_ValueChanged);
             // 
-            // panel1
+            // toolPanel
             // 
-            this.panel1.AutoSize = true;
-            this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.button3);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.numeric_width_pen);
-            this.panel1.Controls.Add(this.but_main_color);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 33);
-            this.panel1.MinimumSize = new System.Drawing.Size(110, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(118, 603);
-            this.panel1.TabIndex = 0;
+            this.toolPanel.AutoSize = true;
+            this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.toolPanel.Controls.Add(this.button4);
+            this.toolPanel.Controls.Add(this.button3);
+            this.toolPanel.Controls.Add(this.button2);
+            this.toolPanel.Controls.Add(this.button1);
+            this.toolPanel.Controls.Add(this.numeric_width_pen);
+            this.toolPanel.Controls.Add(this.but_main_color);
+            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.toolPanel.Location = new System.Drawing.Point(0, 33);
+            this.toolPanel.MinimumSize = new System.Drawing.Size(110, 0);
+            this.toolPanel.Name = "toolPanel";
+            this.toolPanel.Size = new System.Drawing.Size(118, 603);
+            this.toolPanel.TabIndex = 0;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(5, 113);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(52, 52);
+            this.button4.TabIndex = 6;
+            this.button4.Text = "button4";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(63, 113);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(52, 52);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(0, 273);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(52, 52);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -163,48 +191,21 @@
             this.panel2.Size = new System.Drawing.Size(1078, 0);
             this.panel2.TabIndex = 4;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(5, 57);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(52, 52);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(63, 57);
+            this.button2.Image = global::Redactor_Vector_Graph.Properties.Resources.CircleImage;
+            this.button2.Location = new System.Drawing.Point(63, 55);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(52, 52);
             this.button2.TabIndex = 4;
-            this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(63, 115);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(52, 52);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(5, 115);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(52, 52);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
             // 
             // Main_Draw_Form
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1078, 636);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.toolPanel);
             this.Controls.Add(this.PaintBox);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.menuStrip);
@@ -216,7 +217,7 @@
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_width_pen)).EndInit();
-            this.panel1.ResumeLayout(false);
+            this.toolPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -233,7 +234,7 @@
         private System.Windows.Forms.ColorDialog color_dialog_main;
         private System.Windows.Forms.Button but_main_color;
         private System.Windows.Forms.NumericUpDown numeric_width_pen;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel toolPanel;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;

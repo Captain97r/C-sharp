@@ -10,13 +10,16 @@ namespace Redactor_Vector_Graph
     {
         List<T_Figure> primitives_Array = new List<T_Figure>(20);
         bool flag_left_click = false;
-        Graphics graph_PaintBox;
+        ToolTip ToolTipMain = new ToolTip();
+        Tools polyLineTool;
      
         Pen mainPen = new Pen(Color.Black);
 
         public Main_Draw_Form()
         {
             InitializeComponent();
+            polyLineTool = new Tools(this,Redactor_Vector_Graph.Properties.Resources.PolyLineImage, ToolTipMain,"Poly Line");
+
             Graphics but_main_color_bitmap_g;
             Bitmap but_main_color_bitmap;
             PaintBox.Paint += PaintBox_Paint;
@@ -28,6 +31,7 @@ namespace Redactor_Vector_Graph
 
         private void PaintBox_Paint(object sender, PaintEventArgs e)
         {
+            Graphics graph_PaintBox; ;
             graph_PaintBox = PaintBox.CreateGraphics();
             foreach (T_Figure primitiv in primitives_Array)
             {
@@ -35,11 +39,6 @@ namespace Redactor_Vector_Graph
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            graph_PaintBox.Clear(Color.White);
-        }
 
         private void PaintBox_MouseDown(object sender, MouseEventArgs e)
         {

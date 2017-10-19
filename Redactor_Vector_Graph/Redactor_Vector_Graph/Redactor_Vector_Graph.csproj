@@ -51,6 +51,7 @@
     <Compile Include="Main_Draw_Form.Designer.cs">
       <DependentUpon>Main_Draw_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools_Class.cs" />
     <Compile Include="T_Figure_class.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -78,6 +80,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\PolyLineImage.png" />
+    <Content Include="Images\CircleImage.png" />
+    <Content Include="Images\LineImage.png" />
+    <Content Include="Images\RectImage.png" />
+    <None Include="Resources\icons8-Прямоугольник-26.png" />
+    <None Include="Resources\icons8-Линия Filled-50.png" />
+    <None Include="Resources\icons8-Круг-50.png" />
+    <None Include="Resources\icons8-Карандаш-50.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
