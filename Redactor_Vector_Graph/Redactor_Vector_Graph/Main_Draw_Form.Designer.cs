@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Draw_Form));
-            this.PaintBox = new Redactor_Vector_Graph.PaintBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tool_strip_file = new System.Windows.Forms.ToolStripMenuItem();
             this.tool_strip_exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,25 +43,11 @@
             this.buttonToolLine = new System.Windows.Forms.Button();
             this.buttonToolPolyLine = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.PaintBox = new Redactor_Vector_Graph.PaintBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_width_pen)).BeginInit();
             this.toolPanel.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // PaintBox
-            // 
-            this.PaintBox.AutoSize = true;
-            this.PaintBox.BackColor = System.Drawing.SystemColors.Window;
-            this.PaintBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PaintBox.Location = new System.Drawing.Point(0, 33);
-            this.PaintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
-            this.PaintBox.MinimumSize = new System.Drawing.Size(960, 555);
-            this.PaintBox.Name = "PaintBox";
-            this.PaintBox.Size = new System.Drawing.Size(1078, 603);
-            this.PaintBox.TabIndex = 0;
-            this.PaintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
-            this.PaintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
-            this.PaintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
             // 
             // menuStrip
             // 
@@ -200,6 +185,21 @@
             this.panel2.Size = new System.Drawing.Size(1078, 0);
             this.panel2.TabIndex = 4;
             // 
+            // PaintBox
+            // 
+            this.PaintBox.AutoSize = true;
+            this.PaintBox.BackColor = System.Drawing.SystemColors.Window;
+            this.PaintBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PaintBox.Location = new System.Drawing.Point(0, 33);
+            this.PaintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
+            this.PaintBox.MinimumSize = new System.Drawing.Size(960, 555);
+            this.PaintBox.Name = "PaintBox";
+            this.PaintBox.Size = new System.Drawing.Size(1078, 603);
+            this.PaintBox.TabIndex = 0;
+            this.PaintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
+            this.PaintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
+            this.PaintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
+            // 
             // Main_Draw_Form
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -211,9 +211,11 @@
             this.Controls.Add(this.menuStrip);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "Main_Draw_Form";
             this.Text = "Super Vector Paint";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_Draw_Form_KeyDown);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_width_pen)).EndInit();

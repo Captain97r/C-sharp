@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -83,6 +84,18 @@ namespace Redactor_Vector_Graph
         private void numeric_width_pen_ValueChanged(object sender, EventArgs e)
         {
             mainPen.Width = (float)numeric_width_pen.Value;
+        }
+
+        private void Main_Draw_Form_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.Z)
+            {
+                if (figureArray.Count > 0)
+                {
+                    figureArray.RemoveAt(figureArray.Count - 1);
+                    PaintBox.Invalidate();
+                }
+            }
         }
     }
 }
