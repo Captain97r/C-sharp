@@ -51,7 +51,7 @@
     <Compile Include="Main_Draw_Form.Designer.cs">
       <DependentUpon>Main_Draw_Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Primitiv_class.cs" />
+    <Compile Include="T_Figure_class.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Main_Draw_Form.resx">

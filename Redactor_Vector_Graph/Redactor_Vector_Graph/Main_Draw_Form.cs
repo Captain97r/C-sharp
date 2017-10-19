@@ -8,7 +8,7 @@ namespace Redactor_Vector_Graph
 {
     public partial class Main_Draw_Form : Form
     {
-        List<Primitiv> primitives_Array = new List<Primitiv>(20);
+        List<T_Figure> primitives_Array = new List<T_Figure>(20);
         bool flag_left_click = false;
         Graphics graph_PaintBox;
      
@@ -29,7 +29,7 @@ namespace Redactor_Vector_Graph
         private void PaintBox_Paint(object sender, PaintEventArgs e)
         {
             graph_PaintBox = PaintBox.CreateGraphics();
-            foreach (Primitiv primitiv in primitives_Array)
+            foreach (T_Figure primitiv in primitives_Array)
             {
                 primitiv.Draw(graph_PaintBox);
             }
@@ -48,7 +48,7 @@ namespace Redactor_Vector_Graph
             {
 
                 flag_left_click = true;
-                primitives_Array.Add(new Primitiv(mainPen, new Point(e.X, e.Y)));
+                primitives_Array.Add(new T_PolyLine(mainPen, new Point(e.X, e.Y)));
 
             }
         }
@@ -58,7 +58,7 @@ namespace Redactor_Vector_Graph
             if (e.Button == MouseButtons.Left)
             {
                 flag_left_click = false;
-
+                primitives_Array.Last().Add_Point(new Point(e.X, e.Y));
             }
         }
 
