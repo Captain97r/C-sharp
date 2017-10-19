@@ -9,19 +9,21 @@ namespace Redactor_Vector_Graph
     public partial class Main_Draw_Form : Form
     {
         List<Figure> primitives_Array = new List<Figure>(20);
-        bool flag_left_click = false;
         ToolTip ToolTipMain = new ToolTip();
-        Tool toolPolyLine, toolRect, toolLine, toolCircle;
-     
         Pen mainPen = new Pen(Color.Black);
+        ToolPolyLine toolPolyLine;
+        ToolLine toolLine;
+        ToolReact toolRect;
+        ToolCircle toolCircle;
+      
 
         public Main_Draw_Form()
         {
             InitializeComponent();
-            toolPolyLine = new Tool(buttonToolPolyLine,typeof(PolyLine));
-            toolRect = new Tool(buttonToolRect, typeof(Rect));
-            toolLine = new Tool(buttonToolLine, typeof(PolyLine));
-            toolCircle = new Tool(buttonToolCircle, typeof(PolyLine));
+            toolPolyLine = new ToolPolyLine(buttonToolPolyLine, ref primitives_Array, mainPen,PaintBox);
+            toolLine = new ToolLine(buttonToolLine, ref primitives_Array, mainPen);
+            toolRect = new ToolReact(buttonToolRect, ref primitives_Array, mainPen);
+            toolCircle = new ToolCircle(buttonToolCircle, ref primitives_Array, mainPen);
             Tool.ActiveTool = toolPolyLine;
             Graphics but_main_color_bitmap_g;
             Bitmap but_main_color_bitmap;
@@ -45,35 +47,17 @@ namespace Redactor_Vector_Graph
 
         private void PaintBox_MouseDown(object sender, MouseEventArgs e)
         {
-          
-            if (e.Button == MouseButtons.Left)
-            {
-
-                flag_left_click = true;
-              //  primitives_Array.Add(new PolyLine (mainPen, new Point(e.X, e.Y)));
-                primitives_Array.Add(new Rect(mainPen, new Point(e.X, e.Y)));
-            }
+            Tool.ActiveTool.MouseDown(sender, e);
         }
 
         private void PaintBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                flag_left_click = false;
-                primitives_Array.Last().Add_Point(new Point(e.X, e.Y));
-            }
+            Tool.ActiveTool.MouseUp(sender, e);
         }
 
         private void PaintBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (flag_left_click)
-            {
-
-                primitives_Array.Last().Add_Point(new Point(e.X, e.Y));
-                //primitives_Array.Last().Drow(graph_PaintBox);
-              //  PaintBox.Invalidate(new Rectangle(new Point(e.X - 2, e.Y - 2), new Size(3, 3)));
-                PaintBox.Invalidate();
-            }
+            Tool.ActiveTool.MouseMove(sender, e);
         }
 
         private void tool_strip_exit_Click(object sender, EventArgs e)
