@@ -45,11 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main_Draw_Form.cs">
+    <Compile Include="MainDrawForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main_Draw_Form.Designer.cs">
-      <DependentUpon>Main_Draw_Form.cs</DependentUpon>
+    <Compile Include="MainDrawForm.Designer.cs">
+      <DependentUpon>MainDrawForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PaintBoxClass.cs">
       <SubType>Component</SubType>
@@ -58,8 +58,8 @@
     <Compile Include="Figure_class.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Main_Draw_Form.resx">
-      <DependentUpon>Main_Draw_Form.cs</DependentUpon>
+    <EmbeddedResource Include="MainDrawForm.resx">
+      <DependentUpon>MainDrawForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

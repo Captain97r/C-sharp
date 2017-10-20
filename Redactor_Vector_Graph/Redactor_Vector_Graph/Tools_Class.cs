@@ -11,12 +11,12 @@ namespace Redactor_Vector_Graph
         public static Tool ActiveTool { get; set; }
         public Button toolButton;
         public List<Figure> figureArray;
-        public Pen ToolPen;
+        public Pen toolPen;
         public Panel paintBox;
-        protected bool flagLeftMauseClick = false;
-        protected bool flagRightMauseClick = false;
+        protected bool flagLeftMouseClick = false;
+        protected bool flagRightMouseClick = false;
 
-        public void tool_buttonClick(object sender, EventArgs e)
+        public void ToolButtonClick(object sender, EventArgs e)
         {
             ActiveTool = this;
         }
@@ -30,16 +30,16 @@ namespace Redactor_Vector_Graph
         public ToolReact(Button button, ref List<Figure> figureArrayFrom, Pen pen, Panel paintBox_set)
         {
             paintBox = paintBox_set;
-            ToolPen = pen;
+            toolPen = pen;
             figureArray = figureArrayFrom;
             toolButton = button;
-            toolButton.Click += new EventHandler(tool_buttonClick);
+            toolButton.Click += new EventHandler(ToolButtonClick);
         }
         public override void MouseMove(object sender, MouseEventArgs e)
         {
-            if (flagLeftMauseClick)
+            if (flagLeftMouseClick)
             {
-                figureArray.Last().Add_Point(new Point(e.X, e.Y));
+                figureArray.Last().AddPoint(new Point(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
@@ -47,8 +47,8 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-                flagLeftMauseClick = true;
-                figureArray.Add(new Rect(ToolPen, new Point(e.X, e.Y)));
+                flagLeftMouseClick = true;
+                figureArray.Add(new Rect(toolPen, new Point(e.X, e.Y)));
 
             }
         }
@@ -56,7 +56,7 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-                flagLeftMauseClick = false;
+                flagLeftMouseClick = false;
             }
         }
     }
@@ -66,16 +66,16 @@ namespace Redactor_Vector_Graph
         public ToolPolyLine(Button button, ref List<Figure> figureArrayFrom, Pen pen, Panel paintBox_set)
         {
             paintBox = paintBox_set;
-            ToolPen = pen;
+            toolPen = pen;
             figureArray = figureArrayFrom;
             toolButton = button;
-            toolButton.Click += new EventHandler(tool_buttonClick);
+            toolButton.Click += new EventHandler(ToolButtonClick);
         }
         public override void MouseMove(object sender, MouseEventArgs e)
         {
-            if (flagLeftMauseClick)
+            if (flagLeftMouseClick)
             {
-                figureArray.Last().Add_Point(new Point(e.X, e.Y));
+                figureArray.Last().AddPoint(new Point(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
@@ -83,9 +83,9 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-                flagLeftMauseClick = true;
-                figureArray.Add(new PolyLine(ToolPen, new Point(e.X, e.Y)));
-                figureArray.Last().Add_Point(new Point(e.X, e.Y));
+                flagLeftMouseClick = true;
+                figureArray.Add(new PolyLine(toolPen, new Point(e.X, e.Y)));
+                figureArray.Last().AddPoint(new Point(e.X, e.Y));
 
             }
         }
@@ -93,7 +93,7 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-                flagLeftMauseClick = false;
+                flagLeftMouseClick = false;
             }
         }
 
@@ -104,16 +104,16 @@ namespace Redactor_Vector_Graph
         public ToolLine(Button button, ref List<Figure> figureArrayFrom, Pen pen, Panel paintBox_set)
         {
             paintBox = paintBox_set;
-            ToolPen = pen;
+            toolPen = pen;
             figureArray = figureArrayFrom;
             toolButton = button;
-            toolButton.Click += new EventHandler(tool_buttonClick);
+            toolButton.Click += new EventHandler(ToolButtonClick);
         }
         public override void MouseMove(object sender, MouseEventArgs e)
         {
-            if (flagLeftMauseClick)
+            if (flagLeftMouseClick)
             {
-                figureArray.Last().Add_Point(new Point(e.X, e.Y));
+                figureArray.Last().AddPoint(new Point(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
@@ -121,9 +121,9 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-                flagLeftMauseClick = true;
-                figureArray.Add(new Line(ToolPen, new Point(e.X, e.Y)));
-                figureArray.Last().Add_Point(new Point(e.X, e.Y));
+                flagLeftMouseClick = true;
+                figureArray.Add(new Line(toolPen, new Point(e.X, e.Y)));
+                figureArray.Last().AddPoint(new Point(e.X, e.Y));
 
             }
         }
@@ -131,7 +131,7 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-                flagLeftMauseClick = false;
+                flagLeftMouseClick = false;
             }
         }
     }
@@ -141,16 +141,16 @@ namespace Redactor_Vector_Graph
         public ToolEllipse(Button button, ref List<Figure> figureArrayFrom, Pen pen, Panel paintBox_set)
         {
             paintBox = paintBox_set;
-            ToolPen = pen;
+            toolPen = pen;
             figureArray = figureArrayFrom;
             toolButton = button;
-            toolButton.Click += new EventHandler(tool_buttonClick);
+            toolButton.Click += new EventHandler(ToolButtonClick);
         }
         public override void MouseMove(object sender, MouseEventArgs e)
         {
-            if (flagLeftMauseClick)
+            if (flagLeftMouseClick)
             {
-                figureArray.Last().Add_Point(new Point(e.X, e.Y));
+                figureArray.Last().AddPoint(new Point(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
@@ -158,9 +158,9 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-                flagLeftMauseClick = true;
-                figureArray.Add(new Ellipse(ToolPen, new Point(e.X, e.Y)));
-                figureArray.Last().Add_Point(new Point(e.X, e.Y));
+                flagLeftMouseClick = true;
+                figureArray.Add(new Ellipse(toolPen, new Point(e.X, e.Y)));
+                figureArray.Last().AddPoint(new Point(e.X, e.Y));
 
             }
         }
@@ -168,7 +168,7 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-                flagLeftMauseClick = false;
+                flagLeftMouseClick = false;
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System;
+
 namespace Redactor_Vector_Graph
 {
 
@@ -8,19 +9,19 @@ namespace Redactor_Vector_Graph
     {
         public Pen pen = new Pen(Color.Black);
         public abstract void Draw(Graphics graphics);
-        public abstract void Add_Point(Point point);
+        public abstract void AddPoint(Point point);
     }
 
     public class PolyLine : Figure
     {
         public List<Point> points_array = new List<Point>(50);
-        public PolyLine(Pen set_pen, Point start)
+        public PolyLine(Pen setPen, Point start)
         {
-            pen = (Pen)set_pen.Clone();
+            pen = (Pen)setPen.Clone();
             points_array.Add(start);
         }
 
-        public override void Add_Point(Point point)
+        public override void AddPoint(Point point)
         {
             points_array.Add(point);
         }
@@ -35,19 +36,19 @@ namespace Redactor_Vector_Graph
     {
         Point startPoint;
         Rectangle rectangle;
-        public Rect(Pen set_pen, Point start)
+        public Rect(Pen setPen, Point start)
         {
-            pen = (Pen)set_pen.Clone();
+            pen = (Pen)setPen.Clone();
             startPoint = start;
         }
 
-        public override void Add_Point(Point point)
+        public override void AddPoint(Point point)
         {
             int x, y;
             x = Math.Min(startPoint.X, point.X);
             y = Math.Min(startPoint.Y, point.Y);
-            int width = Math.Max(startPoint.X, point.X) - Math.Min(startPoint.X, point.X);
-            int height = Math.Max(startPoint.Y, point.Y) - Math.Min(startPoint.Y, point.Y);
+            int width = Math.Abs(startPoint.X - point.X);
+            int height = Math.Abs(startPoint.Y - point.Y);
             rectangle = new Rectangle(x, y, width, height);
 
         }
@@ -61,13 +62,13 @@ namespace Redactor_Vector_Graph
     {
         Point startPoint;
         Point lastPoint;
-        public Line(Pen set_pen, Point start)
+        public Line(Pen setPen, Point start)
         {
-            pen = (Pen)set_pen.Clone();
+            pen = (Pen)setPen.Clone();
             startPoint = start;
         }
 
-        public override void Add_Point(Point point)
+        public override void AddPoint(Point point)
         {
             lastPoint = point;
         }
@@ -82,13 +83,13 @@ namespace Redactor_Vector_Graph
     {
         Point startPoint;
         Size size;
-        public Ellipse(Pen set_pen, Point start)
+        public Ellipse(Pen setPen, Point start)
         {
-            pen = (Pen)set_pen.Clone();
+            pen = (Pen)setPen.Clone();
             startPoint = start;
         }
 
-        public override void Add_Point(Point point)
+        public override void AddPoint(Point point)
         {
             size = new Size(point.X - startPoint.X, point.Y - startPoint.Y);
         }

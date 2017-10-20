@@ -5,30 +5,30 @@ using System.Windows.Forms;
 
 namespace Redactor_Vector_Graph
 {
-    public partial class Main_Draw_Form : Form
+    public partial class MainDrawForm : Form
     {
         List<Figure> figureArray = new List<Figure>(20);
-        ToolTip ToolTipMain = new ToolTip();
-        Pen mainPen = new Pen(Color.Black);
+        ToolTip toolTipMain = new ToolTip();
+        Pen penMain = new Pen(Color.Black);
         ToolPolyLine toolPolyLine;
         ToolLine toolLine;
         ToolReact toolRect;
         ToolEllipse toolCircle;
 
-        public Main_Draw_Form()
+        public MainDrawForm()
         {
             InitializeComponent();
-            ToolTipMain.SetToolTip(buttonToolPolyLine,"Pencil");
-            ToolTipMain.SetToolTip(buttonToolLine, "Line");
-            ToolTipMain.SetToolTip(buttonToolRect, "Rectangle");
-            ToolTipMain.SetToolTip(buttonToolEllipse, "Ellipse");
-            toolPolyLine = new ToolPolyLine(buttonToolPolyLine, ref figureArray, mainPen, PaintBox);
-            toolLine = new ToolLine(buttonToolLine, ref figureArray, mainPen, PaintBox);
-            toolRect = new ToolReact(buttonToolRect, ref figureArray, mainPen, PaintBox);
-            toolCircle = new ToolEllipse(buttonToolEllipse, ref figureArray, mainPen, PaintBox);
+            toolTipMain.SetToolTip(btnToolPolyLine,"Pencil");
+            toolTipMain.SetToolTip(btnToolLine, "Line");
+            toolTipMain.SetToolTip(btnToolRect, "Rectangle");
+            toolTipMain.SetToolTip(btnToolEllipse, "Ellipse");
+            toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, penMain, paintBox);
+            toolLine = new ToolLine(btnToolLine, ref figureArray, penMain, paintBox);
+            toolRect = new ToolReact(btnToolRect, ref figureArray, penMain, paintBox);
+            toolCircle = new ToolEllipse(btnToolEllipse, ref figureArray, penMain, paintBox);
             Tool.ActiveTool = toolPolyLine;
-            PaintBox.Paint += PaintBox_Paint;
-            Set_button_color(mainPen.Color);
+            paintBox.Paint += PaintBox_Paint;
+            SetButtonColor(penMain.Color);
         }
 
         private void PaintBox_Paint(object sender, PaintEventArgs e)
@@ -49,11 +49,9 @@ namespace Redactor_Vector_Graph
             Tool.ActiveTool.MouseUp(sender, e);
         }
 
-        private void PaintBox_MouseMove(object sender, MouseEventArgs e)
-        {
+        private void PaintBox_MouseMove(object sender, MouseEventArgs e) =>
             Tool.ActiveTool.MouseMove(sender, e);
-        }
-
+ 
         private void tool_strip_exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -67,14 +65,14 @@ namespace Redactor_Vector_Graph
         private void but_main_color_Click(object sender, EventArgs e)
         {
             
-            color_dialog_main.ShowDialog();
-            mainPen.Color = color_dialog_main.Color;
-            Set_button_color(mainPen.Color);
+            colorDialogMain.ShowDialog();
+            penMain.Color = colorDialogMain.Color;
+            SetButtonColor(penMain.Color);
         }
 
         private void numeric_width_pen_ValueChanged(object sender, EventArgs e)
         {
-            mainPen.Width = (float)numeric_width_pen.Value;
+            penMain.Width = (float)numeric_width_pen.Value;
         }
 
         private void Main_Draw_Form_KeyDown(object sender, KeyEventArgs e)
@@ -84,18 +82,18 @@ namespace Redactor_Vector_Graph
                 if (figureArray.Count > 0)
                 {
                     figureArray.RemoveAt(figureArray.Count - 1);
-                    PaintBox.Invalidate();
+                    paintBox.Invalidate();
                 }
             }
         }
-        private void Set_button_color(Color color)
+        private void SetButtonColor(Color color)
         {
-            Graphics but_main_color_bitmap_g;
-            Bitmap but_main_color_bitmap;
-            but_main_color_bitmap = new Bitmap(but_main_color.Width, but_main_color.Height);
-            but_main_color_bitmap_g = Graphics.FromImage(but_main_color_bitmap);       
-            but_main_color_bitmap_g.Clear(color);
-            but_main_color.Image = but_main_color_bitmap;
+            Graphics bitmapGBtnMainColor;
+            Bitmap bitmapBtnMainColor;
+            bitmapBtnMainColor = new Bitmap(btnMainColor.Width, btnMainColor.Height);
+            bitmapGBtnMainColor = Graphics.FromImage(bitmapBtnMainColor);       
+            bitmapGBtnMainColor.Clear(color);
+            btnMainColor.Image = bitmapBtnMainColor;
         }
     }
 }

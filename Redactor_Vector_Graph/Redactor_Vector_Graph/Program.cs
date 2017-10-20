@@ -16,7 +16,7 @@ namespace Redactor_Vector_Graph
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main_Draw_Form());
+            Application.Run(new MainDrawForm());
         }
     }
 }

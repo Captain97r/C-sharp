@@ -1,6 +1,6 @@
 ﻿namespace Redactor_Vector_Graph
 {
-    partial class Main_Draw_Form
+    partial class MainDrawForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Draw_Form));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainDrawForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tool_strip_file = new System.Windows.Forms.ToolStripMenuItem();
             this.tool_strip_exit = new System.Windows.Forms.ToolStripMenuItem();
             this.tool_strip_help = new System.Windows.Forms.ToolStripMenuItem();
             this.tool_strip_about = new System.Windows.Forms.ToolStripMenuItem();
-            this.color_dialog_main = new System.Windows.Forms.ColorDialog();
-            this.but_main_color = new System.Windows.Forms.Button();
+            this.colorDialogMain = new System.Windows.Forms.ColorDialog();
+            this.btnMainColor = new System.Windows.Forms.Button();
             this.numeric_width_pen = new System.Windows.Forms.NumericUpDown();
             this.toolPanel = new System.Windows.Forms.Panel();
-            this.buttonToolEllipse = new System.Windows.Forms.Button();
-            this.buttonToolRect = new System.Windows.Forms.Button();
-            this.buttonToolLine = new System.Windows.Forms.Button();
-            this.buttonToolPolyLine = new System.Windows.Forms.Button();
+            this.btnToolEllipse = new System.Windows.Forms.Button();
+            this.btnToolRect = new System.Windows.Forms.Button();
+            this.btnToolLine = new System.Windows.Forms.Button();
+            this.btnToolPolyLine = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.PaintBox = new Redactor_Vector_Graph.PaintBox();
+            this.paintBox = new Redactor_Vector_Graph.PaintBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_width_pen)).BeginInit();
             this.toolPanel.SuspendLayout();
@@ -95,15 +95,15 @@
             // 
             // but_main_color
             // 
-            this.but_main_color.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.but_main_color.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.but_main_color.FlatAppearance.BorderSize = 0;
-            this.but_main_color.Location = new System.Drawing.Point(5, 9);
-            this.but_main_color.Name = "but_main_color";
-            this.but_main_color.Size = new System.Drawing.Size(52, 24);
-            this.but_main_color.TabIndex = 2;
-            this.but_main_color.UseVisualStyleBackColor = false;
-            this.but_main_color.Click += new System.EventHandler(this.but_main_color_Click);
+            this.btnMainColor.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnMainColor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnMainColor.FlatAppearance.BorderSize = 0;
+            this.btnMainColor.Location = new System.Drawing.Point(5, 9);
+            this.btnMainColor.Name = "but_main_color";
+            this.btnMainColor.Size = new System.Drawing.Size(52, 24);
+            this.btnMainColor.TabIndex = 2;
+            this.btnMainColor.UseVisualStyleBackColor = false;
+            this.btnMainColor.Click += new System.EventHandler(this.but_main_color_Click);
             // 
             // numeric_width_pen
             // 
@@ -127,12 +127,12 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.toolPanel.Controls.Add(this.buttonToolEllipse);
-            this.toolPanel.Controls.Add(this.buttonToolRect);
-            this.toolPanel.Controls.Add(this.buttonToolLine);
-            this.toolPanel.Controls.Add(this.buttonToolPolyLine);
+            this.toolPanel.Controls.Add(this.btnToolEllipse);
+            this.toolPanel.Controls.Add(this.btnToolRect);
+            this.toolPanel.Controls.Add(this.btnToolLine);
+            this.toolPanel.Controls.Add(this.btnToolPolyLine);
             this.toolPanel.Controls.Add(this.numeric_width_pen);
-            this.toolPanel.Controls.Add(this.but_main_color);
+            this.toolPanel.Controls.Add(this.btnMainColor);
             this.toolPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolPanel.Location = new System.Drawing.Point(0, 33);
             this.toolPanel.MinimumSize = new System.Drawing.Size(110, 0);
@@ -142,39 +142,39 @@
             // 
             // buttonToolEllipse
             // 
-            this.buttonToolEllipse.Image = global::Redactor_Vector_Graph.Properties.Resources.CircleImage;
-            this.buttonToolEllipse.Location = new System.Drawing.Point(5, 115);
-            this.buttonToolEllipse.Name = "buttonToolEllipse";
-            this.buttonToolEllipse.Size = new System.Drawing.Size(54, 54);
-            this.buttonToolEllipse.TabIndex = 6;
-            this.buttonToolEllipse.UseVisualStyleBackColor = true;
+            this.btnToolEllipse.Image = global::Redactor_Vector_Graph.Properties.Resources.CircleImage;
+            this.btnToolEllipse.Location = new System.Drawing.Point(5, 115);
+            this.btnToolEllipse.Name = "buttonToolEllipse";
+            this.btnToolEllipse.Size = new System.Drawing.Size(54, 54);
+            this.btnToolEllipse.TabIndex = 6;
+            this.btnToolEllipse.UseVisualStyleBackColor = true;
             // 
             // buttonToolRect
             // 
-            this.buttonToolRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RectImage;
-            this.buttonToolRect.Location = new System.Drawing.Point(63, 115);
-            this.buttonToolRect.Name = "buttonToolRect";
-            this.buttonToolRect.Size = new System.Drawing.Size(54, 54);
-            this.buttonToolRect.TabIndex = 5;
-            this.buttonToolRect.UseVisualStyleBackColor = true;
+            this.btnToolRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RectImage;
+            this.btnToolRect.Location = new System.Drawing.Point(63, 115);
+            this.btnToolRect.Name = "buttonToolRect";
+            this.btnToolRect.Size = new System.Drawing.Size(54, 54);
+            this.btnToolRect.TabIndex = 5;
+            this.btnToolRect.UseVisualStyleBackColor = true;
             // 
             // buttonToolLine
             // 
-            this.buttonToolLine.Image = global::Redactor_Vector_Graph.Properties.Resources.LineImage;
-            this.buttonToolLine.Location = new System.Drawing.Point(63, 55);
-            this.buttonToolLine.Name = "buttonToolLine";
-            this.buttonToolLine.Size = new System.Drawing.Size(54, 54);
-            this.buttonToolLine.TabIndex = 4;
-            this.buttonToolLine.UseVisualStyleBackColor = true;
+            this.btnToolLine.Image = global::Redactor_Vector_Graph.Properties.Resources.LineImage;
+            this.btnToolLine.Location = new System.Drawing.Point(63, 55);
+            this.btnToolLine.Name = "buttonToolLine";
+            this.btnToolLine.Size = new System.Drawing.Size(54, 54);
+            this.btnToolLine.TabIndex = 4;
+            this.btnToolLine.UseVisualStyleBackColor = true;
             // 
             // buttonToolPolyLine
             // 
-            this.buttonToolPolyLine.Image = global::Redactor_Vector_Graph.Properties.Resources.PolyLineImage;
-            this.buttonToolPolyLine.Location = new System.Drawing.Point(5, 55);
-            this.buttonToolPolyLine.Name = "buttonToolPolyLine";
-            this.buttonToolPolyLine.Size = new System.Drawing.Size(54, 54);
-            this.buttonToolPolyLine.TabIndex = 0;
-            this.buttonToolPolyLine.UseVisualStyleBackColor = true;
+            this.btnToolPolyLine.Image = global::Redactor_Vector_Graph.Properties.Resources.PolyLineImage;
+            this.btnToolPolyLine.Location = new System.Drawing.Point(5, 55);
+            this.btnToolPolyLine.Name = "buttonToolPolyLine";
+            this.btnToolPolyLine.Size = new System.Drawing.Size(54, 54);
+            this.btnToolPolyLine.TabIndex = 0;
+            this.btnToolPolyLine.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -187,33 +187,33 @@
             // 
             // PaintBox
             // 
-            this.PaintBox.AutoSize = true;
-            this.PaintBox.BackColor = System.Drawing.SystemColors.Window;
-            this.PaintBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PaintBox.Location = new System.Drawing.Point(0, 33);
-            this.PaintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
-            this.PaintBox.MinimumSize = new System.Drawing.Size(960, 555);
-            this.PaintBox.Name = "PaintBox";
-            this.PaintBox.Size = new System.Drawing.Size(1078, 603);
-            this.PaintBox.TabIndex = 0;
-            this.PaintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
-            this.PaintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
-            this.PaintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
+            this.paintBox.AutoSize = true;
+            this.paintBox.BackColor = System.Drawing.SystemColors.Window;
+            this.paintBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.paintBox.Location = new System.Drawing.Point(0, 33);
+            this.paintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
+            this.paintBox.MinimumSize = new System.Drawing.Size(960, 555);
+            this.paintBox.Name = "PaintBox";
+            this.paintBox.Size = new System.Drawing.Size(1078, 603);
+            this.paintBox.TabIndex = 0;
+            this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
+            this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
+            this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
             // 
-            // Main_Draw_Form
+            // MainDrawForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1078, 636);
             this.Controls.Add(this.toolPanel);
-            this.Controls.Add(this.PaintBox);
+            this.Controls.Add(this.paintBox);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.menuStrip);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip;
-            this.Name = "Main_Draw_Form";
+            this.Name = "MainDrawForm";
             this.Text = "Super Vector Paint";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_Draw_Form_KeyDown);
             this.menuStrip.ResumeLayout(false);
@@ -227,21 +227,21 @@
 
         #endregion
 
-        private PaintBox PaintBox;
+        private PaintBox paintBox;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem tool_strip_file;
         private System.Windows.Forms.ToolStripMenuItem tool_strip_exit;
         private System.Windows.Forms.ToolStripMenuItem tool_strip_help;
         private System.Windows.Forms.ToolStripMenuItem tool_strip_about;
-        private System.Windows.Forms.ColorDialog color_dialog_main;
-        private System.Windows.Forms.Button but_main_color;
+        private System.Windows.Forms.ColorDialog colorDialogMain;
+        private System.Windows.Forms.Button btnMainColor;
         private System.Windows.Forms.NumericUpDown numeric_width_pen;
         private System.Windows.Forms.Panel toolPanel;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button buttonToolEllipse;
-        private System.Windows.Forms.Button buttonToolRect;
-        private System.Windows.Forms.Button buttonToolLine;
-        private System.Windows.Forms.Button buttonToolPolyLine;
+        private System.Windows.Forms.Button btnToolEllipse;
+        private System.Windows.Forms.Button btnToolRect;
+        private System.Windows.Forms.Button btnToolLine;
+        private System.Windows.Forms.Button btnToolPolyLine;
     }
 }
 
