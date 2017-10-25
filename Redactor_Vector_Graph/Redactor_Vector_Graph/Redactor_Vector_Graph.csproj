@@ -85,14 +85,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Images\handImage.png" />
     <Content Include="Images\PolyLineImage.png" />
     <Content Include="Images\CircleImage.png" />
     <Content Include="Images\LineImage.png" />
     <Content Include="Images\RectImage.png" />
-    <None Include="Resources\icons8-Прямоугольник-26.png" />
-    <None Include="Resources\icons8-Линия Filled-50.png" />
-    <None Include="Resources\icons8-Круг-50.png" />
-    <None Include="Resources\icons8-Карандаш-50.png" />
+    <None Include="Images\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

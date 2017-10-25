@@ -72,7 +72,7 @@ namespace Redactor_Vector_Graph
 
         private void numeric_width_pen_ValueChanged(object sender, EventArgs e)
         {
-            penMain.Width = (float)numeric_width_pen.Value;
+            penMain.Width = (float)numWidthPen.Value;
         }
 
         private void Main_Draw_Form_KeyDown(object sender, KeyEventArgs e)

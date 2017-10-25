@@ -73,6 +73,16 @@ namespace Redactor_Vector_Graph.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap handImage {
+            get {
+                object obj = ResourceManager.GetObject("handImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LineImage {
             get {
                 object obj = ResourceManager.GetObject("LineImage", resourceCulture);
@@ -106,6 +116,16 @@ namespace Redactor_Vector_Graph.Properties {
         internal static System.Drawing.Bitmap RectImage1 {
             get {
                 object obj = ResourceManager.GetObject("RectImage1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap search {
+            get {
+                object obj = ResourceManager.GetObject("search", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
