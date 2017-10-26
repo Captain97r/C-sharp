@@ -16,9 +16,9 @@ namespace Redactor_Vector_Graph
 		   Y = setY;
 	   }
 	   public PointW(int setX,int setY){
-		   X = (setX - offset.X)/zoom;
-		  Y = (setY - offset.X)/zoom;
-	   }
+            ToPointW(new Point(setX,setY));
+
+       }
 	   public PointW(){
 		   X = 0;
 		   Y = 0;
@@ -34,6 +34,7 @@ namespace Redactor_Vector_Graph
 
     public abstract class Figure
     {
+       
         public Pen pen = new Pen(Color.Black);
         public abstract void Draw(Graphics graphics);
         public abstract void AddPoint(PointW pointW);

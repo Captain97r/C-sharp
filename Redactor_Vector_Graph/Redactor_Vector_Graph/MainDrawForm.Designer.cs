@@ -49,10 +49,13 @@
             this.btnToolPolyLine = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
+            this.hScrollBarOffset = new System.Windows.Forms.HScrollBar();
+            this.vScrollBarOffset = new System.Windows.Forms.VScrollBar();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numWidthPen)).BeginInit();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
+            this.paintBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -65,7 +68,7 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip.Size = new System.Drawing.Size(1037, 33);
+            this.menuStrip.Size = new System.Drawing.Size(1085, 33);
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -148,24 +151,25 @@
             this.toolPanel.Location = new System.Drawing.Point(0, 33);
             this.toolPanel.MinimumSize = new System.Drawing.Size(110, 0);
             this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(120, 493);
+            this.toolPanel.Size = new System.Drawing.Size(120, 571);
             this.toolPanel.TabIndex = 0;
             // 
             // btnResetZoom
             // 
             this.btnResetZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnResetZoom.Location = new System.Drawing.Point(61, 430);
+            this.btnResetZoom.Location = new System.Drawing.Point(61, 508);
             this.btnResetZoom.Name = "btnResetZoom";
             this.btnResetZoom.Size = new System.Drawing.Size(54, 28);
             this.btnResetZoom.TabIndex = 11;
             this.btnResetZoom.Text = "reset";
             this.btnResetZoom.UseVisualStyleBackColor = true;
+            this.btnResetZoom.Click += new System.EventHandler(this.btnResetZoom_Click);
             // 
             // lblZoom
             // 
             this.lblZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblZoom.AutoSize = true;
-            this.lblZoom.Location = new System.Drawing.Point(3, 466);
+            this.lblZoom.Location = new System.Drawing.Point(3, 544);
             this.lblZoom.Name = "lblZoom";
             this.lblZoom.Size = new System.Drawing.Size(54, 20);
             this.lblZoom.TabIndex = 10;
@@ -174,7 +178,17 @@
             // numZoom
             // 
             this.numZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.numZoom.Location = new System.Drawing.Point(61, 464);
+            this.numZoom.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numZoom.Location = new System.Drawing.Point(61, 542);
+            this.numZoom.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.numZoom.Name = "numZoom";
             this.numZoom.Size = new System.Drawing.Size(54, 26);
             this.numZoom.TabIndex = 9;
@@ -243,31 +257,51 @@
             // 
             this.panel2.AutoSize = true;
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 526);
+            this.panel2.Location = new System.Drawing.Point(0, 604);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1037, 0);
+            this.panel2.Size = new System.Drawing.Size(1085, 0);
             this.panel2.TabIndex = 4;
             // 
             // paintBox
             // 
             this.paintBox.AutoSize = true;
             this.paintBox.BackColor = System.Drawing.SystemColors.Window;
+            this.paintBox.Controls.Add(this.vScrollBarOffset);
+            this.paintBox.Controls.Add(this.hScrollBarOffset);
             this.paintBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.paintBox.Location = new System.Drawing.Point(0, 33);
             this.paintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
             this.paintBox.MinimumSize = new System.Drawing.Size(960, 555);
             this.paintBox.Name = "paintBox";
-            this.paintBox.Size = new System.Drawing.Size(1037, 555);
+            this.paintBox.Size = new System.Drawing.Size(1085, 571);
             this.paintBox.TabIndex = 0;
             this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
             this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
             // 
+            // hScrollBarOffset
+            // 
+            this.hScrollBarOffset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.hScrollBarOffset.Location = new System.Drawing.Point(118, 541);
+            this.hScrollBarOffset.Name = "hScrollBarOffset";
+            this.hScrollBarOffset.Size = new System.Drawing.Size(941, 30);
+            this.hScrollBarOffset.TabIndex = 0;
+            // 
+            // vScrollBarOffset
+            // 
+            this.vScrollBarOffset.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScrollBarOffset.Location = new System.Drawing.Point(1059, 0);
+            this.vScrollBarOffset.Name = "vScrollBarOffset";
+            this.vScrollBarOffset.Size = new System.Drawing.Size(26, 571);
+            this.vScrollBarOffset.TabIndex = 1;
+            this.vScrollBarOffset.ValueChanged += new System.EventHandler(this.vScrollBarOffset_ValueChanged);
+            // 
             // MainDrawForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1037, 526);
+            this.ClientSize = new System.Drawing.Size(1085, 604);
             this.Controls.Add(this.toolPanel);
             this.Controls.Add(this.paintBox);
             this.Controls.Add(this.panel2);
@@ -285,6 +319,7 @@
             this.toolPanel.ResumeLayout(false);
             this.toolPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).EndInit();
+            this.paintBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,6 +347,8 @@
         private System.Windows.Forms.NumericUpDown numZoom;
         private System.Windows.Forms.Label lblZoom;
         private System.Windows.Forms.Button btnResetZoom;
+        private System.Windows.Forms.HScrollBar hScrollBarOffset;
+        private System.Windows.Forms.VScrollBar vScrollBarOffset;
     }
 }
 

@@ -14,6 +14,8 @@ namespace Redactor_Vector_Graph
         ToolLine toolLine;
         ToolReact toolRect;
         ToolEllipse toolCircle;
+        ToolHand toolHand;
+        
 
         public MainDrawForm()
         {
@@ -22,10 +24,13 @@ namespace Redactor_Vector_Graph
             toolTipMain.SetToolTip(btnToolLine, "Line");
             toolTipMain.SetToolTip(btnToolRect, "Rectangle");
             toolTipMain.SetToolTip(btnToolEllipse, "Ellipse");
+            toolTipMain.SetToolTip(btnZoom, "Zoom");
+            toolTipMain.SetToolTip(btnHand, "Hand");
             toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, penMain, paintBox);
             toolLine = new ToolLine(btnToolLine, ref figureArray, penMain, paintBox);
             toolRect = new ToolReact(btnToolRect, ref figureArray, penMain, paintBox);
             toolCircle = new ToolEllipse(btnToolEllipse, ref figureArray, penMain, paintBox);
+            toolHand = new ToolHand(btnHand,paintBox);
             Tool.ActiveTool = toolPolyLine;
             paintBox.Paint += PaintBox_Paint;
             SetButtonColor(penMain.Color);
@@ -100,6 +105,19 @@ namespace Redactor_Vector_Graph
         {
             PointW.zoom = (double)(numZoom.Value/100);
             paintBox.Invalidate();
+        }
+
+        private void btnResetZoom_Click(object sender, EventArgs e)
+        {
+            numZoom.Value = (decimal)(Math.Min((paintBox.Width-150) / (Tool.pntwMaxReact.X-Tool.pntwMinReact.X), paintBox.Height/(Tool.pntwMaxReact.Y - Tool.pntwMinReact.Y)  ) *100);
+
+            PointW.offset = new Point((int)Math.Round((double)(Tool.pntwMaxReact.ToScrPnt().X - Tool.pntwMinReact.ToScrPnt().X + (paintBox.Width-150)/2)),(int)Math.Round((double)(Tool.pntwMaxReact.ToScrPnt().Y - Tool.pntwMinReact.ToScrPnt().Y )));
+            paintBox.Invalidate();
+        }
+
+        private void vScrollBarOffset_ValueChanged(object sender, EventArgs e)
+        {
+            PointW.offset.Y = vScrollBarOffset.Value;
         }
     }
 }
