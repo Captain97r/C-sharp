@@ -109,9 +109,9 @@ namespace Redactor_Vector_Graph
 
         private void btnResetZoom_Click(object sender, EventArgs e)
         {
-            numZoom.Value = (decimal)(Math.Min((paintBox.Width-150) / (Tool.pntwMaxReact.X-Tool.pntwMinReact.X), paintBox.Height/(Tool.pntwMaxReact.Y - Tool.pntwMinReact.Y)  ) *100);
+            numZoom.Value = (decimal)(Math.Min((paintBox.Width-200) / (Tool.pntwMaxReact.X-Tool.pntwMinReact.X), (paintBox.Height-50)/(Tool.pntwMaxReact.Y - Tool.pntwMinReact.Y)  ) *100);
 
-            PointW.offset = new Point((int)Math.Round((double)(Tool.pntwMaxReact.ToScrPnt().X - Tool.pntwMinReact.ToScrPnt().X + (paintBox.Width-150)/2)),(int)Math.Round((double)(Tool.pntwMaxReact.ToScrPnt().Y - Tool.pntwMinReact.ToScrPnt().Y )));
+            PointW.offset = new Point((int)Math.Round(-Tool.pntwMinReact.X* (double)(numZoom.Value/100)+150),(int)Math.Round(-Tool.pntwMinReact.Y * (double)(numZoom.Value / 100))+10);
             paintBox.Invalidate();
         }
 

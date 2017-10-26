@@ -35,13 +35,13 @@ namespace Redactor_Vector_Graph
             pntwMaxReact.X = Math.Max(pointW.X, pntwMaxReact.X);
             pntwMaxReact.Y = Math.Max(pointW.Y, pntwMaxReact.Y);
             
-            int x, y;
+            /*int x, y;
             x = Math.Min(pntwMinReact.ToScrPnt().X, pntwMaxReact.ToScrPnt().X);
             y = Math.Min(pntwMinReact.ToScrPnt().Y, pntwMaxReact.ToScrPnt().Y);
             int width = Math.Abs(pntwMinReact.ToScrPnt().X - pntwMaxReact.ToScrPnt().X);
             int height = Math.Abs(pntwMinReact.ToScrPnt().Y - pntwMaxReact.ToScrPnt().Y);
             Graphics graphics = paintBox.CreateGraphics();
-           graphics.DrawRectangle(toolPen, new Rectangle(x, y, width, height));
+           graphics.DrawRectangle(toolPen, new Rectangle(x, y, width, height));*/
         }
     }
 
@@ -69,7 +69,7 @@ namespace Redactor_Vector_Graph
             {
                 flagLeftMouseClick = true;
                 figureArray.Add(new Rect(toolPen, new PointW(e.X, e.Y)));
-
+                SetResetReact(e.X, e.Y);
             }
         }
         public override void MouseUp(object sender, MouseEventArgs e)
@@ -108,7 +108,7 @@ namespace Redactor_Vector_Graph
                 flagLeftMouseClick = true;
                 figureArray.Add(new PolyLine(toolPen, new PointW(e.X, e.Y)));
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
-
+                SetResetReact(e.X, e.Y);
             }
         }
         public override void MouseUp(object sender, MouseEventArgs e)
@@ -147,7 +147,7 @@ namespace Redactor_Vector_Graph
                 flagLeftMouseClick = true;
                 figureArray.Add(new Line(toolPen, new PointW(e.X, e.Y)));
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
-
+                SetResetReact(e.X, e.Y);
             }
         }
         public override void MouseUp(object sender, MouseEventArgs e)
@@ -185,7 +185,7 @@ namespace Redactor_Vector_Graph
                 flagLeftMouseClick = true;
                 figureArray.Add(new Ellipse(toolPen, new PointW(e.X, e.Y)));
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
-
+                SetResetReact(e.X, e.Y);
             }
         }
         public override void MouseUp(object sender, MouseEventArgs e)
