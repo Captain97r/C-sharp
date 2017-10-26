@@ -95,5 +95,11 @@ namespace Redactor_Vector_Graph
             bitmapGBtnMainColor.Clear(color);
             btnMainColor.Image = bitmapBtnMainColor;
         }
+
+        private void numZoom_ValueChanged(object sender, EventArgs e)
+        {
+            PointW.zoom = (double)(numZoom.Value/100);
+            paintBox.Invalidate();
+        }
     }
 }

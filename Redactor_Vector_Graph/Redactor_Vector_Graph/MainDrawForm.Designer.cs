@@ -38,17 +38,17 @@
             this.btnMainColor = new System.Windows.Forms.Button();
             this.numWidthPen = new System.Windows.Forms.NumericUpDown();
             this.toolPanel = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnResetZoom = new System.Windows.Forms.Button();
+            this.lblZoom = new System.Windows.Forms.Label();
+            this.numZoom = new System.Windows.Forms.NumericUpDown();
             this.btnZoom = new System.Windows.Forms.Button();
             this.btnHand = new System.Windows.Forms.Button();
             this.btnToolEllipse = new System.Windows.Forms.Button();
             this.btnToolRect = new System.Windows.Forms.Button();
             this.btnToolLine = new System.Windows.Forms.Button();
             this.btnToolPolyLine = new System.Windows.Forms.Button();
-            this.numZoom = new System.Windows.Forms.NumericUpDown();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
-            this.lblZoom = new System.Windows.Forms.Label();
-            this.btnResetZoom = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numWidthPen)).BeginInit();
             this.toolPanel.SuspendLayout();
@@ -151,14 +151,39 @@
             this.toolPanel.Size = new System.Drawing.Size(120, 493);
             this.toolPanel.TabIndex = 0;
             // 
-            // panel2
+            // btnResetZoom
             // 
-            this.panel2.AutoSize = true;
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 526);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1037, 0);
-            this.panel2.TabIndex = 4;
+            this.btnResetZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnResetZoom.Location = new System.Drawing.Point(61, 430);
+            this.btnResetZoom.Name = "btnResetZoom";
+            this.btnResetZoom.Size = new System.Drawing.Size(54, 28);
+            this.btnResetZoom.TabIndex = 11;
+            this.btnResetZoom.Text = "reset";
+            this.btnResetZoom.UseVisualStyleBackColor = true;
+            // 
+            // lblZoom
+            // 
+            this.lblZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblZoom.AutoSize = true;
+            this.lblZoom.Location = new System.Drawing.Point(3, 466);
+            this.lblZoom.Name = "lblZoom";
+            this.lblZoom.Size = new System.Drawing.Size(54, 20);
+            this.lblZoom.TabIndex = 10;
+            this.lblZoom.Text = "Zoom:";
+            // 
+            // numZoom
+            // 
+            this.numZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.numZoom.Location = new System.Drawing.Point(61, 464);
+            this.numZoom.Name = "numZoom";
+            this.numZoom.Size = new System.Drawing.Size(54, 26);
+            this.numZoom.TabIndex = 9;
+            this.numZoom.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numZoom.ValueChanged += new System.EventHandler(this.numZoom_ValueChanged);
             // 
             // btnZoom
             // 
@@ -214,13 +239,14 @@
             this.btnToolPolyLine.TabIndex = 0;
             this.btnToolPolyLine.UseVisualStyleBackColor = true;
             // 
-            // numZoom
+            // panel2
             // 
-            this.numZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.numZoom.Location = new System.Drawing.Point(61, 464);
-            this.numZoom.Name = "numZoom";
-            this.numZoom.Size = new System.Drawing.Size(54, 26);
-            this.numZoom.TabIndex = 9;
+            this.panel2.AutoSize = true;
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 526);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1037, 0);
+            this.panel2.TabIndex = 4;
             // 
             // paintBox
             // 
@@ -236,26 +262,6 @@
             this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
             this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
-            // 
-            // lblZoom
-            // 
-            this.lblZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblZoom.AutoSize = true;
-            this.lblZoom.Location = new System.Drawing.Point(3, 466);
-            this.lblZoom.Name = "lblZoom";
-            this.lblZoom.Size = new System.Drawing.Size(54, 20);
-            this.lblZoom.TabIndex = 10;
-            this.lblZoom.Text = "Zoom:";
-            // 
-            // btnResetZoom
-            // 
-            this.btnResetZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnResetZoom.Location = new System.Drawing.Point(61, 430);
-            this.btnResetZoom.Name = "btnResetZoom";
-            this.btnResetZoom.Size = new System.Drawing.Size(54, 28);
-            this.btnResetZoom.TabIndex = 11;
-            this.btnResetZoom.Text = "reset";
-            this.btnResetZoom.UseVisualStyleBackColor = true;
             // 
             // MainDrawForm
             // 

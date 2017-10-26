@@ -39,7 +39,7 @@ namespace Redactor_Vector_Graph
         {
             if (flagLeftMouseClick)
             {
-                figureArray.Last().AddPoint(new Point(e.X, e.Y));
+                figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
@@ -48,7 +48,7 @@ namespace Redactor_Vector_Graph
             if (e.Button == MouseButtons.Left)
             {
                 flagLeftMouseClick = true;
-                figureArray.Add(new Rect(toolPen, new Point(e.X, e.Y)));
+                figureArray.Add(new Rect(toolPen, new PointW(e.X, e.Y)));
 
             }
         }
@@ -75,7 +75,7 @@ namespace Redactor_Vector_Graph
         {
             if (flagLeftMouseClick)
             {
-                figureArray.Last().AddPoint(new Point(e.X, e.Y));
+                figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
@@ -84,8 +84,8 @@ namespace Redactor_Vector_Graph
             if (e.Button == MouseButtons.Left)
             {
                 flagLeftMouseClick = true;
-                figureArray.Add(new PolyLine(toolPen, new Point(e.X, e.Y)));
-                figureArray.Last().AddPoint(new Point(e.X, e.Y));
+                figureArray.Add(new PolyLine(toolPen, new PointW(e.X, e.Y)));
+                figureArray.Last().AddPoint(new PointW(e.X, e.Y));
 
             }
         }
@@ -113,7 +113,7 @@ namespace Redactor_Vector_Graph
         {
             if (flagLeftMouseClick)
             {
-                figureArray.Last().AddPoint(new Point(e.X, e.Y));
+                figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
@@ -122,8 +122,8 @@ namespace Redactor_Vector_Graph
             if (e.Button == MouseButtons.Left)
             {
                 flagLeftMouseClick = true;
-                figureArray.Add(new Line(toolPen, new Point(e.X, e.Y)));
-                figureArray.Last().AddPoint(new Point(e.X, e.Y));
+                figureArray.Add(new Line(toolPen, new PointW(e.X, e.Y)));
+                figureArray.Last().AddPoint(new PointW(e.X, e.Y));
 
             }
         }
@@ -150,7 +150,7 @@ namespace Redactor_Vector_Graph
         {
             if (flagLeftMouseClick)
             {
-                figureArray.Last().AddPoint(new Point(e.X, e.Y));
+                figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
@@ -159,8 +159,8 @@ namespace Redactor_Vector_Graph
             if (e.Button == MouseButtons.Left)
             {
                 flagLeftMouseClick = true;
-                figureArray.Add(new Ellipse(toolPen, new Point(e.X, e.Y)));
-                figureArray.Last().AddPoint(new Point(e.X, e.Y));
+                figureArray.Add(new Ellipse(toolPen, new PointW(e.X, e.Y)));
+                figureArray.Last().AddPoint(new PointW(e.X, e.Y));
 
             }
         }
