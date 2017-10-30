@@ -61,17 +61,17 @@ namespace Redactor_Vector_Graph
         private void PaintBox_MouseMove(object sender, MouseEventArgs e) =>
             Tool.ActiveTool.MouseMove(sender, e);
  
-        private void tool_strip_exit_Click(object sender, EventArgs e)
+        private void toolStripExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void tool_strip_about_Click(object sender, EventArgs e)
+        private void ToolStripAbout_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Vector graph \nVersion: Alpha v0.1 \nMade by kenny5660(Liamaev Mikhail)");
         }
 
-        private void but_main_color_Click(object sender, EventArgs e)
+        private void btnMainColor_Click(object sender, EventArgs e)
         {
             
             colorDialogMain.ShowDialog();

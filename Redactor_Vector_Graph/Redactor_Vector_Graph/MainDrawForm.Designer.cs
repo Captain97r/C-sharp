@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainDrawForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.tool_strip_file = new System.Windows.Forms.ToolStripMenuItem();
-            this.tool_strip_exit = new System.Windows.Forms.ToolStripMenuItem();
-            this.tool_strip_help = new System.Windows.Forms.ToolStripMenuItem();
-            this.tool_strip_about = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialogMain = new System.Windows.Forms.ColorDialog();
             this.btnMainColor = new System.Windows.Forms.Button();
             this.numWidthPen = new System.Windows.Forms.NumericUpDown();
@@ -49,8 +49,8 @@
             this.btnToolPolyLine = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
-            this.hScrollBarOffset = new System.Windows.Forms.HScrollBar();
             this.vScrollBarOffset = new System.Windows.Forms.VScrollBar();
+            this.hScrollBarOffset = new System.Windows.Forms.HScrollBar();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numWidthPen)).BeginInit();
             this.toolPanel.SuspendLayout();
@@ -63,8 +63,8 @@
             this.menuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tool_strip_file,
-            this.tool_strip_help});
+            this.toolStripFile,
+            this.toolStripHelp});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -72,35 +72,35 @@
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip1";
             // 
-            // tool_strip_file
+            // toolStripFile
             // 
-            this.tool_strip_file.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tool_strip_exit});
-            this.tool_strip_file.Name = "tool_strip_file";
-            this.tool_strip_file.Size = new System.Drawing.Size(50, 29);
-            this.tool_strip_file.Text = "File";
+            this.toolStripFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripExit});
+            this.toolStripFile.Name = "toolStripFile";
+            this.toolStripFile.Size = new System.Drawing.Size(50, 29);
+            this.toolStripFile.Text = "File";
             // 
-            // tool_strip_exit
+            // toolStripExit
             // 
-            this.tool_strip_exit.Name = "tool_strip_exit";
-            this.tool_strip_exit.Size = new System.Drawing.Size(123, 30);
-            this.tool_strip_exit.Text = "Exit";
-            this.tool_strip_exit.Click += new System.EventHandler(this.tool_strip_exit_Click);
+            this.toolStripExit.Name = "toolStripExit";
+            this.toolStripExit.Size = new System.Drawing.Size(210, 30);
+            this.toolStripExit.Text = "Exit";
+            this.toolStripExit.Click += new System.EventHandler(this.toolStripExit_Click);
             // 
-            // tool_strip_help
+            // toolStripHelp
             // 
-            this.tool_strip_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tool_strip_about});
-            this.tool_strip_help.Name = "tool_strip_help";
-            this.tool_strip_help.Size = new System.Drawing.Size(61, 29);
-            this.tool_strip_help.Text = "Help";
+            this.toolStripHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripAbout});
+            this.toolStripHelp.Name = "toolStripHelp";
+            this.toolStripHelp.Size = new System.Drawing.Size(61, 29);
+            this.toolStripHelp.Text = "Help";
             // 
-            // tool_strip_about
+            // toolStripAbout
             // 
-            this.tool_strip_about.Name = "tool_strip_about";
-            this.tool_strip_about.Size = new System.Drawing.Size(146, 30);
-            this.tool_strip_about.Text = "About";
-            this.tool_strip_about.Click += new System.EventHandler(this.tool_strip_about_Click);
+            this.toolStripAbout.Name = "toolStripAbout";
+            this.toolStripAbout.Size = new System.Drawing.Size(210, 30);
+            this.toolStripAbout.Text = "About";
+            this.toolStripAbout.Click += new System.EventHandler(this.ToolStripAbout_Click);
             // 
             // btnMainColor
             // 
@@ -112,7 +112,7 @@
             this.btnMainColor.Size = new System.Drawing.Size(52, 24);
             this.btnMainColor.TabIndex = 2;
             this.btnMainColor.UseVisualStyleBackColor = false;
-            this.btnMainColor.Click += new System.EventHandler(this.but_main_color_Click);
+            this.btnMainColor.Click += new System.EventHandler(this.btnMainColor_Click);
             // 
             // numWidthPen
             // 
@@ -284,6 +284,17 @@
             this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
             // 
+            // vScrollBarOffset
+            // 
+            this.vScrollBarOffset.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScrollBarOffset.LargeChange = 1;
+            this.vScrollBarOffset.Location = new System.Drawing.Point(1059, 0);
+            this.vScrollBarOffset.Maximum = 0;
+            this.vScrollBarOffset.Name = "vScrollBarOffset";
+            this.vScrollBarOffset.Size = new System.Drawing.Size(26, 571);
+            this.vScrollBarOffset.TabIndex = 1;
+            this.vScrollBarOffset.ValueChanged += new System.EventHandler(this.vScrollBarOffset_ValueChanged);
+            // 
             // hScrollBarOffset
             // 
             this.hScrollBarOffset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -297,17 +308,6 @@
             this.hScrollBarOffset.TabIndex = 0;
             this.hScrollBarOffset.Value = 150;
             this.hScrollBarOffset.ValueChanged += new System.EventHandler(this.hScrollBarOffset_ValueChanged);
-            // 
-            // vScrollBarOffset
-            // 
-            this.vScrollBarOffset.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBarOffset.LargeChange = 1;
-            this.vScrollBarOffset.Location = new System.Drawing.Point(1059, 0);
-            this.vScrollBarOffset.Maximum = 0;
-            this.vScrollBarOffset.Name = "vScrollBarOffset";
-            this.vScrollBarOffset.Size = new System.Drawing.Size(26, 571);
-            this.vScrollBarOffset.TabIndex = 1;
-            this.vScrollBarOffset.ValueChanged += new System.EventHandler(this.vScrollBarOffset_ValueChanged);
             // 
             // MainDrawForm
             // 
@@ -341,10 +341,10 @@
 
         private PaintBox paintBox;
         private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.ToolStripMenuItem tool_strip_file;
-        private System.Windows.Forms.ToolStripMenuItem tool_strip_exit;
-        private System.Windows.Forms.ToolStripMenuItem tool_strip_help;
-        private System.Windows.Forms.ToolStripMenuItem tool_strip_about;
+        private System.Windows.Forms.ToolStripMenuItem toolStripFile;
+        private System.Windows.Forms.ToolStripMenuItem toolStripExit;
+        private System.Windows.Forms.ToolStripMenuItem toolStripHelp;
+        private System.Windows.Forms.ToolStripMenuItem toolStripAbout;
         private System.Windows.Forms.ColorDialog colorDialogMain;
         private System.Windows.Forms.Button btnMainColor;
         private System.Windows.Forms.NumericUpDown numWidthPen;
