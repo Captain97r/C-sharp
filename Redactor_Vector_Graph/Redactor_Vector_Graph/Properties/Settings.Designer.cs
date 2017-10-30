@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Redactor_Vector_Graph.Properties
+namespace RedactorVectorGraph.Properties
 {
 
 

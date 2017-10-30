@@ -15,21 +15,25 @@ namespace Redactor_Vector_Graph
         ToolReact toolRect;
         ToolEllipse toolCircle;
         ToolHand toolHand;
-        
+        ToolZoom toolZoom;
 
         public MainDrawForm()
         {
             InitializeComponent();
+            Tool.vScrollBar = vScrollBarOffset;
+            Tool.hScrollBar = hScrollBarOffset;
             toolTipMain.SetToolTip(btnToolPolyLine,"Pencil");
             toolTipMain.SetToolTip(btnToolLine, "Line");
             toolTipMain.SetToolTip(btnToolRect, "Rectangle");
             toolTipMain.SetToolTip(btnToolEllipse, "Ellipse");
             toolTipMain.SetToolTip(btnZoom, "Zoom");
             toolTipMain.SetToolTip(btnHand, "Hand");
+          
             toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, penMain, paintBox);
             toolLine = new ToolLine(btnToolLine, ref figureArray, penMain, paintBox);
             toolRect = new ToolReact(btnToolRect, ref figureArray, penMain, paintBox);
             toolCircle = new ToolEllipse(btnToolEllipse, ref figureArray, penMain, paintBox);
+            toolZoom = new ToolZoom(btnZoom, ref figureArray, paintBox, numZoom);
             toolHand = new ToolHand(btnHand,paintBox);
             Tool.ActiveTool = toolPolyLine;
             paintBox.Paint += PaintBox_Paint;
@@ -109,15 +113,23 @@ namespace Redactor_Vector_Graph
 
         private void btnResetZoom_Click(object sender, EventArgs e)
         {
-            numZoom.Value = (decimal)(Math.Min((paintBox.Width-200) / (Tool.pntwMaxReact.X-Tool.pntwMinReact.X), (paintBox.Height-50)/(Tool.pntwMaxReact.Y - Tool.pntwMinReact.Y)  ) *100);
-
-            PointW.offset = new Point((int)Math.Round(-Tool.pntwMinReact.X* (double)(numZoom.Value/100)+150),(int)Math.Round(-Tool.pntwMinReact.Y * (double)(numZoom.Value / 100))+10);
+            if (Tool.pntwMaxReact.X>0) { 
+                numZoom.Value = (decimal)(Math.Min((paintBox.Width - 200) / (Tool.pntwMaxReact.X - Tool.pntwMinReact.X), (paintBox.Height - 50) / (Tool.pntwMaxReact.Y - Tool.pntwMinReact.Y)) * 100);
+            PointW.offset = new Point((int)Math.Round(-Tool.pntwMinReact.X * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Tool.pntwMinReact.Y * (double)(numZoom.Value / 100)) + 10);
+                    }
             paintBox.Invalidate();
         }
 
         private void vScrollBarOffset_ValueChanged(object sender, EventArgs e)
         {
-            PointW.offset.Y = vScrollBarOffset.Value;
+            PointW.offset.Y = -vScrollBarOffset.Value;
+            paintBox.Invalidate();
+        }
+
+        private void hScrollBarOffset_ValueChanged(object sender, EventArgs e)
+        {
+            PointW.offset.X = -hScrollBarOffset.Value;
+            paintBox.Invalidate();
         }
     }
 }

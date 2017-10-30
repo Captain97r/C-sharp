@@ -8,6 +8,8 @@ namespace Redactor_Vector_Graph
 {
     class Tool
     {
+        public static VScrollBar vScrollBar;
+        public static HScrollBar hScrollBar;
         public static PointW pntwMinReact = new PointW(Double.MaxValue, Double.MaxValue);
         public static PointW pntwMaxReact = new PointW(0.0, 0.0);
         public static Tool ActiveTool { get; set; }
@@ -34,14 +36,10 @@ namespace Redactor_Vector_Graph
             pntwMinReact.Y = Math.Min(pointW.Y, pntwMinReact.Y);
             pntwMaxReact.X = Math.Max(pointW.X, pntwMaxReact.X);
             pntwMaxReact.Y = Math.Max(pointW.Y, pntwMaxReact.Y);
-            
-            /*int x, y;
-            x = Math.Min(pntwMinReact.ToScrPnt().X, pntwMaxReact.ToScrPnt().X);
-            y = Math.Min(pntwMinReact.ToScrPnt().Y, pntwMaxReact.ToScrPnt().Y);
-            int width = Math.Abs(pntwMinReact.ToScrPnt().X - pntwMaxReact.ToScrPnt().X);
-            int height = Math.Abs(pntwMinReact.ToScrPnt().Y - pntwMaxReact.ToScrPnt().Y);
-            Graphics graphics = paintBox.CreateGraphics();
-           graphics.DrawRectangle(toolPen, new Rectangle(x, y, width, height));*/
+            vScrollBar.Minimum = (int)Math.Round(pntwMinReact.Y * PointW.zoom)-10;
+            vScrollBar.Maximum = (int)Math.Round(pntwMaxReact.Y * PointW.zoom);
+            hScrollBar.Minimum = (int)Math.Round(pntwMinReact.X * PointW.zoom)-150;
+            hScrollBar.Maximum = (int)Math.Round(pntwMaxReact.X * PointW.zoom);
         }
     }
 
@@ -200,10 +198,14 @@ namespace Redactor_Vector_Graph
 
     class ToolZoom: Tool
     {
-        public ToolZoom(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
+        PointW pointWStart;
+        PointW pointWEnd;
+        NumericUpDown numZoom;
+        public ToolZoom(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set,NumericUpDown numZoomSet)
         {
+            numZoom = numZoomSet;
             paintBox = paintBox_set;
-            toolPen = new Pen(Color.Black); 
+            toolPen = new Pen(Color.Black);
             figureArray = figureArrayFrom;
             toolButton = button;
             toolButton.Click += new EventHandler(ToolButtonClick);
@@ -212,7 +214,8 @@ namespace Redactor_Vector_Graph
         {
             if (flagLeftMouseClick)
             {
-                figureArray.Last().AddPoint(new PointW(e.X, e.Y));
+                pointWEnd = new PointW(e.X, e.Y);
+                figureArray.Last().AddPoint(pointWEnd);
                 paintBox.Invalidate();
             }
         }
@@ -221,8 +224,10 @@ namespace Redactor_Vector_Graph
             if (e.Button == MouseButtons.Left)
             {
                 flagLeftMouseClick = true;
-                figureArray.Add(new Ellipse(toolPen, new PointW(e.X, e.Y)));
-                figureArray.Last().AddPoint(new PointW(e.X, e.Y));
+                pointWStart = new PointW(e.X, e.Y);
+                pointWEnd = new PointW(e.X+1, e.Y+1);
+                figureArray.Add(new Rect(toolPen, pointWStart));
+                figureArray.Last().AddPoint(pointWStart);
 
             }
         }
@@ -230,13 +235,27 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
+                decimal zoom = (decimal)(Math.Min((paintBox.Width - 200) / Math.Abs(pointWEnd.X - pointWStart.X), (paintBox.Height - 50) / Math.Abs(pointWEnd.Y - pointWStart.Y)) * 100);
+                if (Math.Min(zoom, numZoom.Maximum)> numZoom.Minimum) {
+                    numZoom.Value = Math.Min(zoom, numZoom.Maximum);
+                }
+                else
+                {
+                    numZoom.Value = numZoom.Minimum;
+                }
+
+                
+                
+                PointW.offset = new Point((int)Math.Round(-Math.Min(pointWEnd.X,pointWStart.X) * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Math.Min(pointWEnd.Y, pointWStart.Y) * (double)(numZoom.Value / 100)) + 10);
+                figureArray.RemoveAt(figureArray.Count - 1);
                 flagLeftMouseClick = false;
+                paintBox.Invalidate();
             }
         }
     }
     class ToolHand : Tool
     {
-        Point pntFirstClick = new Point(0,0);
+        Point pntLastMause = new Point(0,0);
         public ToolHand(Button button, Panel paintBox_set)
         {
             paintBox = paintBox_set;
@@ -248,11 +267,11 @@ namespace Redactor_Vector_Graph
         {
             if (flagLeftMouseClick)
             {
-                PointW.offset.X += e.X - pntFirstClick.X;
-                PointW.offset.Y += e.Y - pntFirstClick.Y;
+                PointW.offset.X += e.X - pntLastMause.X;
+                PointW.offset.Y += e.Y - pntLastMause.Y;
                 paintBox.Invalidate();
-                pntFirstClick.X = e.X;
-                pntFirstClick.Y = e.Y;
+                pntLastMause.X = e.X;
+                pntLastMause.Y = e.Y;
             }
         }
         public override void MouseDown(object sender, MouseEventArgs e)
@@ -261,8 +280,8 @@ namespace Redactor_Vector_Graph
             {
               
                 flagLeftMouseClick = true;
-                pntFirstClick.X = e.X;
-                pntFirstClick.Y = e.Y;
+                pntLastMause.X = e.X;
+                pntLastMause.Y = e.Y;
             }
         }
         public override void MouseUp(object sender, MouseEventArgs e)

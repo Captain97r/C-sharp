@@ -189,6 +189,11 @@
             0,
             0,
             0});
+            this.numZoom.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numZoom.Name = "numZoom";
             this.numZoom.Size = new System.Drawing.Size(54, 26);
             this.numZoom.TabIndex = 9;
@@ -283,15 +288,22 @@
             // 
             this.hScrollBarOffset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.hScrollBarOffset.LargeChange = 1;
             this.hScrollBarOffset.Location = new System.Drawing.Point(118, 541);
+            this.hScrollBarOffset.Maximum = 150;
+            this.hScrollBarOffset.Minimum = 150;
             this.hScrollBarOffset.Name = "hScrollBarOffset";
             this.hScrollBarOffset.Size = new System.Drawing.Size(941, 30);
             this.hScrollBarOffset.TabIndex = 0;
+            this.hScrollBarOffset.Value = 150;
+            this.hScrollBarOffset.ValueChanged += new System.EventHandler(this.hScrollBarOffset_ValueChanged);
             // 
             // vScrollBarOffset
             // 
             this.vScrollBarOffset.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScrollBarOffset.LargeChange = 1;
             this.vScrollBarOffset.Location = new System.Drawing.Point(1059, 0);
+            this.vScrollBarOffset.Maximum = 0;
             this.vScrollBarOffset.Name = "vScrollBarOffset";
             this.vScrollBarOffset.Size = new System.Drawing.Size(26, 571);
             this.vScrollBarOffset.TabIndex = 1;
