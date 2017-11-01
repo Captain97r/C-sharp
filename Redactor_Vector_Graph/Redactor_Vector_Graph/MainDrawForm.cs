@@ -20,6 +20,7 @@ namespace Redactor_Vector_Graph
         public MainDrawForm()
         {
             InitializeComponent();
+            PanelProp.toolPanel = toolPanel;
             Tool.vScrollBar = vScrollBarOffset;
             Tool.hScrollBar = hScrollBarOffset;
             toolTipMain.SetToolTip(btnToolPolyLine,"Pencil");
@@ -29,14 +30,16 @@ namespace Redactor_Vector_Graph
             toolTipMain.SetToolTip(btnZoom, "Zoom");
             toolTipMain.SetToolTip(btnHand, "Hand");
           
-            toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, penMain, paintBox);
+            toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, paintBox);
             toolLine = new ToolLine(btnToolLine, ref figureArray, penMain, paintBox);
             toolRect = new ToolReact(btnToolRect, ref figureArray, penMain, paintBox);
             toolCircle = new ToolEllipse(btnToolEllipse, ref figureArray, penMain, paintBox);
             toolZoom = new ToolZoom(btnZoom, ref figureArray, paintBox, numZoom);
             toolHand = new ToolHand(btnHand,paintBox);
             Tool.ActiveTool = toolPolyLine;
+            toolPolyLine.ToolButtonClick(null,null);
             paintBox.Paint += PaintBox_Paint;
+          
         }
 
         private void PaintBox_Paint(object sender, PaintEventArgs e)
@@ -100,6 +103,7 @@ namespace Redactor_Vector_Graph
 
         private void btnResetZoom_Click(object sender, EventArgs e)
         {
+            btnToolRect.Visible = false;
             if (Tool.pntwMaxReact.X>0) { 
                 numZoom.Value = (decimal)(Math.Min((paintBox.Width - 200) / (Tool.pntwMaxReact.X - Tool.pntwMinReact.X), (paintBox.Height - 50) / (Tool.pntwMaxReact.Y - Tool.pntwMinReact.Y)) * 100);
             PointW.offset = new Point((int)Math.Round(-Tool.pntwMinReact.X * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Tool.pntwMinReact.Y * (double)(numZoom.Value / 100)) + 10);

@@ -107,7 +107,7 @@
             this.btnMainColor.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnMainColor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnMainColor.FlatAppearance.BorderSize = 0;
-            this.btnMainColor.Location = new System.Drawing.Point(5, 9);
+            this.btnMainColor.Location = new System.Drawing.Point(12, 206);
             this.btnMainColor.Name = "btnMainColor";
             this.btnMainColor.Size = new System.Drawing.Size(52, 24);
             this.btnMainColor.TabIndex = 2;
@@ -116,7 +116,7 @@
             // 
             // numWidthPen
             // 
-            this.numWidthPen.Location = new System.Drawing.Point(63, 11);
+            this.numWidthPen.Location = new System.Drawing.Point(67, 204);
             this.numWidthPen.Minimum = new decimal(new int[] {
             1,
             0,
@@ -136,6 +136,8 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.toolPanel.Controls.Add(this.numWidthPen);
+            this.toolPanel.Controls.Add(this.btnMainColor);
             this.toolPanel.Controls.Add(this.btnResetZoom);
             this.toolPanel.Controls.Add(this.lblZoom);
             this.toolPanel.Controls.Add(this.numZoom);
@@ -145,13 +147,11 @@
             this.toolPanel.Controls.Add(this.btnToolRect);
             this.toolPanel.Controls.Add(this.btnToolLine);
             this.toolPanel.Controls.Add(this.btnToolPolyLine);
-            this.toolPanel.Controls.Add(this.numWidthPen);
-            this.toolPanel.Controls.Add(this.btnMainColor);
             this.toolPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolPanel.Location = new System.Drawing.Point(0, 33);
             this.toolPanel.MinimumSize = new System.Drawing.Size(110, 0);
             this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(120, 571);
+            this.toolPanel.Size = new System.Drawing.Size(123, 571);
             this.toolPanel.TabIndex = 0;
             // 
             // btnResetZoom
@@ -183,7 +183,7 @@
             0,
             0,
             0});
-            this.numZoom.Location = new System.Drawing.Point(61, 542);
+            this.numZoom.Location = new System.Drawing.Point(64, 542);
             this.numZoom.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -207,7 +207,7 @@
             // btnZoom
             // 
             this.btnZoom.Image = ((System.Drawing.Image)(resources.GetObject("btnZoom.Image")));
-            this.btnZoom.Location = new System.Drawing.Point(5, 175);
+            this.btnZoom.Location = new System.Drawing.Point(7, 123);
             this.btnZoom.Name = "btnZoom";
             this.btnZoom.Size = new System.Drawing.Size(54, 54);
             this.btnZoom.TabIndex = 8;
@@ -216,7 +216,7 @@
             // btnHand
             // 
             this.btnHand.Image = global::Redactor_Vector_Graph.Properties.Resources.handImage;
-            this.btnHand.Location = new System.Drawing.Point(63, 175);
+            this.btnHand.Location = new System.Drawing.Point(65, 123);
             this.btnHand.Name = "btnHand";
             this.btnHand.Size = new System.Drawing.Size(54, 54);
             this.btnHand.TabIndex = 7;
@@ -225,7 +225,7 @@
             // btnToolEllipse
             // 
             this.btnToolEllipse.Image = global::Redactor_Vector_Graph.Properties.Resources.CircleImage;
-            this.btnToolEllipse.Location = new System.Drawing.Point(5, 115);
+            this.btnToolEllipse.Location = new System.Drawing.Point(7, 63);
             this.btnToolEllipse.Name = "btnToolEllipse";
             this.btnToolEllipse.Size = new System.Drawing.Size(54, 54);
             this.btnToolEllipse.TabIndex = 6;
@@ -234,7 +234,7 @@
             // btnToolRect
             // 
             this.btnToolRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RectImage;
-            this.btnToolRect.Location = new System.Drawing.Point(63, 115);
+            this.btnToolRect.Location = new System.Drawing.Point(65, 63);
             this.btnToolRect.Name = "btnToolRect";
             this.btnToolRect.Size = new System.Drawing.Size(54, 54);
             this.btnToolRect.TabIndex = 5;
@@ -243,7 +243,7 @@
             // btnToolLine
             // 
             this.btnToolLine.Image = global::Redactor_Vector_Graph.Properties.Resources.LineImage;
-            this.btnToolLine.Location = new System.Drawing.Point(63, 55);
+            this.btnToolLine.Location = new System.Drawing.Point(65, 3);
             this.btnToolLine.Name = "btnToolLine";
             this.btnToolLine.Size = new System.Drawing.Size(54, 54);
             this.btnToolLine.TabIndex = 4;
@@ -252,7 +252,7 @@
             // btnToolPolyLine
             // 
             this.btnToolPolyLine.Image = global::Redactor_Vector_Graph.Properties.Resources.PolyLineImage;
-            this.btnToolPolyLine.Location = new System.Drawing.Point(5, 55);
+            this.btnToolPolyLine.Location = new System.Drawing.Point(7, 3);
             this.btnToolPolyLine.Name = "btnToolPolyLine";
             this.btnToolPolyLine.Size = new System.Drawing.Size(54, 54);
             this.btnToolPolyLine.TabIndex = 0;

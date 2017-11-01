@@ -20,7 +20,7 @@ namespace Redactor_Vector_Graph
         public Cursor cursor = Cursors.Default;
         protected bool flagLeftMouseClick = false;
         protected bool flagRightMouseClick = false;
-        protected Panel panelProp;
+        protected PanelProp panelProp;
         public void ToolButtonClick(object sender, EventArgs e)
         {
             ActiveTool.HidePanelProp();
@@ -87,13 +87,15 @@ namespace Redactor_Vector_Graph
 
     class ToolPolyLine : Tool
     {
-        public ToolPolyLine(Button button, ref List<Figure> figureArrayFrom, Pen pen, Panel paintBox_set)
+        ColorButton colorButton;
+        NumWidthPen numWidthPen;
+        public ToolPolyLine(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
         {
             paintBox = paintBox_set;
-            toolPen = pen;
             figureArray = figureArrayFrom;
             toolButton = button;
             toolButton.Click += new EventHandler(ToolButtonClick);
+            CreatePanelProp();
         }
         public override void MouseMove(object sender, MouseEventArgs e)
         {
@@ -109,7 +111,7 @@ namespace Redactor_Vector_Graph
             if (e.Button == MouseButtons.Left)
             {
                 flagLeftMouseClick = true;
-                figureArray.Add(new PolyLine(toolPen, new PointW(e.X, e.Y)));
+                figureArray.Add(new PolyLine(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y)));
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 SetResetReact(e.X, e.Y);
             }
@@ -122,13 +124,28 @@ namespace Redactor_Vector_Graph
                 SetResetReact(e.X, e.Y);
             }
         }
+        private void CreatePanelProp()
+        {
+            panelProp = new PanelProp();
+            colorButton = new ColorButton(Color.Black);
+            colorButton.Location = new System.Drawing.Point(58, 11);
+            colorButton.Size = new System.Drawing.Size(52, 24);
+            colorButton.TabIndex = 2;
+            panelProp.Controls.Add(colorButton);
+
+            numWidthPen = new NumWidthPen();
+            numWidthPen.Location = new Point(58, 41);
+            numWidthPen.Size = new Size(52, 26);
+            panelProp.Controls.Add(numWidthPen);
+
+        }
         public override void HidePanelProp()
         {
-
+            panelProp.Visible = false;
         }
         public override void ShowPanelProp()
         {
-
+            panelProp.Visible = true;
         }
 
     }
@@ -307,14 +324,44 @@ namespace Redactor_Vector_Graph
         }
     }
 
-    class ColorButton : Button
+
+    public class NumWidthPen : NumericUpDown
     {
-        Color color;
-        private ColorDialog colorDialog;
-        ColorButton(Color setColor)
+       public float penWidth;
+        public NumWidthPen()
         {
-            this.Click += ColorButton_Click;
-            colorDialog = new ColorDialog();
+            Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            Maximum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            ValueChanged += new EventHandler(NumWidthPen_ValueChanged);
+            penWidth = (float)Value;
+        }
+        private void NumWidthPen_ValueChanged(object sender, EventArgs e)
+        {
+            penWidth = (float)Value;
+        }
+
+
+    }
+        public   class ColorButton : Button
+    {
+      public  Color color;
+        private ColorDialog colorDialog = new ColorDialog();
+        public  ColorButton(Color setColor)
+        {
+            this.Click += new EventHandler(ColorButton_Click);
             color = setColor;
             SetButtonColor(setColor);
         }
@@ -333,6 +380,20 @@ namespace Redactor_Vector_Graph
             bitmapGBtnMainColor = Graphics.FromImage(bitmapBtnMainColor);
             bitmapGBtnMainColor.Clear(color);
             this.Image = bitmapBtnMainColor;
+        }
+
+    }
+ public   class PanelProp : Panel
+    {
+       public static Panel toolPanel;
+       public PanelProp()
+        {
+            BackColor = SystemColors.ControlDark;
+            Location = new Point(3, 355);
+            Size = new Size(117, 147);
+            TabIndex = 12;
+            toolPanel.Controls.Add(this);
+            Visible = false;
         }
 
     }
