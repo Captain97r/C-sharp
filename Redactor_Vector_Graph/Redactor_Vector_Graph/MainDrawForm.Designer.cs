@@ -51,6 +51,7 @@
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
             this.vScrollBarOffset = new System.Windows.Forms.VScrollBar();
             this.hScrollBarOffset = new System.Windows.Forms.HScrollBar();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numWidthPen)).BeginInit();
             this.toolPanel.SuspendLayout();
@@ -136,6 +137,7 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.toolPanel.Controls.Add(this.panel1);
             this.toolPanel.Controls.Add(this.numWidthPen);
             this.toolPanel.Controls.Add(this.btnMainColor);
             this.toolPanel.Controls.Add(this.btnResetZoom);
@@ -309,6 +311,17 @@
             this.hScrollBarOffset.Value = 150;
             this.hScrollBarOffset.ValueChanged += new System.EventHandler(this.hScrollBarOffset_ValueChanged);
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.panel1.Location = new System.Drawing.Point(3, 303);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(117, 199);
+            this.panel1.TabIndex = 12;
+            this.panel1.Visible = false;
+            // 
             // MainDrawForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -361,6 +374,7 @@
         private System.Windows.Forms.Button btnResetZoom;
         private System.Windows.Forms.HScrollBar hScrollBarOffset;
         private System.Windows.Forms.VScrollBar vScrollBarOffset;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

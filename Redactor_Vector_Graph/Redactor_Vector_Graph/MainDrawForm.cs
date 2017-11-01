@@ -12,7 +12,7 @@ namespace Redactor_Vector_Graph
         Pen penMain = new Pen(Color.Black);
         ToolPolyLine toolPolyLine;
         ToolLine toolLine;
-        ToolReact toolRect;
+        ToolRect toolRect;
         ToolEllipse toolCircle;
         ToolHand toolHand;
         ToolZoom toolZoom;
@@ -32,7 +32,7 @@ namespace Redactor_Vector_Graph
           
             toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, paintBox);
             toolLine = new ToolLine(btnToolLine, ref figureArray, penMain, paintBox);
-            toolRect = new ToolReact(btnToolRect, ref figureArray, penMain, paintBox);
+            toolRect = new ToolRect(btnToolRect, ref figureArray, penMain, paintBox);
             toolCircle = new ToolEllipse(btnToolEllipse, ref figureArray, penMain, paintBox);
             toolZoom = new ToolZoom(btnZoom, ref figureArray, paintBox, numZoom);
             toolHand = new ToolHand(btnHand,paintBox);
