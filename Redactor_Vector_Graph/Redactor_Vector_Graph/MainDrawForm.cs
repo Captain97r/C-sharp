@@ -37,7 +37,6 @@ namespace Redactor_Vector_Graph
             toolHand = new ToolHand(btnHand,paintBox);
             Tool.ActiveTool = toolPolyLine;
             paintBox.Paint += PaintBox_Paint;
-            SetButtonColor(penMain.Color);
         }
 
         private void PaintBox_Paint(object sender, PaintEventArgs e)
@@ -73,10 +72,6 @@ namespace Redactor_Vector_Graph
 
         private void btnMainColor_Click(object sender, EventArgs e)
         {
-            
-            colorDialogMain.ShowDialog();
-            penMain.Color = colorDialogMain.Color;
-            SetButtonColor(penMain.Color);
         }
 
         private void numeric_width_pen_ValueChanged(object sender, EventArgs e)
@@ -95,15 +90,7 @@ namespace Redactor_Vector_Graph
                 }
             }
         }
-        private void SetButtonColor(Color color)
-        {
-            Graphics bitmapGBtnMainColor;
-            Bitmap bitmapBtnMainColor;
-            bitmapBtnMainColor = new Bitmap(btnMainColor.Width, btnMainColor.Height);
-            bitmapGBtnMainColor = Graphics.FromImage(bitmapBtnMainColor);       
-            bitmapGBtnMainColor.Clear(color);
-            btnMainColor.Image = bitmapBtnMainColor;
-        }
+   
 
         private void numZoom_ValueChanged(object sender, EventArgs e)
         {

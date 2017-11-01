@@ -83,7 +83,7 @@
             // toolStripExit
             // 
             this.toolStripExit.Name = "toolStripExit";
-            this.toolStripExit.Size = new System.Drawing.Size(210, 30);
+            this.toolStripExit.Size = new System.Drawing.Size(123, 30);
             this.toolStripExit.Text = "Exit";
             this.toolStripExit.Click += new System.EventHandler(this.toolStripExit_Click);
             // 
@@ -98,7 +98,7 @@
             // toolStripAbout
             // 
             this.toolStripAbout.Name = "toolStripAbout";
-            this.toolStripAbout.Size = new System.Drawing.Size(210, 30);
+            this.toolStripAbout.Size = new System.Drawing.Size(146, 30);
             this.toolStripAbout.Text = "About";
             this.toolStripAbout.Click += new System.EventHandler(this.ToolStripAbout_Click);
             // 

@@ -17,15 +17,20 @@ namespace Redactor_Vector_Graph
         public List<Figure> figureArray;
         public Pen toolPen;
         public Panel paintBox;
-        public Cursor cuorsor = Cursors.Default;
+        public Cursor cursor = Cursors.Default;
         protected bool flagLeftMouseClick = false;
         protected bool flagRightMouseClick = false;
-
+        protected Panel panelProp;
         public void ToolButtonClick(object sender, EventArgs e)
         {
+            ActiveTool.HidePanelProp();
             ActiveTool = this;
-            paintBox.Cursor = this.cuorsor;
+            ActiveTool.ShowPanelProp();
+            paintBox.Cursor = this.cursor;
         }
+        public virtual void HidePanelProp() { }
+        public virtual void ShowPanelProp() { }
+        public virtual void MouseDown() { }
         public virtual void MouseMove(object sender, MouseEventArgs e) { }
         public virtual void MouseDown(object sender, MouseEventArgs e) { }
         public virtual void MouseUp(object sender, MouseEventArgs e) { }
@@ -36,9 +41,9 @@ namespace Redactor_Vector_Graph
             pntwMinReact.Y = Math.Min(pointW.Y, pntwMinReact.Y);
             pntwMaxReact.X = Math.Max(pointW.X, pntwMaxReact.X);
             pntwMaxReact.Y = Math.Max(pointW.Y, pntwMaxReact.Y);
-            vScrollBar.Minimum = (int)Math.Round(pntwMinReact.Y * PointW.zoom)-10;
+            vScrollBar.Minimum = (int)Math.Round(pntwMinReact.Y * PointW.zoom) - 10;
             vScrollBar.Maximum = (int)Math.Round(pntwMaxReact.Y * PointW.zoom);
-            hScrollBar.Minimum = (int)Math.Round(pntwMinReact.X * PointW.zoom)-150;
+            hScrollBar.Minimum = (int)Math.Round(pntwMinReact.X * PointW.zoom) - 150;
             hScrollBar.Maximum = (int)Math.Round(pntwMaxReact.X * PointW.zoom);
         }
     }
@@ -116,6 +121,14 @@ namespace Redactor_Vector_Graph
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
             }
+        }
+        public override void HidePanelProp()
+        {
+
+        }
+        public override void ShowPanelProp()
+        {
+
         }
 
     }
@@ -196,12 +209,12 @@ namespace Redactor_Vector_Graph
         }
     }
 
-    class ToolZoom: Tool
+    class ToolZoom : Tool
     {
         PointW pointWStart;
         PointW pointWEnd;
         NumericUpDown numZoom;
-        public ToolZoom(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set,NumericUpDown numZoomSet)
+        public ToolZoom(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set, NumericUpDown numZoomSet)
         {
             numZoom = numZoomSet;
             paintBox = paintBox_set;
@@ -225,7 +238,7 @@ namespace Redactor_Vector_Graph
             {
                 flagLeftMouseClick = true;
                 pointWStart = new PointW(e.X, e.Y);
-                pointWEnd = new PointW(e.X+1, e.Y+1);
+                pointWEnd = new PointW(e.X + 1, e.Y + 1);
                 figureArray.Add(new Rect(toolPen, pointWStart));
                 figureArray.Last().AddPoint(pointWStart);
 
@@ -236,7 +249,8 @@ namespace Redactor_Vector_Graph
             if (e.Button == MouseButtons.Left)
             {
                 decimal zoom = (decimal)(Math.Min((paintBox.Width - 200) / Math.Abs(pointWEnd.X - pointWStart.X), (paintBox.Height - 50) / Math.Abs(pointWEnd.Y - pointWStart.Y)) * 100);
-                if (Math.Min(zoom, numZoom.Maximum)> numZoom.Minimum) {
+                if (Math.Min(zoom, numZoom.Maximum) > numZoom.Minimum)
+                {
                     numZoom.Value = Math.Min(zoom, numZoom.Maximum);
                 }
                 else
@@ -244,9 +258,9 @@ namespace Redactor_Vector_Graph
                     numZoom.Value = numZoom.Minimum;
                 }
 
-                
-                
-                PointW.offset = new Point((int)Math.Round(-Math.Min(pointWEnd.X,pointWStart.X) * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Math.Min(pointWEnd.Y, pointWStart.Y) * (double)(numZoom.Value / 100)) + 10);
+
+
+                PointW.offset = new Point((int)Math.Round(-Math.Min(pointWEnd.X, pointWStart.X) * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Math.Min(pointWEnd.Y, pointWStart.Y) * (double)(numZoom.Value / 100)) + 10);
                 figureArray.RemoveAt(figureArray.Count - 1);
                 flagLeftMouseClick = false;
                 paintBox.Invalidate();
@@ -255,11 +269,11 @@ namespace Redactor_Vector_Graph
     }
     class ToolHand : Tool
     {
-        Point pntLastMause = new Point(0,0);
+        Point pntLastMause = new Point(0, 0);
         public ToolHand(Button button, Panel paintBox_set)
         {
             paintBox = paintBox_set;
-            cuorsor = Cursors.Hand;
+            cursor = Cursors.Hand;
             toolButton = button;
             toolButton.Click += new EventHandler(ToolButtonClick);
         }
@@ -278,7 +292,7 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-              
+
                 flagLeftMouseClick = true;
                 pntLastMause.X = e.X;
                 pntLastMause.Y = e.Y;
@@ -291,5 +305,35 @@ namespace Redactor_Vector_Graph
                 flagLeftMouseClick = false;
             }
         }
+    }
+
+    class ColorButton : Button
+    {
+        Color color;
+        private ColorDialog colorDialog;
+        ColorButton(Color setColor)
+        {
+            this.Click += ColorButton_Click;
+            colorDialog = new ColorDialog();
+            color = setColor;
+            SetButtonColor(setColor);
+        }
+
+        private void ColorButton_Click(object sender, EventArgs e)
+        {
+            colorDialog.ShowDialog();
+            color = colorDialog.Color;
+            SetButtonColor(colorDialog.Color);
+        }
+        private void SetButtonColor(Color color)
+        {
+            Graphics bitmapGBtnMainColor;
+            Bitmap bitmapBtnMainColor;
+            bitmapBtnMainColor = new Bitmap(this.Width, this.Height);
+            bitmapGBtnMainColor = Graphics.FromImage(bitmapBtnMainColor);
+            bitmapGBtnMainColor.Clear(color);
+            this.Image = bitmapBtnMainColor;
+        }
+
     }
 }
