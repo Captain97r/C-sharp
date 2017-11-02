@@ -290,12 +290,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hScrollBarOffset.LargeChange = 1;
             this.hScrollBarOffset.Location = new System.Drawing.Point(118, 541);
-            this.hScrollBarOffset.Maximum = 150;
-            this.hScrollBarOffset.Minimum = 150;
+            this.hScrollBarOffset.Maximum = 0;
             this.hScrollBarOffset.Name = "hScrollBarOffset";
             this.hScrollBarOffset.Size = new System.Drawing.Size(941, 30);
             this.hScrollBarOffset.TabIndex = 0;
-            this.hScrollBarOffset.Value = 150;
             this.hScrollBarOffset.ValueChanged += new System.EventHandler(this.hScrollBarOffset_ValueChanged);
             // 
             // MainDrawForm
