@@ -113,9 +113,9 @@ namespace Redactor_Vector_Graph.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RectImage1 {
+        internal static System.Drawing.Bitmap RoundedRect {
             get {
-                object obj = ResourceManager.GetObject("RectImage1", resourceCulture);
+                object obj = ResourceManager.GetObject("RoundedRect", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

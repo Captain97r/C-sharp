@@ -85,6 +85,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\RoundedRect.png" />
     <None Include="Resources\Icon1.ico" />
     <None Include="Images\handImage.png" />
     <Content Include="Images\PolyLineImage.png" />

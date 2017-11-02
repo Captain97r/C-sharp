@@ -35,9 +35,9 @@
             this.toolStripHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialogMain = new System.Windows.Forms.ColorDialog();
-            this.btnMainColor = new System.Windows.Forms.Button();
-            this.numWidthPen = new System.Windows.Forms.NumericUpDown();
             this.toolPanel = new System.Windows.Forms.Panel();
+            this.btnToolRoundedRect = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.btnResetZoom = new System.Windows.Forms.Button();
             this.lblZoom = new System.Windows.Forms.Label();
             this.numZoom = new System.Windows.Forms.NumericUpDown();
@@ -51,9 +51,7 @@
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
             this.vScrollBarOffset = new System.Windows.Forms.VScrollBar();
             this.hScrollBarOffset = new System.Windows.Forms.HScrollBar();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numWidthPen)).BeginInit();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
             this.paintBox.SuspendLayout();
@@ -86,7 +84,7 @@
             this.toolStripExit.Name = "toolStripExit";
             this.toolStripExit.Size = new System.Drawing.Size(123, 30);
             this.toolStripExit.Text = "Exit";
-            this.toolStripExit.Click += new System.EventHandler(this.toolStripExit_Click);
+            this.toolStripExit.Click += new System.EventHandler(this.ToolStripExit_Click);
             // 
             // toolStripHelp
             // 
@@ -103,43 +101,12 @@
             this.toolStripAbout.Text = "About";
             this.toolStripAbout.Click += new System.EventHandler(this.ToolStripAbout_Click);
             // 
-            // btnMainColor
-            // 
-            this.btnMainColor.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnMainColor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnMainColor.FlatAppearance.BorderSize = 0;
-            this.btnMainColor.Location = new System.Drawing.Point(12, 206);
-            this.btnMainColor.Name = "btnMainColor";
-            this.btnMainColor.Size = new System.Drawing.Size(52, 24);
-            this.btnMainColor.TabIndex = 2;
-            this.btnMainColor.UseVisualStyleBackColor = false;
-            this.btnMainColor.Click += new System.EventHandler(this.btnMainColor_Click);
-            // 
-            // numWidthPen
-            // 
-            this.numWidthPen.Location = new System.Drawing.Point(67, 204);
-            this.numWidthPen.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numWidthPen.Name = "numWidthPen";
-            this.numWidthPen.Size = new System.Drawing.Size(52, 26);
-            this.numWidthPen.TabIndex = 3;
-            this.numWidthPen.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numWidthPen.ValueChanged += new System.EventHandler(this.numeric_width_pen_ValueChanged);
-            // 
             // toolPanel
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.toolPanel.Controls.Add(this.btnToolRoundedRect);
             this.toolPanel.Controls.Add(this.panel1);
-            this.toolPanel.Controls.Add(this.numWidthPen);
-            this.toolPanel.Controls.Add(this.btnMainColor);
             this.toolPanel.Controls.Add(this.btnResetZoom);
             this.toolPanel.Controls.Add(this.lblZoom);
             this.toolPanel.Controls.Add(this.numZoom);
@@ -153,8 +120,29 @@
             this.toolPanel.Location = new System.Drawing.Point(0, 33);
             this.toolPanel.MinimumSize = new System.Drawing.Size(110, 0);
             this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(123, 571);
+            this.toolPanel.Size = new System.Drawing.Size(126, 571);
             this.toolPanel.TabIndex = 0;
+            // 
+            // btnToolRoundedRect
+            // 
+            this.btnToolRoundedRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RoundedRect;
+            this.btnToolRoundedRect.Location = new System.Drawing.Point(7, 123);
+            this.btnToolRoundedRect.Name = "btnToolRoundedRect";
+            this.btnToolRoundedRect.Size = new System.Drawing.Size(54, 54);
+            this.btnToolRoundedRect.TabIndex = 13;
+            this.btnToolRoundedRect.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.panel1.Location = new System.Drawing.Point(6, 297);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(117, 205);
+            this.panel1.TabIndex = 12;
+            this.panel1.Visible = false;
             // 
             // btnResetZoom
             // 
@@ -185,7 +173,7 @@
             0,
             0,
             0});
-            this.numZoom.Location = new System.Drawing.Point(64, 542);
+            this.numZoom.Location = new System.Drawing.Point(67, 542);
             this.numZoom.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -209,7 +197,7 @@
             // btnZoom
             // 
             this.btnZoom.Image = ((System.Drawing.Image)(resources.GetObject("btnZoom.Image")));
-            this.btnZoom.Location = new System.Drawing.Point(7, 123);
+            this.btnZoom.Location = new System.Drawing.Point(7, 183);
             this.btnZoom.Name = "btnZoom";
             this.btnZoom.Size = new System.Drawing.Size(54, 54);
             this.btnZoom.TabIndex = 8;
@@ -218,7 +206,7 @@
             // btnHand
             // 
             this.btnHand.Image = global::Redactor_Vector_Graph.Properties.Resources.handImage;
-            this.btnHand.Location = new System.Drawing.Point(65, 123);
+            this.btnHand.Location = new System.Drawing.Point(67, 183);
             this.btnHand.Name = "btnHand";
             this.btnHand.Size = new System.Drawing.Size(54, 54);
             this.btnHand.TabIndex = 7;
@@ -311,17 +299,6 @@
             this.hScrollBarOffset.Value = 150;
             this.hScrollBarOffset.ValueChanged += new System.EventHandler(this.hScrollBarOffset_ValueChanged);
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panel1.Location = new System.Drawing.Point(3, 303);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(117, 199);
-            this.panel1.TabIndex = 12;
-            this.panel1.Visible = false;
-            // 
             // MainDrawForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -340,7 +317,6 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_Draw_Form_KeyDown);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numWidthPen)).EndInit();
             this.toolPanel.ResumeLayout(false);
             this.toolPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).EndInit();
@@ -359,8 +335,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripHelp;
         private System.Windows.Forms.ToolStripMenuItem toolStripAbout;
         private System.Windows.Forms.ColorDialog colorDialogMain;
-        private System.Windows.Forms.Button btnMainColor;
-        private System.Windows.Forms.NumericUpDown numWidthPen;
         private System.Windows.Forms.Panel toolPanel;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnToolEllipse;
@@ -375,6 +349,7 @@
         private System.Windows.Forms.HScrollBar hScrollBarOffset;
         private System.Windows.Forms.VScrollBar vScrollBarOffset;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnToolRoundedRect;
     }
 }
 

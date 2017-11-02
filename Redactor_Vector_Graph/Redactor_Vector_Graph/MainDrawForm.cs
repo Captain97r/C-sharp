@@ -31,9 +31,9 @@ namespace Redactor_Vector_Graph
             toolTipMain.SetToolTip(btnHand, "Hand");
           
             toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, paintBox);
-            toolLine = new ToolLine(btnToolLine, ref figureArray, penMain, paintBox);
-            toolRect = new ToolRect(btnToolRect, ref figureArray, penMain, paintBox);
-            toolCircle = new ToolEllipse(btnToolEllipse, ref figureArray, penMain, paintBox);
+            toolLine = new ToolLine(btnToolLine, ref figureArray, paintBox);
+            toolRect = new ToolRect(btnToolRect, ref figureArray, paintBox);
+            toolCircle = new ToolEllipse(btnToolEllipse, ref figureArray, paintBox);
             toolZoom = new ToolZoom(btnZoom, ref figureArray, paintBox, numZoom);
             toolHand = new ToolHand(btnHand,paintBox);
             Tool.ActiveTool = toolPolyLine;
@@ -44,43 +44,27 @@ namespace Redactor_Vector_Graph
 
         private void PaintBox_Paint(object sender, PaintEventArgs e)
         {
+            
             foreach (Figure primitiv in figureArray)
             {
                 primitiv.Draw(e.Graphics);
             }
         }
 
-        private void PaintBox_MouseDown(object sender, MouseEventArgs e)
-        {
+        private void PaintBox_MouseDown(object sender, MouseEventArgs e) =>
             Tool.ActiveTool.MouseDown(sender, e);
-        }
 
-        private void PaintBox_MouseUp(object sender, MouseEventArgs e)
-        {
+        private void PaintBox_MouseUp(object sender, MouseEventArgs e) =>
             Tool.ActiveTool.MouseUp(sender, e);
-        }
-
+       
         private void PaintBox_MouseMove(object sender, MouseEventArgs e) =>
             Tool.ActiveTool.MouseMove(sender, e);
  
-        private void toolStripExit_Click(object sender, EventArgs e)
-        {
+        private void ToolStripExit_Click(object sender, EventArgs e) =>
             Application.Exit();
-        }
 
-        private void ToolStripAbout_Click(object sender, EventArgs e)
-        {
+        private void ToolStripAbout_Click(object sender, EventArgs e) =>
             MessageBox.Show("Vector graph \nVersion: Alpha v0.1 \nMade by kenny5660(Liamaev Mikhail)");
-        }
-
-        private void btnMainColor_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void numeric_width_pen_ValueChanged(object sender, EventArgs e)
-        {
-            penMain.Width = (float)numWidthPen.Value;
-        }
 
         private void Main_Draw_Form_KeyDown(object sender, KeyEventArgs e)
         {
@@ -93,7 +77,6 @@ namespace Redactor_Vector_Graph
                 }
             }
         }
-   
 
         private void numZoom_ValueChanged(object sender, EventArgs e)
         {
@@ -103,7 +86,6 @@ namespace Redactor_Vector_Graph
 
         private void btnResetZoom_Click(object sender, EventArgs e)
         {
-            btnToolRect.Visible = false;
             if (Tool.pntwMaxReact.X>0) { 
                 numZoom.Value = (decimal)(Math.Min((paintBox.Width - 200) / (Tool.pntwMaxReact.X - Tool.pntwMinReact.X), (paintBox.Height - 50) / (Tool.pntwMaxReact.Y - Tool.pntwMinReact.Y)) * 100);
             PointW.offset = new Point((int)Math.Round(-Tool.pntwMinReact.X * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Tool.pntwMinReact.Y * (double)(numZoom.Value / 100)) + 10);

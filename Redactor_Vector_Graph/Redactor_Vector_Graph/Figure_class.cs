@@ -36,6 +36,8 @@ namespace Redactor_Vector_Graph
     {
        
         public Pen pen = new Pen(Color.Black);
+        public Color colorFill;
+        public bool isFill = false;
         public abstract void Draw(Graphics graphics);
         public abstract void AddPoint(PointW pointW);
     }
@@ -59,7 +61,7 @@ namespace Redactor_Vector_Graph
             foreach (PointW pointW in points_array)
             {
                 graphics.DrawLine(pen, pointW.ToScrPnt(), lastPointW.ToScrPnt());
-                lastPointW = pointW;
+                 lastPointW = pointW;
             }
            // graphics.DrawLines(pen, points_array.ToArray());
         }
@@ -68,13 +70,21 @@ namespace Redactor_Vector_Graph
 
     public class Rect : Figure
     {
-        PointW startPoint;
+        PointW startPointW;
         PointW lastPointW;
         public Rect(Pen setPen, PointW start)
         {
             pen = (Pen)setPen.Clone();
-            startPoint = start;
+            startPointW = start;
             lastPointW = start;
+        }
+        public Rect(Pen setPen, PointW start,Color setColorFill)
+        {
+            pen = (Pen)setPen.Clone();
+            startPointW = start;
+            lastPointW = start;
+            colorFill = setColorFill;
+            isFill = true;
         }
 
         public override void AddPoint(PointW pointW)
@@ -85,12 +95,15 @@ namespace Redactor_Vector_Graph
         public override void Draw(Graphics graphics)
         {
             int x, y;
-            x = Math.Min(startPoint.ToScrPnt().X, lastPointW.ToScrPnt().X);
-            y = Math.Min(startPoint.ToScrPnt().Y, lastPointW.ToScrPnt().Y);
-            int width = Math.Abs(startPoint.ToScrPnt().X - lastPointW.ToScrPnt().X);
-            int height = Math.Abs(startPoint.ToScrPnt().Y - lastPointW.ToScrPnt().Y);
+            x = Math.Min(startPointW.ToScrPnt().X, lastPointW.ToScrPnt().X);
+            y = Math.Min(startPointW.ToScrPnt().Y, lastPointW.ToScrPnt().Y);
+            int width = Math.Abs(startPointW.ToScrPnt().X - lastPointW.ToScrPnt().X);
+            int height = Math.Abs(startPointW.ToScrPnt().Y - lastPointW.ToScrPnt().Y);
             graphics.DrawRectangle(pen, new Rectangle(x, y, width, height));
-        }
+            if (isFill)
+                   graphics.FillRectangle(new SolidBrush(colorFill), new Rectangle(x + (int)Math.Round(pen.Width / 2,MidpointRounding.AwayFromZero), y + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), width - (int)(pen.Width), height - (int)(pen.Width)));
+            
+            }
 
     }
     public class Line : Figure
@@ -124,6 +137,14 @@ namespace Redactor_Vector_Graph
             startPointW = start;
             lastPointW = start;
         }
+        public Ellipse(Pen setPen, PointW start, Color setColorFill)
+        {
+            pen = (Pen)setPen.Clone();
+            startPointW = start;
+            lastPointW = start;
+            colorFill = setColorFill;
+            isFill = true;
+        }
 
         public override void AddPoint(PointW pointW)
         {
@@ -132,9 +153,10 @@ namespace Redactor_Vector_Graph
         public override void Draw(Graphics graphics)
         {
             graphics.DrawEllipse(pen, new Rectangle(startPointW.ToScrPnt(), new Size(lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X, lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)));
+            if (isFill)
+                graphics.FillEllipse(new SolidBrush(colorFill), new Rectangle(startPointW.ToScrPnt(), new Size(lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X, lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)));
         }
 
     }
-
 
 }
