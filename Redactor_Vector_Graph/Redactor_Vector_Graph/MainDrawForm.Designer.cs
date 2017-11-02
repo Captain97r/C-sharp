@@ -34,7 +34,6 @@
             this.toolStripExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorDialogMain = new System.Windows.Forms.ColorDialog();
             this.toolPanel = new System.Windows.Forms.Panel();
             this.btnToolRoundedRect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -334,7 +333,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripExit;
         private System.Windows.Forms.ToolStripMenuItem toolStripHelp;
         private System.Windows.Forms.ToolStripMenuItem toolStripAbout;
-        private System.Windows.Forms.ColorDialog colorDialogMain;
         private System.Windows.Forms.Panel toolPanel;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnToolEllipse;

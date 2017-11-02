@@ -80,10 +80,10 @@ namespace Redactor_Vector_Graph
             if (e.Button == MouseButtons.Left)
             {
                 flagLeftMouseClick = true;
-                if(checkBoxFill.Checked)
-                   figureArray.Add(new Rect(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y), colorButtonFill.color));
+                if (checkBoxFill.Checked)
+                    figureArray.Add(new Rect(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y), colorButtonFill.color));
                 else
-                   figureArray.Add(new Rect(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y)));
+                    figureArray.Add(new Rect(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y)));
                 SetResetReact(e.X, e.Y);
             }
         }
@@ -101,45 +101,153 @@ namespace Redactor_Vector_Graph
             panelProp.Text = "Rect";
             colorButton = new ColorButton(Color.Black);
             colorButton.Location = new Point(58, 15);
-            colorButton.Size = new Size(52, 24);
+            colorButton.Size = new Size(48, 24);
             colorButton.TabIndex = 2;
             panelProp.Controls.Add(colorButton);
             labelColorButton = new Label();
             labelColorButton.Location = new Point(5, 20);
-            labelColorButton.Size = new Size(52, 24);
+
             labelColorButton.Text = "Color:";
             panelProp.Controls.Add(labelColorButton);
 
             numWidthPen = new NumWidthPen();
-            numWidthPen.Location = new Point(58, 45);
-            numWidthPen.Size = new Size(52, 26);
+            numWidthPen.Location = new Point(65, 45);
+            numWidthPen.Size = new Size(48, 26);
             panelProp.Controls.Add(numWidthPen);
             labelNumWidthPen = new Label();
             labelNumWidthPen.Location = new Point(5, 50);
-            labelNumWidthPen.Size = new Size(52, 24);
             labelNumWidthPen.Text = "Width:";
             panelProp.Controls.Add(labelNumWidthPen);
 
             checkBoxFill = new CheckBox();
-            checkBoxFill.Location = new Point(58, 70);
-            checkBoxFill.Size = new Size(52, 26);
+            checkBoxFill.Location = new Point(65, 70);
+            checkBoxFill.Size = new Size(48, 26);
             checkBoxFill.Text = "";
             panelProp.Controls.Add(checkBoxFill);
             labelCheckBoxFill = new Label();
             labelCheckBoxFill.Location = new Point(5, 75);
-            labelCheckBoxFill.Size = new Size(52, 24);
             labelCheckBoxFill.Text = "Fill:";
             panelProp.Controls.Add(labelCheckBoxFill);
 
             colorButtonFill = new ColorButton(Color.Red);
-            colorButtonFill.Location = new Point(58, 100);
-            colorButtonFill.Size = new Size(52, 24);
+            colorButtonFill.Location = new Point(65, 100);
+            colorButtonFill.Size = new Size(48, 24);
             panelProp.Controls.Add(colorButtonFill);
             labelColorButtonFill = new Label();
             labelColorButtonFill.Location = new Point(5, 100);
-            labelColorButtonFill.Size = new Size(52, 24);
-            labelColorButtonFill.Text = "Color Fill:";
+            labelColorButtonFill.Text = "Clr Fill:";
             panelProp.Controls.Add(labelColorButtonFill);
+        }
+        public override void HidePanelProp()
+        {
+            panelProp.Visible = false;
+        }
+        public override void ShowPanelProp()
+        {
+            panelProp.Visible = true;
+        }
+    }
+    class ToolRoundedRect : Tool
+    {
+        CheckBox checkBoxFill;
+        Label labelCheckBoxFill;
+        ColorButton colorButtonFill;
+        Label labelColorButtonFill;
+        NumericUpDown numRadius;
+        Label labelNumRadius;
+
+
+        public ToolRoundedRect(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
+        {
+            paintBox = paintBox_set;
+            figureArray = figureArrayFrom;
+            toolButton = button;
+            toolButton.Click += new EventHandler(ToolButtonClick);
+            CreatePanelProp();
+        }
+        public override void MouseMove(object sender, MouseEventArgs e)
+        {
+            if (flagLeftMouseClick)
+            {
+                figureArray.Last().AddPoint(new PointW(e.X, e.Y));
+                paintBox.Invalidate();
+            }
+        }
+        public override void MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                flagLeftMouseClick = true;
+                if (checkBoxFill.Checked)
+                    figureArray.Add(new RoundedRect(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y), (int)numRadius.Value, colorButtonFill.color));
+                else
+                    figureArray.Add(new RoundedRect(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y), (int)numRadius.Value));
+                SetResetReact(e.X, e.Y);
+                paintBox.Invalidate();
+            }
+        }
+        public override void MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                flagLeftMouseClick = false;
+                SetResetReact(e.X, e.Y);
+            }
+        }
+        private void CreatePanelProp()
+        {
+            panelProp = new PanelProp();
+            panelProp.Text = "Rounded Rect";
+            colorButton = new ColorButton(Color.Black);
+            colorButton.Location = new Point(65, 15);
+            colorButton.Size = new Size(48, 24);
+            colorButton.TabIndex = 2;
+            panelProp.Controls.Add(colorButton);
+            labelColorButton = new Label();
+            labelColorButton.Location = new Point(5, 20);
+            labelColorButton.Text = "Color:";
+            panelProp.Controls.Add(labelColorButton);
+
+            numWidthPen = new NumWidthPen();
+            numWidthPen.Location = new Point(65, 45);
+            numWidthPen.Size = new Size(48, 26);
+            panelProp.Controls.Add(numWidthPen);
+            labelNumWidthPen = new Label();
+            labelNumWidthPen.Location = new Point(5, 50);
+            labelNumWidthPen.Text = "Width:";
+            panelProp.Controls.Add(labelNumWidthPen);
+
+            checkBoxFill = new CheckBox();
+            checkBoxFill.Location = new Point(65, 70);
+            checkBoxFill.Size = new Size(48, 26);
+            checkBoxFill.Text = "";
+            panelProp.Controls.Add(checkBoxFill);
+            labelCheckBoxFill = new Label();
+            labelCheckBoxFill.Location = new Point(5, 75);
+            labelCheckBoxFill.Text = "Fill:";
+            panelProp.Controls.Add(labelCheckBoxFill);
+
+            colorButtonFill = new ColorButton(Color.Red);
+            colorButtonFill.Location = new Point(65, 100);
+            colorButtonFill.Size = new Size(48, 24);
+            panelProp.Controls.Add(colorButtonFill);
+            labelColorButtonFill = new Label();
+            labelColorButtonFill.Location = new Point(5, 100);
+
+            labelColorButtonFill.Text = "Clr Fill:";
+            panelProp.Controls.Add(labelColorButtonFill);
+
+            numRadius = new NumericUpDown();
+            numRadius.Location = new Point(65, 130);
+            numRadius.Size = new Size(48, 26);
+            numRadius.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numRadius.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            panelProp.Controls.Add(numRadius);
+            labelNumRadius = new Label();
+            labelNumRadius.Location = new Point(5, 130);
+
+            labelNumRadius.Text = "Radius:";
+            panelProp.Controls.Add(labelNumRadius);
         }
         public override void HidePanelProp()
         {
@@ -193,23 +301,23 @@ namespace Redactor_Vector_Graph
             panelProp = new PanelProp();
             panelProp.Text = "Poly line";
             colorButton = new ColorButton(Color.Black);
-            colorButton.Location = new Point(58, 15);
-            colorButton.Size = new Size(52, 24);
+            colorButton.Location = new Point(65, 15);
+            colorButton.Size = new Size(48, 24);
             colorButton.TabIndex = 2;
             panelProp.Controls.Add(colorButton);
             labelColorButton = new Label();
             labelColorButton.Location = new Point(5, 20);
-            labelColorButton.Size = new Size(52, 24);
+
             labelColorButton.Text = "Color:";
             panelProp.Controls.Add(labelColorButton);
 
             numWidthPen = new NumWidthPen();
-            numWidthPen.Location = new Point(58, 45);
-            numWidthPen.Size = new Size(52, 26);
+            numWidthPen.Location = new Point(65, 45);
+            numWidthPen.Size = new Size(48, 26);
             panelProp.Controls.Add(numWidthPen);
             labelNumWidthPen = new Label();
             labelNumWidthPen.Location = new Point(5, 50);
-            labelNumWidthPen.Size = new Size(52, 24);
+
             labelNumWidthPen.Text = "Width:";
             panelProp.Controls.Add(labelNumWidthPen);
 
@@ -227,7 +335,7 @@ namespace Redactor_Vector_Graph
 
     class ToolLine : Tool
     {
-        
+
         public ToolLine(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
         {
             paintBox = paintBox_set;
@@ -267,23 +375,23 @@ namespace Redactor_Vector_Graph
             panelProp = new PanelProp();
             panelProp.Text = "Line";
             colorButton = new ColorButton(Color.Black);
-            colorButton.Location = new Point(58, 15);
-            colorButton.Size = new Size(52, 24);
+            colorButton.Location = new Point(65, 15);
+            colorButton.Size = new Size(48, 24);
             colorButton.TabIndex = 2;
             panelProp.Controls.Add(colorButton);
             labelColorButton = new Label();
             labelColorButton.Location = new Point(5, 20);
-            labelColorButton.Size = new Size(52, 24);
+
             labelColorButton.Text = "Color:";
             panelProp.Controls.Add(labelColorButton);
 
             numWidthPen = new NumWidthPen();
-            numWidthPen.Location = new Point(58, 45);
-            numWidthPen.Size = new Size(52, 26);
+            numWidthPen.Location = new Point(65, 45);
+            numWidthPen.Size = new Size(48, 26);
             panelProp.Controls.Add(numWidthPen);
             labelNumWidthPen = new Label();
             labelNumWidthPen.Location = new Point(5, 50);
-            labelNumWidthPen.Size = new Size(52, 24);
+
             labelNumWidthPen.Text = "Width:";
             panelProp.Controls.Add(labelNumWidthPen);
 
@@ -326,7 +434,7 @@ namespace Redactor_Vector_Graph
             {
                 flagLeftMouseClick = true;
                 if (checkBoxFill.Checked)
-                    figureArray.Add(new Ellipse(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y),colorButtonFill.color));
+                    figureArray.Add(new Ellipse(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y), colorButtonFill.color));
                 else
                     figureArray.Add(new Ellipse(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y)));
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
@@ -346,45 +454,41 @@ namespace Redactor_Vector_Graph
             panelProp = new PanelProp();
             panelProp.Text = "Ellipse";
             colorButton = new ColorButton(Color.Black);
-            colorButton.Location = new Point(58, 15);
-            colorButton.Size = new Size(52, 24);
+            colorButton.Location = new Point(65, 15);
+            colorButton.Size = new Size(48, 24);
             colorButton.TabIndex = 2;
             panelProp.Controls.Add(colorButton);
             labelColorButton = new Label();
             labelColorButton.Location = new Point(5, 20);
-            labelColorButton.Size = new Size(52, 24);
             labelColorButton.Text = "Color:";
             panelProp.Controls.Add(labelColorButton);
 
             numWidthPen = new NumWidthPen();
-            numWidthPen.Location = new Point(58, 45);
-            numWidthPen.Size = new Size(52, 26);
+            numWidthPen.Location = new Point(65, 45);
+            numWidthPen.Size = new Size(48, 26);
             panelProp.Controls.Add(numWidthPen);
             labelNumWidthPen = new Label();
             labelNumWidthPen.Location = new Point(5, 50);
-            labelNumWidthPen.Size = new Size(52, 24);
             labelNumWidthPen.Text = "Width:";
             panelProp.Controls.Add(labelNumWidthPen);
 
             checkBoxFill = new CheckBox();
-            checkBoxFill.Location = new Point(58, 70);
-            checkBoxFill.Size = new Size(52, 26);
+            checkBoxFill.Location = new Point(65, 70);
+            checkBoxFill.Size = new Size(48, 26);
             checkBoxFill.Text = "";
             panelProp.Controls.Add(checkBoxFill);
             labelCheckBoxFill = new Label();
             labelCheckBoxFill.Location = new Point(5, 75);
-            labelCheckBoxFill.Size = new Size(52, 24);
             labelCheckBoxFill.Text = "Fill:";
             panelProp.Controls.Add(labelCheckBoxFill);
 
             colorButtonFill = new ColorButton(Color.Red);
-            colorButtonFill.Location = new Point(58, 100);
-            colorButtonFill.Size = new Size(52, 24);
+            colorButtonFill.Location = new Point(65, 100);
+            colorButtonFill.Size = new Size(48, 24);
             panelProp.Controls.Add(colorButtonFill);
             labelColorButtonFill = new Label();
             labelColorButtonFill.Location = new Point(5, 100);
-            labelColorButtonFill.Size = new Size(52, 24);
-            labelColorButtonFill.Text = "Color Fill:";
+            labelColorButtonFill.Text = "Clr Fill:";
             panelProp.Controls.Add(labelColorButtonFill);
         }
         public override void HidePanelProp()
@@ -497,10 +601,10 @@ namespace Redactor_Vector_Graph
 
     public class NumWidthPen : NumericUpDown
     {
-       public float penWidth;
+        public float penWidth;
         public NumWidthPen()
         {
-            Minimum = new decimal(new int[] {1,0,0,0});
+            Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             Maximum = new decimal(new int[] { 100, 0, 0, 0 });
             Value = new decimal(new int[] { 1, 0, 0, 0 });
             ValueChanged += new EventHandler(NumWidthPen_ValueChanged);
@@ -513,11 +617,11 @@ namespace Redactor_Vector_Graph
 
 
     }
-        public   class ColorButton : Button
+    public class ColorButton : Button
     {
-      public  Color color;
+        public Color color;
         private ColorDialog colorDialog = new ColorDialog();
-        public  ColorButton(Color setColor)
+        public ColorButton(Color setColor)
         {
             this.Click += new EventHandler(ColorButton_Click);
             color = setColor;
@@ -541,17 +645,17 @@ namespace Redactor_Vector_Graph
         }
 
     }
- public   class PanelProp : GroupBox
+    public class PanelProp : GroupBox
     {
-       public static Panel toolPanel;
-       public PanelProp()
+        public static Panel toolPanel;
+        public PanelProp()
         {
-           
+
             BackColor = SystemColors.ControlDark;
-            Location = new Point(3, 355);
-            Size = new Size(117, 147);
+            Location = new Point(3, 322);
+            Size = new Size(120, 180);
             TabIndex = 12;
-            Anchor = AnchorStyles.Bottom |AnchorStyles.Right;
+            Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             toolPanel.Controls.Add(this);
 
             Visible = false;

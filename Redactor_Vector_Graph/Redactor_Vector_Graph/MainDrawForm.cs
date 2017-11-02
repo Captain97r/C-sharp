@@ -16,6 +16,7 @@ namespace Redactor_Vector_Graph
         ToolEllipse toolCircle;
         ToolHand toolHand;
         ToolZoom toolZoom;
+        ToolRoundedRect toolRoundedRect;
 
         public MainDrawForm()
         {
@@ -33,9 +34,11 @@ namespace Redactor_Vector_Graph
             toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, paintBox);
             toolLine = new ToolLine(btnToolLine, ref figureArray, paintBox);
             toolRect = new ToolRect(btnToolRect, ref figureArray, paintBox);
+            toolRoundedRect = new ToolRoundedRect(btnToolRoundedRect, ref figureArray, paintBox);
             toolCircle = new ToolEllipse(btnToolEllipse, ref figureArray, paintBox);
             toolZoom = new ToolZoom(btnZoom, ref figureArray, paintBox, numZoom);
             toolHand = new ToolHand(btnHand,paintBox);
+
             Tool.ActiveTool = toolPolyLine;
             toolPolyLine.ToolButtonClick(null,null);
             paintBox.Paint += PaintBox_Paint;
