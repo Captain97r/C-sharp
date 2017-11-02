@@ -30,7 +30,8 @@ namespace Redactor_Vector_Graph
             toolTipMain.SetToolTip(btnToolEllipse, "Ellipse");
             toolTipMain.SetToolTip(btnZoom, "Zoom");
             toolTipMain.SetToolTip(btnHand, "Hand");
-          
+            toolTipMain.SetToolTip(btnToolRoundedRect, "Rounded Rect");
+
             toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, paintBox);
             toolLine = new ToolLine(btnToolLine, ref figureArray, paintBox);
             toolRect = new ToolRect(btnToolRect, ref figureArray, paintBox);
@@ -98,13 +99,14 @@ namespace Redactor_Vector_Graph
 
         private void vScrollBarOffset_ValueChanged(object sender, EventArgs e)
         {
-            PointW.offset.Y = -vScrollBarOffset.Value;
+            PointW.offset.Y = -(int)Math.Round(vScrollBarOffset.Value*PointW.zoom);
             paintBox.Invalidate();
         }
 
         private void hScrollBarOffset_ValueChanged(object sender, EventArgs e)
         {
-            PointW.offset.X = -hScrollBarOffset.Value;
+            //     PointW.offset.X = -(int)(hScrollBarOffset.Value*PointW.zoom*1000);
+            PointW.offset.X = -(int)Math.Round(hScrollBarOffset.Value * PointW.zoom);
             paintBox.Invalidate();
         }
     }
