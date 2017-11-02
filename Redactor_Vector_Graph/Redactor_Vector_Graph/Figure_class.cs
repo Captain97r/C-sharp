@@ -144,10 +144,19 @@ namespace Redactor_Vector_Graph
 
             Rectangle bounds = new Rectangle(x, y, width, height);
             int diameter = radius * 2;
+            if(diameter*2 > bounds.Width & bounds.Width <= bounds.Height)
+            {
+                diameter = bounds.Width+1;
+            }
+            if (diameter * 2 > bounds.Height & bounds.Width >= bounds.Height)
+            {
+                diameter = bounds.Height + 1;
+            }
             Size size = new Size(diameter, diameter);
             Rectangle arc = new Rectangle(bounds.Location, size);
             GraphicsPath path = new GraphicsPath();
-            if (radius == 0)
+          
+                if (radius == 0)
             {
                 graphics.DrawRectangle(pen, new Rectangle(x, y, width, height));
                    if (isFill)
