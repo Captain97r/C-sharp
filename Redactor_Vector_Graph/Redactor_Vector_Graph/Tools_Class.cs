@@ -19,11 +19,17 @@ namespace Redactor_Vector_Graph
         public Cursor cursor = Cursors.Default;
         protected bool flagLeftMouseClick = false;
         protected bool flagRightMouseClick = false;
+        protected PropColor propColor;
+        protected PropWidth propWidth;
+        protected PropFill PropFill;
+
         protected ColorButton colorButton;
         protected Label labelColorButton;
         protected NumWidthPen numWidthPen;
         protected Label labelNumWidthPen;
+
         protected PanelProp panelProp;
+        public List<Prop> propArray = new List<Prop>();
         public void ToolButtonClick(object sender, EventArgs e)
         {
             ActiveTool.HidePanelProp();
@@ -51,7 +57,7 @@ namespace Redactor_Vector_Graph
             }
             if ((int)Math.Round(pntwMaxReact.X * PointW.zoom)-(int)Math.Round(pntwMinReact.X * PointW.zoom)>paintBox.Width-100) {
                 hScrollBar.Minimum = (int)Math.Round(pntwMinReact.X * PointW.zoom) - 150;
-                hScrollBar.Maximum = (int)Math.Round(pntwMaxReact.X * PointW.zoom) - paintBox.Width+50;
+                hScrollBar.Maximum = (int)Math.Round(pntwMaxReact.X * PointW.zoom) - (int)((paintBox.Width+50)* PointW.zoom);
             }
         }
     }
@@ -60,6 +66,7 @@ namespace Redactor_Vector_Graph
     {
         CheckBox checkBoxFill;
         Label labelCheckBoxFill;
+        
         ColorButton colorButtonFill;
         Label labelColorButtonFill;
 
@@ -85,10 +92,10 @@ namespace Redactor_Vector_Graph
             if (e.Button == MouseButtons.Left)
             {
                 flagLeftMouseClick = true;
-                if (checkBoxFill.Checked)
-                    figureArray.Add(new Rect(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y), colorButtonFill.color));
+                if (PropFill.GetCheked())
+                    figureArray.Add(new Rect(new Pen(propColor.GetColor(), propWidth.GetWidth()), new PointW(e.X, e.Y), PropFill.GetColor()));
                 else
-                    figureArray.Add(new Rect(new Pen(colorButton.color, numWidthPen.penWidth), new PointW(e.X, e.Y)));
+                    figureArray.Add(new Rect(new Pen(propColor.GetColor(), propWidth.GetWidth()), new PointW(e.X, e.Y)));
                 SetResetReact(e.X, e.Y);
             }
         }
@@ -104,25 +111,9 @@ namespace Redactor_Vector_Graph
         {
             panelProp = new PanelProp();
             panelProp.Text = "Rect";
-            colorButton = new ColorButton(Color.Black);
-            colorButton.Location = new Point(58, 15);
-            colorButton.Size = new Size(48, 24);
-            colorButton.TabIndex = 2;
-            panelProp.Controls.Add(colorButton);
-            labelColorButton = new Label();
-            labelColorButton.Location = new Point(5, 20);
-
-            labelColorButton.Text = "Color:";
-            panelProp.Controls.Add(labelColorButton);
-
-            numWidthPen = new NumWidthPen();
-            numWidthPen.Location = new Point(65, 45);
-            numWidthPen.Size = new Size(48, 26);
-            panelProp.Controls.Add(numWidthPen);
-            labelNumWidthPen = new Label();
-            labelNumWidthPen.Location = new Point(5, 50);
-            labelNumWidthPen.Text = "Width:";
-            panelProp.Controls.Add(labelNumWidthPen);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
+            propWidth = new PropWidth(new Point(5, 45), "Width:", panelProp);
+            PropFill = new PropFill(new Point(5, 45), "Fill:", panelProp);
 
             checkBoxFill = new CheckBox();
             checkBoxFill.Location = new Point(65, 70);
@@ -552,7 +543,9 @@ namespace Redactor_Vector_Graph
                     pointWStart = new PointW(e.X, e.Y);
                     pointWEnd = new PointW(e.X + 1, e.Y + 1);
                     numZoom.Value += stepZoom.Value;
-                    PointW.offset = new Point((int)Math.Round(-Math.Min(pointWEnd.X, pointWStart.X) * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Math.Min(pointWEnd.Y, pointWStart.Y) * (double)(numZoom.Value / 100)) + 10);
+                    PointW.offset = new Point(
+                        (int)Math.Round((PointW.offset.X - e.X) * PointW.zoom / (PointW.zoom - (double)(stepZoom.Value / 100))) + e.X,
+                        (int)Math.Round((PointW.offset.Y - e.Y) * PointW.zoom / (PointW.zoom - (double)(stepZoom.Value / 100))) + e.Y);
                 }
                 paintBox.Invalidate();
             }
@@ -561,6 +554,9 @@ namespace Redactor_Vector_Graph
                 if (numZoom.Value > stepZoom.Value)
                 {
                     numZoom.Value -= (int)stepZoom.Value;
+                    PointW.offset = new Point(
+                        (int)Math.Round((PointW.offset.X - e.X) * PointW.zoom / (PointW.zoom + (double)(stepZoom.Value / 100))) + e.X,
+                        (int)Math.Round((PointW.offset.Y - e.Y) * PointW.zoom / (PointW.zoom + (double)(stepZoom.Value / 100))) + e.Y);
                 }
                 paintBox.Invalidate();
             }
@@ -691,6 +687,7 @@ namespace Redactor_Vector_Graph
         {
             this.Click += new EventHandler(ColorButton_Click);
             color = setColor;
+            Size = new Size(48, 24);
             SetButtonColor(setColor);
         }
 
@@ -727,5 +724,78 @@ namespace Redactor_Vector_Graph
             Visible = false;
         }
 
+    }
+    class Prop
+    {
+      protected  Control control;
+      protected Label label;
+
+    }
+    class PropColor : Prop
+    {
+      public  PropColor(Point position, String text ,PanelProp panelProp)
+        {         
+            control = new ColorButton(Color.Black); 
+            control.Location = new Point(position.X+60, position.Y);
+            panelProp.Controls.Add(control);
+            label = new Label
+            {
+                Location = position,
+                Text = text
+            };
+            panelProp.Controls.Add(label);
+        }
+        public Color GetColor()
+        {
+            ColorButton colorButton = (ColorButton)control;
+            return colorButton.color;
+        }
+    }
+    class PropWidth : Prop
+    {
+        public PropWidth(Point position, String text, PanelProp panelProp)
+        {
+            control = new CheckBox();
+            control.Location = new Point(position.X + 60, position.Y);
+            panelProp.Controls.Add(control);
+            label = new Label
+            {
+                Location = position,
+                Text = text
+            };
+            panelProp.Controls.Add(label);
+        }
+        public int GetWidth()
+        {
+            NumWidthPen numWidthPen = (NumWidthPen)control;
+            return numWidthPen.Width;
+        }
+    }
+    class PropFill : Prop
+    {
+        PropColor propColor;
+        public PropFill(Point position, String text, PanelProp panelProp)
+        {
+
+            control = new CheckBox();
+            control.Location = new Point(position.X + 60, position.Y);
+            panelProp.Controls.Add(control);
+            label = new Label
+            {
+                Location = position,
+                Text = text
+            };
+            panelProp.Controls.Add(label);
+            propColor = new PropColor(new Point(position.X, position.Y+25), "Clr fill:", panelProp);
+        }
+        public bool GetCheked()
+        {
+            CheckBox checkBox = (CheckBox)control;
+            return checkBox.Checked;
+        }
+        public Color GetColor()
+        {
+            return propColor.GetColor();
+        }
     }
 }
