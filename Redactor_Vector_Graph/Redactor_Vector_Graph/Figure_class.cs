@@ -73,19 +73,16 @@ namespace Redactor_Vector_Graph
     {
         PointW startPointW;
         PointW lastPointW;
-        public Rect(Pen setPen, PointW start)
+        public Rect(Pen setPen, PointW start,Color? setColorFill = null)
         {
             pen = (Pen)setPen.Clone();
             startPointW = start;
             lastPointW = start;
-        }
-        public Rect(Pen setPen, PointW start,Color setColorFill)
-        {
-            pen = (Pen)setPen.Clone();
-            startPointW = start;
-            lastPointW = start;
-            colorFill = setColorFill;
-            isFill = true;
+            if (setColorFill.HasValue)
+            {
+                colorFill = (Color)setColorFill;
+                isFill = true;
+            }
         }
 
         public override void AddPoint(PointW pointW)
@@ -112,21 +109,17 @@ namespace Redactor_Vector_Graph
         PointW startPointW;
         PointW lastPointW;
         int radius;
-        public RoundedRect(Pen setPen, PointW start, int setRadius)
+        public RoundedRect(Pen setPen, PointW start, int setRadius, Color? setColorFill = null)
         {
             pen = (Pen)setPen.Clone();
             startPointW = start;
             lastPointW = start;
             radius = setRadius;
-        }
-        public RoundedRect(Pen setPen, PointW start, int setRadius, Color setColorFill)
-        {
-            pen = (Pen)setPen.Clone();
-            startPointW = start;
-            lastPointW = start;
-            radius = setRadius;
-            colorFill = setColorFill;
-            isFill = true;
+            if (setColorFill.HasValue)
+            {
+                colorFill = (Color)setColorFill;
+                isFill = true;
+            }
         }
 
         public override void AddPoint(PointW pointW)
@@ -206,37 +199,32 @@ namespace Redactor_Vector_Graph
         }
 
     }
-
     public class Ellipse : Figure
     {
         PointW startPointW;
         PointW lastPointW;
-        public Ellipse(Pen setPen, PointW start)
+        public Ellipse(Pen setPen, PointW start, Color? setColorFill = null)
         {
             pen = (Pen)setPen.Clone();
             startPointW = start;
             lastPointW = start;
+            if (setColorFill.HasValue)
+            {
+                colorFill = (Color)setColorFill;
+                isFill = true;
+            }
         }
-        public Ellipse(Pen setPen, PointW start, Color setColorFill)
-        {
-            pen = (Pen)setPen.Clone();
-            startPointW = start;
-            lastPointW = start;
-            colorFill = setColorFill;
-            isFill = true;
-        }
-
         public override void AddPoint(PointW pointW)
         {
             lastPointW = pointW;
         }
         public override void Draw(Graphics graphics)
         {
-            graphics.DrawEllipse(pen, new Rectangle(startPointW.ToScrPnt(), new Size(lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X, lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)));
+            graphics.DrawEllipse(pen, new Rectangle(startPointW.ToScrPnt(), 
+            new Size(lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X, lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)));
             if (isFill)
-                graphics.FillEllipse(new SolidBrush(colorFill), new Rectangle(startPointW.ToScrPnt(), new Size(lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X, lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)));
+                graphics.FillEllipse(new SolidBrush(colorFill), new Rectangle(startPointW.ToScrPnt(), 
+                new Size(lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X, lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)));
         }
-
     }
-
 }
