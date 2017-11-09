@@ -166,7 +166,6 @@ namespace Redactor_Vector_Graph
 
             // top left arc  
             path.AddArc(arc, 180, 90);
-
             // top right arc  
             arc.X = bounds.Right - diameter;
             path.AddArc(arc, 270, 90);
