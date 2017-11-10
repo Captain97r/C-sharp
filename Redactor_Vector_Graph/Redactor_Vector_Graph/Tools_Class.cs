@@ -164,7 +164,6 @@ namespace Redactor_Vector_Graph
             panelProp.Visible = true;
         }
     }
-
     class ToolPolyLine : Tool
     {
         public ToolPolyLine(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
@@ -215,7 +214,6 @@ namespace Redactor_Vector_Graph
         }
 
     }
-
     class ToolLine : Tool
     {
 
@@ -265,7 +263,6 @@ namespace Redactor_Vector_Graph
             panelProp.Visible = true;
         }
     }
-
     class ToolEllipse : Tool
     {
         PropFill propFill;
@@ -319,7 +316,6 @@ namespace Redactor_Vector_Graph
             panelProp.Visible = true;
         }
     }
-
     class ToolZoom : Tool
     {
         CheckBox checkBoxRegion;
@@ -418,6 +414,7 @@ namespace Redactor_Vector_Graph
             stepZoom.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             stepZoom.Maximum = new decimal(new int[] { 100, 0, 0, 0 });
             stepZoom.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            stepZoom.Increment = 10;
             panelProp.Controls.Add(stepZoom);
             labelStepZoom = new Label();
             labelStepZoom.Location = new Point(5, 20);
@@ -483,8 +480,6 @@ namespace Redactor_Vector_Graph
             }
         }
     }
-
-
     public class NumWidthPen : NumericUpDown
     {
         public float penWidth;
@@ -500,8 +495,6 @@ namespace Redactor_Vector_Graph
         {
             penWidth = (float)Value;
         }
-
-
     }
     public class ColorButton : Button
     {
@@ -514,7 +507,6 @@ namespace Redactor_Vector_Graph
             Size = new Size(48, 24);
             SetButtonColor(setColor);
         }
-
         private void ColorButton_Click(object sender, EventArgs e)
         {
             colorDialog.ShowDialog();
@@ -530,7 +522,6 @@ namespace Redactor_Vector_Graph
             bitmapGBtnMainColor.Clear(color);
             this.Image = bitmapBtnMainColor;
         }
-
     }
     public class PanelProp : GroupBox
     {
@@ -598,7 +589,7 @@ namespace Redactor_Vector_Graph
     }
     class PropFill : Prop
     {
-        PropColor propColor;
+        PropColor propColor ;
         public PropFill(Point position, String text, PanelProp panelProp)
         {
 
@@ -617,9 +608,9 @@ namespace Redactor_Vector_Graph
         }
         public bool GetCheked()
         {
-            CheckBox checkBox = (CheckBox)control;
-            return checkBox.Checked;
+            return ((CheckBox)control).Checked;
         }
+        public Color color => propColor.GetColor();
         public Color GetColor()
         {
             return propColor.GetColor();
