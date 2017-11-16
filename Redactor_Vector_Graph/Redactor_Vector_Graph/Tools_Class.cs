@@ -8,8 +8,8 @@ namespace Redactor_Vector_Graph
 {
     class Tool
     {
-        public static VScrollBar vScrollBar;
-        public static HScrollBar hScrollBar;
+        //public static VScrollBar vScrollBar;
+        //public static HScrollBar hScrollBar;
         public static PointW pntwMinReact = new PointW(Double.MaxValue, Double.MaxValue);
         public static PointW pntwMaxReact = new PointW(0.0, 0.0);
         public static Tool ActiveTool { get; set; }
@@ -44,13 +44,15 @@ namespace Redactor_Vector_Graph
             pntwMaxReact.Y = Math.Max(pointW.Y, pntwMaxReact.Y);
             if ((int)Math.Round(pntwMaxReact.Y * PointW.zoom) - (int)Math.Round(pntwMinReact.Y * PointW.zoom) > paintBox.Height - 100)
             {
-                vScrollBar.Minimum = (int)Math.Round(pntwMinReact.Y * PointW.zoom) - 25;
-                vScrollBar.Maximum = (int)Math.Round(pntwMaxReact.Y * PointW.zoom) - paintBox.Height + 50;
+            //    vScrollBar.Minimum = (int)Math.Round(pntwMinReact.Y * PointW.zoom) - 25;
+            //    vScrollBar.Value = (int)Math.Round(pntwMinReact.Y * PointW.zoom)-25;
+            //    vScrollBar.Maximum = (int)Math.Round(pntwMaxReact.Y * PointW.zoom) - paintBox.Height + 50;
             }
             if ((int)Math.Round(pntwMaxReact.X * PointW.zoom) - (int)Math.Round(pntwMinReact.X * PointW.zoom) > paintBox.Width - 100)
             {
-                hScrollBar.Minimum = (int)Math.Round(pntwMinReact.X * PointW.zoom) - 150;
-                hScrollBar.Maximum = (int)Math.Round(pntwMaxReact.X * PointW.zoom) - (int)((paintBox.Width + 50) * PointW.zoom);
+            //    hScrollBar.Minimum = (int)Math.Round(pntwMinReact.X * PointW.zoom) - 150;
+            //   hScrollBar.Value = (int)Math.Round(pntwMinReact.X * PointW.zoom) -150;
+            //    hScrollBar.Maximum = (int)Math.Round(pntwMaxReact.X * PointW.zoom) - (int)((paintBox.Width + 50) * PointW.zoom);
             }
         }
     }

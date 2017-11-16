@@ -48,12 +48,9 @@
             this.btnToolPolyLine = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
-            this.vScrollBarOffset = new System.Windows.Forms.VScrollBar();
-            this.hScrollBarOffset = new System.Windows.Forms.HScrollBar();
             this.menuStrip.SuspendLayout();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
-            this.paintBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -260,8 +257,6 @@
             // 
             this.paintBox.AutoSize = true;
             this.paintBox.BackColor = System.Drawing.SystemColors.Window;
-            this.paintBox.Controls.Add(this.vScrollBarOffset);
-            this.paintBox.Controls.Add(this.hScrollBarOffset);
             this.paintBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.paintBox.Location = new System.Drawing.Point(0, 33);
             this.paintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
@@ -272,29 +267,6 @@
             this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
             this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
-            // 
-            // vScrollBarOffset
-            // 
-            this.vScrollBarOffset.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBarOffset.LargeChange = 1;
-            this.vScrollBarOffset.Location = new System.Drawing.Point(1059, 0);
-            this.vScrollBarOffset.Maximum = 0;
-            this.vScrollBarOffset.Name = "vScrollBarOffset";
-            this.vScrollBarOffset.Size = new System.Drawing.Size(26, 571);
-            this.vScrollBarOffset.TabIndex = 1;
-            this.vScrollBarOffset.ValueChanged += new System.EventHandler(this.vScrollBarOffset_ValueChanged);
-            // 
-            // hScrollBarOffset
-            // 
-            this.hScrollBarOffset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.hScrollBarOffset.LargeChange = 1;
-            this.hScrollBarOffset.Location = new System.Drawing.Point(118, 541);
-            this.hScrollBarOffset.Maximum = 0;
-            this.hScrollBarOffset.Name = "hScrollBarOffset";
-            this.hScrollBarOffset.Size = new System.Drawing.Size(941, 30);
-            this.hScrollBarOffset.TabIndex = 0;
-            this.hScrollBarOffset.ValueChanged += new System.EventHandler(this.hScrollBarOffset_ValueChanged);
             // 
             // MainDrawForm
             // 
@@ -317,7 +289,6 @@
             this.toolPanel.ResumeLayout(false);
             this.toolPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).EndInit();
-            this.paintBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -342,8 +313,6 @@
         private System.Windows.Forms.NumericUpDown numZoom;
         private System.Windows.Forms.Label lblZoom;
         private System.Windows.Forms.Button btnResetZoom;
-        private System.Windows.Forms.HScrollBar hScrollBarOffset;
-        private System.Windows.Forms.VScrollBar vScrollBarOffset;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnToolRoundedRect;
     }
