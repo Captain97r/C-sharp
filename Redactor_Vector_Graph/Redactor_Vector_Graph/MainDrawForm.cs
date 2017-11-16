@@ -22,8 +22,8 @@ namespace Redactor_Vector_Graph
         {
             InitializeComponent();
             PanelProp.toolPanel = toolPanel;
-            Tool.vScrollBar = vScrollBarOffset;
-            Tool.hScrollBar = hScrollBarOffset;
+         //   Tool.vScrollBar = vScrollBarOffset;
+         //   Tool.hScrollBar = hScrollBarOffset;
             toolTipMain.SetToolTip(btnToolPolyLine,"Pencil");
             toolTipMain.SetToolTip(btnToolLine, "Line");
             toolTipMain.SetToolTip(btnToolRect, "Rectangle");
@@ -94,19 +94,6 @@ namespace Redactor_Vector_Graph
                 numZoom.Value = (decimal)(Math.Min((paintBox.Width - 200) / (Tool.pntwMaxReact.X - Tool.pntwMinReact.X), (paintBox.Height - 50) / (Tool.pntwMaxReact.Y - Tool.pntwMinReact.Y)) * 100);
             PointW.offset = new Point((int)Math.Round(-Tool.pntwMinReact.X * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Tool.pntwMinReact.Y * (double)(numZoom.Value / 100)) + 10);
                     }
-            paintBox.Invalidate();
-        }
-
-        private void vScrollBarOffset_ValueChanged(object sender, EventArgs e)
-        {
-            PointW.offset.Y = -(int)Math.Round(vScrollBarOffset.Value*PointW.zoom);
-            paintBox.Invalidate();
-        }
-
-        private void hScrollBarOffset_ValueChanged(object sender, EventArgs e)
-        {
-            //     PointW.offset.X = -(int)(hScrollBarOffset.Value*PointW.zoom*1000);
-            PointW.offset.X = -(int)Math.Round(hScrollBarOffset.Value * PointW.zoom);
             paintBox.Invalidate();
         }
     }
