@@ -305,12 +305,12 @@ namespace Redactor_Vector_Graph
     }
     class ToolZoom : Tool
     {
-        CheckBox checkBoxRegion;
-        Label labelCheckBoxRegion;
         NumericUpDown stepZoom;
         Label labelStepZoom;
         PointW pointWStart;
         PointW pointWEnd;
+        Point pointStart;
+        Point pointEnd;
         NumericUpDown numZoom;
         public ToolZoom(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set, NumericUpDown numZoomSet)
         {
@@ -325,11 +325,10 @@ namespace Redactor_Vector_Graph
         {
             if (flagLeftMouseClick)
             {
-                if (checkBoxRegion.Checked)
-                {
                     pointWEnd = new PointW(e.X, e.Y);
-                    figureArray.Last().AddPoint(pointWEnd);
-                }
+                pointEnd = new Point(e.X, e.Y);
+                figureArray.Last().AddPoint(pointWEnd);
+
                 paintBox.Invalidate();
             }
         }
@@ -337,58 +336,58 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (checkBoxRegion.Checked)
-                {
                     flagLeftMouseClick = true;
+                    pointStart = new Point(e.X, e.Y);
+                    pointEnd = new Point(e.X + 1, e.Y + 1);
                     pointWStart = new PointW(e.X, e.Y);
                     pointWEnd = new PointW(e.X + 1, e.Y + 1);
                     figureArray.Add(new Rect(new Pen(Color.Black), pointWStart));
                     figureArray.Last().AddPoint(pointWStart);
-                }
-                else
-                {
-                    pointWStart = new PointW(e.X, e.Y);
-                    pointWEnd = new PointW(e.X + 1, e.Y + 1);
-                    numZoom.Value += stepZoom.Value;
-                    PointW.offset = new Point(
-                        (int)Math.Round((PointW.offset.X - e.X) * PointW.zoom / (PointW.zoom - (double)(stepZoom.Value / 100))) + e.X,
-                        (int)Math.Round((PointW.offset.Y - e.Y) * PointW.zoom / (PointW.zoom - (double)(stepZoom.Value / 100))) + e.Y);
-                }
-                paintBox.Invalidate();
+                    paintBox.Invalidate();
             }
-            if (e.Button == MouseButtons.Right)
-            {
-                if (numZoom.Value > stepZoom.Value)
-                {
-                    numZoom.Value -= (int)stepZoom.Value;
-                    PointW.offset = new Point(
-                        (int)Math.Round((PointW.offset.X - e.X) * PointW.zoom / (PointW.zoom + (double)(stepZoom.Value / 100))) + e.X,
-                        (int)Math.Round((PointW.offset.Y - e.Y) * PointW.zoom / (PointW.zoom + (double)(stepZoom.Value / 100))) + e.Y);
-                }
-                paintBox.Invalidate();
-            }
+            
         }
         public override void MouseUp(object sender, MouseEventArgs e)
         {
+            int stepZoomValue = (int)stepZoom.Value;
             if (e.Button == MouseButtons.Left)
             {
-                if (checkBoxRegion.Checked)
+                if ((pointEnd.X -pointStart.X + pointEnd.Y - pointStart.Y)>10)
                 {
                     decimal zoom = (decimal)(Math.Min((paintBox.Width - 200) / Math.Abs(pointWEnd.X - pointWStart.X), (paintBox.Height - 50) / Math.Abs(pointWEnd.Y - pointWStart.Y)) * 100);
                     if (Math.Min(zoom, numZoom.Maximum) > numZoom.Minimum)
-                    {
                         numZoom.Value = Math.Min(zoom, numZoom.Maximum);
-                    }
                     else
-                    {
                         numZoom.Value = numZoom.Minimum;
-                    }
-
                     PointW.offset = new Point((int)Math.Round(-Math.Min(pointWEnd.X, pointWStart.X) * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Math.Min(pointWEnd.Y, pointWStart.Y) * (double)(numZoom.Value / 100)) + 10);
-                    figureArray.RemoveAt(figureArray.Count - 1);
-                    flagLeftMouseClick = false;
-                    paintBox.Invalidate();
                 }
+                else
+                {
+                    if ((numZoom.Value + stepZoom.Value) >= 1000)
+                        stepZoomValue = 1000-(int)numZoom.Value;
+                    else
+                        stepZoomValue = (int)stepZoom.Value;
+                    numZoom.Value += stepZoomValue;
+                        PointW.offset = new Point(
+                            (int)Math.Round((PointW.offset.X - e.X) * PointW.zoom / (PointW.zoom - (stepZoomValue / 100.0))) + e.X,
+                            (int)Math.Round((PointW.offset.Y - e.Y) * PointW.zoom / (PointW.zoom - (stepZoomValue / 100.0))) + e.Y);
+                }
+                figureArray.RemoveAt(figureArray.Count - 1);
+                flagLeftMouseClick = false;
+                paintBox.Invalidate();
+            }
+            if (e.Button == MouseButtons.Right && (pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10)
+            {
+                if (numZoom.Value <= stepZoom.Value)
+                    stepZoomValue = (int)numZoom.Value - 1;
+                else
+                    stepZoomValue = (int)stepZoom.Value;
+                numZoom.Value -= stepZoomValue;
+                PointW.offset = new Point(
+                      (int)Math.Round((PointW.offset.X - e.X) * PointW.zoom / (PointW.zoom + (stepZoomValue / 100.0))) + e.X,
+                      (int)Math.Round((PointW.offset.Y - e.Y) * PointW.zoom / (PointW.zoom + (stepZoomValue / 100.0))) + e.Y);
+                
+                paintBox.Invalidate();
             }
         }
         private void CreatePanelProp()
@@ -407,17 +406,6 @@ namespace Redactor_Vector_Graph
             labelStepZoom.Location = new Point(5, 20);
             labelStepZoom.Text = "Step:";
             panelProp.Controls.Add(labelStepZoom);
-
-            checkBoxRegion = new CheckBox();
-            checkBoxRegion.Location = new Point(65, 45);
-            checkBoxRegion.Size = new Size(48, 24);
-            panelProp.Controls.Add(checkBoxRegion);
-            labelCheckBoxRegion = new Label();
-            labelCheckBoxRegion.Location = new Point(5, 50);
-            labelCheckBoxRegion.Text = "Region:";
-            panelProp.Controls.Add(labelCheckBoxRegion);
-
-
         }
         public override void HidePanelProp()
         {
