@@ -428,7 +428,7 @@ namespace Redactor_Vector_Graph
             panelProp.Visible = true;
         }
     }
-    class ToolHand : Tool
+ class ToolHand : Tool
     {
         Point pntLastMause = new Point(0, 0);
         public ToolHand(Button button, Panel paintBox_set)
@@ -467,6 +467,63 @@ namespace Redactor_Vector_Graph
             }
         }
     }
+    class ToolSelection : Tool
+    {
+        PointW pointWStart;
+        PointW pointWEnd;
+        public ToolSelection(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
+        {
+            paintBox = paintBox_set;
+            figureArray = figureArrayFrom;
+            toolButton = button;
+            toolButton.Click += new EventHandler(ToolButtonClick);
+            panelProp = new PanelProp();
+            panelProp.Text = "Selection";
+        }
+        public override void MouseMove(object sender, MouseEventArgs e)
+        {
+            if (flagLeftMouseClick)
+            {
+
+                    pointWEnd = new PointW(e.X, e.Y);
+                    figureArray.Last().AddPoint(pointWEnd);
+                paintBox.Invalidate();
+            }
+        }
+        public override void MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Pen pen = new Pen(Color.Gray);
+                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
+                pen.DashOffset = 15;
+                pen.Width = 2;
+                    flagLeftMouseClick = true;
+                    pointWStart = new PointW(e.X, e.Y);
+                    pointWEnd = new PointW(e.X + 1, e.Y + 1);
+                    figureArray.Add(new Rect(pen, pointWStart));
+              
+                paintBox.Invalidate();
+            }
+        }
+        public override void MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+              figureArray.RemoveAt(figureArray.Count - 1);
+              flagLeftMouseClick = false;
+              paintBox.Invalidate();
+            }
+        }
+        public override void HidePanelProp()
+        {
+            panelProp.Visible = false;
+        }
+        public override void ShowPanelProp()
+        {
+            panelProp.Visible = true;
+        }
+    }
     public class NumWidthPen : NumericUpDown
     {
         public float penWidth;
@@ -483,7 +540,7 @@ namespace Redactor_Vector_Graph
             penWidth = (float)Value;
         }
     }
-    public class ColorButton : Button
+ public class ColorButton : Button
     {
         public Color color;
         private ColorDialog colorDialog = new ColorDialog();
@@ -510,24 +567,21 @@ namespace Redactor_Vector_Graph
             this.Image = bitmapBtnMainColor;
         }
     }
-    public class PanelProp : GroupBox
+ public class PanelProp : GroupBox
     {
         public static Panel toolPanel;
         public PanelProp()
         {
-
             BackColor = SystemColors.ControlDark;
             Location = new Point(3, 322);
             Size = new Size(120, 180);
             TabIndex = 12;
             Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             toolPanel.Controls.Add(this);
-
             Visible = false;
         }
-
     }
-    class Prop
+class Prop
     {
         protected Control control;
         protected Label label;
