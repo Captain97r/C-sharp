@@ -35,19 +35,20 @@
             this.toolStripHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolPanel = new System.Windows.Forms.Panel();
-            this.btnToolRoundedRect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnResetZoom = new System.Windows.Forms.Button();
             this.lblZoom = new System.Windows.Forms.Label();
             this.numZoom = new System.Windows.Forms.NumericUpDown();
-            this.btnZoom = new System.Windows.Forms.Button();
-            this.btnHand = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.paintBox = new Redactor_Vector_Graph.PaintBox();
+            this.btnToolSelection = new System.Windows.Forms.Button();
+            this.btnToolRoundedRect = new System.Windows.Forms.Button();
+            this.btnToolZoom = new System.Windows.Forms.Button();
+            this.btnToolHand = new System.Windows.Forms.Button();
             this.btnToolEllipse = new System.Windows.Forms.Button();
             this.btnToolRect = new System.Windows.Forms.Button();
             this.btnToolLine = new System.Windows.Forms.Button();
             this.btnToolPolyLine = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.paintBox = new Redactor_Vector_Graph.PaintBox();
             this.menuStrip.SuspendLayout();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
@@ -101,13 +102,14 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.toolPanel.Controls.Add(this.btnToolSelection);
             this.toolPanel.Controls.Add(this.btnToolRoundedRect);
             this.toolPanel.Controls.Add(this.panel1);
             this.toolPanel.Controls.Add(this.btnResetZoom);
             this.toolPanel.Controls.Add(this.lblZoom);
             this.toolPanel.Controls.Add(this.numZoom);
-            this.toolPanel.Controls.Add(this.btnZoom);
-            this.toolPanel.Controls.Add(this.btnHand);
+            this.toolPanel.Controls.Add(this.btnToolZoom);
+            this.toolPanel.Controls.Add(this.btnToolHand);
             this.toolPanel.Controls.Add(this.btnToolEllipse);
             this.toolPanel.Controls.Add(this.btnToolRect);
             this.toolPanel.Controls.Add(this.btnToolLine);
@@ -118,15 +120,6 @@
             this.toolPanel.Name = "toolPanel";
             this.toolPanel.Size = new System.Drawing.Size(126, 571);
             this.toolPanel.TabIndex = 0;
-            // 
-            // btnToolRoundedRect
-            // 
-            this.btnToolRoundedRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RoundedRect;
-            this.btnToolRoundedRect.Location = new System.Drawing.Point(7, 123);
-            this.btnToolRoundedRect.Name = "btnToolRoundedRect";
-            this.btnToolRoundedRect.Size = new System.Drawing.Size(54, 54);
-            this.btnToolRoundedRect.TabIndex = 13;
-            this.btnToolRoundedRect.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -190,60 +183,6 @@
             0});
             this.numZoom.ValueChanged += new System.EventHandler(this.numZoom_ValueChanged);
             // 
-            // btnZoom
-            // 
-            this.btnZoom.Image = ((System.Drawing.Image)(resources.GetObject("btnZoom.Image")));
-            this.btnZoom.Location = new System.Drawing.Point(7, 183);
-            this.btnZoom.Name = "btnZoom";
-            this.btnZoom.Size = new System.Drawing.Size(54, 54);
-            this.btnZoom.TabIndex = 8;
-            this.btnZoom.UseVisualStyleBackColor = true;
-            // 
-            // btnHand
-            // 
-            this.btnHand.Image = global::Redactor_Vector_Graph.Properties.Resources.handImage;
-            this.btnHand.Location = new System.Drawing.Point(67, 183);
-            this.btnHand.Name = "btnHand";
-            this.btnHand.Size = new System.Drawing.Size(54, 54);
-            this.btnHand.TabIndex = 7;
-            this.btnHand.UseVisualStyleBackColor = true;
-            // 
-            // btnToolEllipse
-            // 
-            this.btnToolEllipse.Image = global::Redactor_Vector_Graph.Properties.Resources.CircleImage;
-            this.btnToolEllipse.Location = new System.Drawing.Point(7, 63);
-            this.btnToolEllipse.Name = "btnToolEllipse";
-            this.btnToolEllipse.Size = new System.Drawing.Size(54, 54);
-            this.btnToolEllipse.TabIndex = 6;
-            this.btnToolEllipse.UseVisualStyleBackColor = true;
-            // 
-            // btnToolRect
-            // 
-            this.btnToolRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RectImage;
-            this.btnToolRect.Location = new System.Drawing.Point(65, 63);
-            this.btnToolRect.Name = "btnToolRect";
-            this.btnToolRect.Size = new System.Drawing.Size(54, 54);
-            this.btnToolRect.TabIndex = 5;
-            this.btnToolRect.UseVisualStyleBackColor = true;
-            // 
-            // btnToolLine
-            // 
-            this.btnToolLine.Image = global::Redactor_Vector_Graph.Properties.Resources.LineImage;
-            this.btnToolLine.Location = new System.Drawing.Point(65, 3);
-            this.btnToolLine.Name = "btnToolLine";
-            this.btnToolLine.Size = new System.Drawing.Size(54, 54);
-            this.btnToolLine.TabIndex = 4;
-            this.btnToolLine.UseVisualStyleBackColor = true;
-            // 
-            // btnToolPolyLine
-            // 
-            this.btnToolPolyLine.Image = global::Redactor_Vector_Graph.Properties.Resources.PolyLineImage;
-            this.btnToolPolyLine.Location = new System.Drawing.Point(7, 3);
-            this.btnToolPolyLine.Name = "btnToolPolyLine";
-            this.btnToolPolyLine.Size = new System.Drawing.Size(54, 54);
-            this.btnToolPolyLine.TabIndex = 0;
-            this.btnToolPolyLine.UseVisualStyleBackColor = true;
-            // 
             // panel2
             // 
             this.panel2.AutoSize = true;
@@ -267,6 +206,78 @@
             this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
             this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
+            // 
+            // btnToolSelection
+            // 
+            this.btnToolSelection.Image = global::Redactor_Vector_Graph.Properties.Resources.dashRect;
+            this.btnToolSelection.Location = new System.Drawing.Point(67, 123);
+            this.btnToolSelection.Name = "btnToolSelection";
+            this.btnToolSelection.Size = new System.Drawing.Size(54, 54);
+            this.btnToolSelection.TabIndex = 14;
+            this.btnToolSelection.UseVisualStyleBackColor = true;
+            // 
+            // btnToolRoundedRect
+            // 
+            this.btnToolRoundedRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RoundedRect;
+            this.btnToolRoundedRect.Location = new System.Drawing.Point(7, 123);
+            this.btnToolRoundedRect.Name = "btnToolRoundedRect";
+            this.btnToolRoundedRect.Size = new System.Drawing.Size(54, 54);
+            this.btnToolRoundedRect.TabIndex = 13;
+            this.btnToolRoundedRect.UseVisualStyleBackColor = true;
+            // 
+            // btnToolZoom
+            // 
+            this.btnToolZoom.Image = ((System.Drawing.Image)(resources.GetObject("btnToolZoom.Image")));
+            this.btnToolZoom.Location = new System.Drawing.Point(7, 183);
+            this.btnToolZoom.Name = "btnToolZoom";
+            this.btnToolZoom.Size = new System.Drawing.Size(54, 54);
+            this.btnToolZoom.TabIndex = 8;
+            this.btnToolZoom.UseVisualStyleBackColor = true;
+            // 
+            // btnToolHand
+            // 
+            this.btnToolHand.Image = global::Redactor_Vector_Graph.Properties.Resources.handImage;
+            this.btnToolHand.Location = new System.Drawing.Point(67, 183);
+            this.btnToolHand.Name = "btnToolHand";
+            this.btnToolHand.Size = new System.Drawing.Size(54, 54);
+            this.btnToolHand.TabIndex = 7;
+            this.btnToolHand.UseVisualStyleBackColor = true;
+            // 
+            // btnToolEllipse
+            // 
+            this.btnToolEllipse.Image = global::Redactor_Vector_Graph.Properties.Resources.CircleImage;
+            this.btnToolEllipse.Location = new System.Drawing.Point(7, 63);
+            this.btnToolEllipse.Name = "btnToolEllipse";
+            this.btnToolEllipse.Size = new System.Drawing.Size(54, 54);
+            this.btnToolEllipse.TabIndex = 6;
+            this.btnToolEllipse.UseVisualStyleBackColor = true;
+            // 
+            // btnToolRect
+            // 
+            this.btnToolRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RectImage;
+            this.btnToolRect.Location = new System.Drawing.Point(67, 63);
+            this.btnToolRect.Name = "btnToolRect";
+            this.btnToolRect.Size = new System.Drawing.Size(54, 54);
+            this.btnToolRect.TabIndex = 5;
+            this.btnToolRect.UseVisualStyleBackColor = true;
+            // 
+            // btnToolLine
+            // 
+            this.btnToolLine.Image = global::Redactor_Vector_Graph.Properties.Resources.LineImage;
+            this.btnToolLine.Location = new System.Drawing.Point(67, 3);
+            this.btnToolLine.Name = "btnToolLine";
+            this.btnToolLine.Size = new System.Drawing.Size(54, 54);
+            this.btnToolLine.TabIndex = 4;
+            this.btnToolLine.UseVisualStyleBackColor = true;
+            // 
+            // btnToolPolyLine
+            // 
+            this.btnToolPolyLine.Image = global::Redactor_Vector_Graph.Properties.Resources.PolyLineImage;
+            this.btnToolPolyLine.Location = new System.Drawing.Point(7, 3);
+            this.btnToolPolyLine.Name = "btnToolPolyLine";
+            this.btnToolPolyLine.Size = new System.Drawing.Size(54, 54);
+            this.btnToolPolyLine.TabIndex = 0;
+            this.btnToolPolyLine.UseVisualStyleBackColor = true;
             // 
             // MainDrawForm
             // 
@@ -308,13 +319,14 @@
         private System.Windows.Forms.Button btnToolRect;
         private System.Windows.Forms.Button btnToolLine;
         private System.Windows.Forms.Button btnToolPolyLine;
-        private System.Windows.Forms.Button btnZoom;
-        private System.Windows.Forms.Button btnHand;
+        private System.Windows.Forms.Button btnToolZoom;
+        private System.Windows.Forms.Button btnToolHand;
         private System.Windows.Forms.NumericUpDown numZoom;
         private System.Windows.Forms.Label lblZoom;
         private System.Windows.Forms.Button btnResetZoom;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnToolRoundedRect;
+        private System.Windows.Forms.Button btnToolSelection;
     }
 }
 
