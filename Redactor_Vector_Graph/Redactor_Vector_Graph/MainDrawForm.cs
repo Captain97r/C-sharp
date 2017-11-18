@@ -22,8 +22,6 @@ namespace Redactor_Vector_Graph
         {
             InitializeComponent();
             PanelProp.toolPanel = toolPanel;
-         //   Tool.vScrollBar = vScrollBarOffset;
-         //   Tool.hScrollBar = hScrollBarOffset;
             toolTipMain.SetToolTip(btnToolPolyLine,"Pencil");
             toolTipMain.SetToolTip(btnToolLine, "Line");
             toolTipMain.SetToolTip(btnToolRect, "Rectangle");
