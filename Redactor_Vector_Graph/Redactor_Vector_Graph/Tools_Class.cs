@@ -29,7 +29,6 @@ namespace Redactor_Vector_Graph
         }
         public virtual void HidePanelProp() { }
         public virtual void ShowPanelProp() { }
-        public virtual void MouseDown() { }
         public virtual void MouseMove(object sender, MouseEventArgs e) { }
         public virtual void MouseDown(object sender, MouseEventArgs e) { }
         public virtual void MouseUp(object sender, MouseEventArgs e) { }
