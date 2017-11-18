@@ -26,8 +26,8 @@ namespace Redactor_Vector_Graph
             toolTipMain.SetToolTip(btnToolLine, "Line");
             toolTipMain.SetToolTip(btnToolRect, "Rectangle");
             toolTipMain.SetToolTip(btnToolEllipse, "Ellipse");
-            toolTipMain.SetToolTip(btnZoom, "Zoom");
-            toolTipMain.SetToolTip(btnHand, "Hand");
+            toolTipMain.SetToolTip(btnToolZoom, "Zoom");
+            toolTipMain.SetToolTip(btnToolHand, "Hand");
             toolTipMain.SetToolTip(btnToolRoundedRect, "Rounded Rect");
 
             toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, paintBox);
@@ -35,8 +35,8 @@ namespace Redactor_Vector_Graph
             toolRect = new ToolRect(btnToolRect, ref figureArray, paintBox);
             toolRoundedRect = new ToolRoundedRect(btnToolRoundedRect, ref figureArray, paintBox);
             toolCircle = new ToolEllipse(btnToolEllipse, ref figureArray, paintBox);
-            toolZoom = new ToolZoom(btnZoom, ref figureArray, paintBox, numZoom);
-            toolHand = new ToolHand(btnHand,paintBox);
+            toolZoom = new ToolZoom(btnToolZoom, ref figureArray, paintBox, numZoom);
+            toolHand = new ToolHand(btnToolHand,paintBox);
 
             Tool.ActiveTool = toolPolyLine;
             toolPolyLine.ToolButtonClick(null,null);
