@@ -28,7 +28,11 @@ namespace Redactor_Vector_Graph
 	      X = (point.X - offset.X)/zoom;
 		  Y = (point.Y - offset.Y)/zoom;
 	   }
-	   public Point ToScrPnt(){
+        public static PointW ScrnToPointW(Point point)
+        {
+            return new PointW((point.X - offset.X) / zoom, (point.Y - offset.Y) / zoom);
+        }
+        public Point ToScrPnt(){
 		   return new Point((int)Math.Round(X*zoom)+offset.X,(int)Math.Round(Y*zoom) + offset.Y);
 	   }
     }
@@ -39,8 +43,10 @@ namespace Redactor_Vector_Graph
         public Pen pen = new Pen(Color.Black);
         public Color colorFill;
         public bool isFill = false;
+        public bool isSelected = false;
         public abstract void Draw(Graphics graphics);
         public abstract void AddPoint(PointW pointW);
+        public virtual bool SelectPoint(PointW pntwClick) { return false;}
     }
 
     public class PolyLine : Figure
@@ -72,31 +78,38 @@ namespace Redactor_Vector_Graph
     public class Rect : Figure
     {
         PointW startPointW;
-        PointW lastPointW;
+        PointW endPointW;
         public Rect(Pen setPen, PointW start,Color? setColorFill = null)
         {
             pen = (Pen)setPen.Clone();
             startPointW = start;
-            lastPointW = start;
+            endPointW = start;
             if (setColorFill.HasValue)
             {
                 colorFill = (Color)setColorFill;
                 isFill = true;
             }
         }
-
+        public override bool SelectPoint(PointW pntwClick)
+        {
+            if (1<0)
+            {
+                isSelected = true;
+                return true;
+            }
+            return false;
+        }
         public override void AddPoint(PointW pointW)
         {
-            lastPointW = pointW;
-
+            endPointW = pointW;
         }
         public override void Draw(Graphics graphics)
         {
             int x, y;
-            x = Math.Min(startPointW.ToScrPnt().X, lastPointW.ToScrPnt().X);
-            y = Math.Min(startPointW.ToScrPnt().Y, lastPointW.ToScrPnt().Y);
-            int width = Math.Abs(startPointW.ToScrPnt().X - lastPointW.ToScrPnt().X);
-            int height = Math.Abs(startPointW.ToScrPnt().Y - lastPointW.ToScrPnt().Y);
+            x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
+            y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
+            int width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
+            int height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y);
             graphics.DrawRectangle(pen, new Rectangle(x, y, width, height));
             if (isFill)
                    graphics.FillRectangle(new SolidBrush(colorFill), new Rectangle(x + (int)Math.Round(pen.Width / 2,MidpointRounding.AwayFromZero), y + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), width - (int)(pen.Width), height - (int)(pen.Width)));

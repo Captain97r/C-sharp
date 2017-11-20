@@ -325,10 +325,9 @@ namespace Redactor_Vector_Graph
         {
             if (flagLeftMouseClick)
             {
-                    pointWEnd = new PointW(e.X, e.Y);
+                pointWEnd = new PointW(e.X, e.Y);
                 pointEnd = new Point(e.X, e.Y);
                 figureArray.Last().AddPoint(pointWEnd);
-
                 paintBox.Invalidate();
             }
         }
@@ -345,7 +344,6 @@ namespace Redactor_Vector_Graph
                     figureArray.Last().AddPoint(pointWStart);
                     paintBox.Invalidate();
             }
-            
         }
         public override void MouseUp(object sender, MouseEventArgs e)
         {
@@ -354,12 +352,14 @@ namespace Redactor_Vector_Graph
             {
                 if ((pointEnd.X -pointStart.X + pointEnd.Y - pointStart.Y)>10)
                 {
-                    decimal zoom = (decimal)(Math.Min((paintBox.Width - 200) / Math.Abs(pointWEnd.X - pointWStart.X), (paintBox.Height - 50) / Math.Abs(pointWEnd.Y - pointWStart.Y)) * 100);
+                    decimal zoom = (decimal)(Math.Min((paintBox.Width - 200) / Math.Abs(pointWEnd.X - pointWStart.X), 
+                                            (paintBox.Height - 50) / Math.Abs(pointWEnd.Y - pointWStart.Y)) * 100);
                     if (Math.Min(zoom, numZoom.Maximum) > numZoom.Minimum)
                         numZoom.Value = Math.Min(zoom, numZoom.Maximum);
                     else
                         numZoom.Value = numZoom.Minimum;
-                    PointW.offset = new Point((int)Math.Round(-Math.Min(pointWEnd.X, pointWStart.X) * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Math.Min(pointWEnd.Y, pointWStart.Y) * (double)(numZoom.Value / 100)) + 10);
+                    PointW.offset = new Point((int)Math.Round(-Math.Min(pointWEnd.X, pointWStart.X) * (double)(numZoom.Value / 100) + 150),
+                                              (int)Math.Round(-Math.Min(pointWEnd.Y, pointWStart.Y) * (double)(numZoom.Value / 100)) + 10);
                 }
                 else
                 {
@@ -459,6 +459,8 @@ namespace Redactor_Vector_Graph
     {
         PointW pointWStart;
         PointW pointWEnd;
+        Point pointStart;
+        Point pointEnd;
         public ToolSelection(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
         {
             paintBox = paintBox_set;
@@ -473,8 +475,9 @@ namespace Redactor_Vector_Graph
             if (flagLeftMouseClick)
             {
 
-                    pointWEnd = new PointW(e.X, e.Y);
-                    figureArray.Last().AddPoint(pointWEnd);
+                pointEnd = new Point(e.X, e.Y);
+                pointWEnd = new PointW(e.X, e.Y);
+                figureArray.Last().AddPoint(pointWEnd);
                 paintBox.Invalidate();
             }
         }
@@ -482,15 +485,16 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
+                pointStart = new Point(e.X, e.Y);
+                pointEnd = new Point(e.X + 1, e.Y + 1);
                 Pen pen = new Pen(Color.Gray);
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
                 pen.DashOffset = 15;
                 pen.Width = 2;
-                    flagLeftMouseClick = true;
-                    pointWStart = new PointW(e.X, e.Y);
-                    pointWEnd = new PointW(e.X + 1, e.Y + 1);
-                    figureArray.Add(new Rect(pen, pointWStart));
-              
+                flagLeftMouseClick = true;
+                pointWStart = new PointW(e.X, e.Y);
+                pointWEnd = new PointW(e.X + 1, e.Y + 1);
+                figureArray.Add(new Rect(pen, pointWStart));          
                 paintBox.Invalidate();
             }
         }
@@ -498,6 +502,16 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
+                if ((pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10)
+                {
+                    foreach (Figure primitiv in figureArray)
+                    {
+                        if (primitiv.SelectPoint(PointW.ScrnToPointW(e.Location)))
+                            break; 
+                    }
+                    
+                    MessageBox.Show("point");
+                }
               figureArray.RemoveAt(figureArray.Count - 1);
               flagLeftMouseClick = false;
               paintBox.Invalidate();
