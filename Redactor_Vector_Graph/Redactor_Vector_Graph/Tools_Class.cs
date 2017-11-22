@@ -507,13 +507,11 @@ namespace Redactor_Vector_Graph
                 {
                     int i = figureArray.Count - 1;
                     for (; i >= 0; --i )
-                    {
                         if (figureArray[i].SelectPoint(e.Location))
                         {
                             i--;
                             break;
                         }
-                    }
                     for (; i >= 0; --i)
                         figureArray[i].isSelected = false;
                 }

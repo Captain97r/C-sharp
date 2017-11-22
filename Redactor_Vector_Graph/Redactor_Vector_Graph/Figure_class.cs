@@ -96,8 +96,6 @@ namespace Redactor_Vector_Graph
         PointW startPointW;
         PointW endPointW;
         Rectangle rectColider;
-        Rectangle rectangle;
-        Rectangle fillRectangle;
         int x, y, width, height;
         public Rect(Pen setPen, PointW start, Color? setColorFill = null)
         {
@@ -113,7 +111,6 @@ namespace Redactor_Vector_Graph
         }
         public override bool SelectPoint(Point pntClick)
         {
-
             if (rectColider.Contains(pntClick))
             {
                 isSelected = true;
@@ -125,21 +122,19 @@ namespace Redactor_Vector_Graph
         public override void AddPoint(PointW pointW)
         {
             endPointW = pointW;
+        }
+        public override void Draw(Graphics graphics)
+        {
             x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
             y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
             width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
             height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y);
-            rectColider = new Rectangle(x - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), y - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
-                              width + (int)(pen.Width), height + (int)(pen.Width));
-            fillRectangle = new Rectangle(x + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
-                                          y + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), width - (int)(pen.Width), height - (int)(pen.Width));
-            rectangle = new Rectangle(x, y, width, height);
-        }
-        public override void Draw(Graphics graphics)
-        {
-            graphics.DrawRectangle(pen, rectangle);
+            graphics.DrawRectangle(pen, new Rectangle(x, y, width, height));
             if (isFill)
-                graphics.FillRectangle(new SolidBrush(colorFill), fillRectangle);
+                graphics.FillRectangle(new SolidBrush(colorFill), new Rectangle(x + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
+                                          y + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), width - (int)(pen.Width), height - (int)(pen.Width)));
+            rectColider = new Rectangle(x - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), y - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
+                             width + (int)(pen.Width), height + (int)(pen.Width));
         }
         public override void DrawColider(Graphics graphics)
         {
