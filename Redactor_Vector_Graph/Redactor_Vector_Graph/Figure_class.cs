@@ -11,7 +11,6 @@ namespace Redactor_Vector_Graph
         public static Point offset = new Point(0, 0);
         public double X;
         public double Y;
-
         public PointW(double setX, double setY)
         {
             X = setX;
@@ -40,6 +39,9 @@ namespace Redactor_Vector_Graph
         {
             return new Point((int)Math.Round(X * zoom) + offset.X, (int)Math.Round(Y * zoom) + offset.Y);
         }
+        public PointW Clone(){
+            return new PointW(X, Y);
+        }
     }
 
     public abstract class Figure
@@ -55,7 +57,7 @@ namespace Redactor_Vector_Graph
         public virtual void DrawColider(Graphics graphics) { }
         protected void DrawColiderRect(Graphics g, Rectangle rect)
         {
-            const int offset = 5;
+            const int offset = 10;
             rect.X -= offset;
             rect.Y -= offset;
             rect.Width += offset*2;
@@ -69,16 +71,38 @@ namespace Redactor_Vector_Graph
 
     public class PolyLine : Figure
     {
+        PointW pntWmin;
+        PointW pntWmax;
         public List<PointW> points_array = new List<PointW>(10);
         public PolyLine(Pen setPen, PointW start)
         {
             pen = (Pen)setPen.Clone();
             points_array.Add(start);
+            pntWmin = start.Clone();
+            pntWmax = new PointW(0.0,0.0);
+        }
+        public override bool SelectPoint(Point pntClick)
+        {
+            const int dist = 20;
+            foreach (PointW pointW in points_array)
+            {
+                if ((Math.Pow(pointW.ToScrPnt().X- pntClick.X,2.0)+ Math.Pow(pointW.ToScrPnt().Y - pntClick.Y, 2.0)) <= dist*dist)
+                {
+                    isSelected = true;
+                    return true;
+                }
+            }
+            isSelected = false;
+            return false;
         }
 
         public override void AddPoint(PointW pointW)
         {
             points_array.Add(pointW);
+            pntWmin.X = Math.Min(pntWmin.X,pointW.X);
+            pntWmin.Y = Math.Min(pntWmin.Y, pointW.Y);
+            pntWmax.X = Math.Max(pntWmax.X, pointW.X);
+            pntWmax.Y = Math.Max(pntWmax.Y, pointW.Y);
         }
         public override void Draw(Graphics graphics)
         {
@@ -88,14 +112,22 @@ namespace Redactor_Vector_Graph
                 graphics.DrawLine(pen, pointW.ToScrPnt(), lastPointW.ToScrPnt());
                 lastPointW = pointW;
             }
-            // graphics.DrawLines(pen, points_array.ToArray());
         }
+        public override void DrawColider(Graphics graphics)
+        {
+             if (isSelected)
+            {
+                DrawColiderRect(graphics, new Rectangle(pntWmin.ToScrPnt().X, pntWmin.ToScrPnt().Y, pntWmax.ToScrPnt().X - pntWmin.ToScrPnt().X, pntWmax.ToScrPnt().Y - pntWmin.ToScrPnt().Y));
+            }
+
+        }
+
     }
     public class Rect : Figure
     {
+        Rectangle rectColider;
         PointW startPointW;
         PointW endPointW;
-        Rectangle rectColider;
         int x, y, width, height;
         public Rect(Pen setPen, PointW start, Color? setColorFill = null)
         {
