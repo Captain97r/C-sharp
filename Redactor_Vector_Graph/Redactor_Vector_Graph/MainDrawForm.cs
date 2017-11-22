@@ -53,6 +53,10 @@ namespace Redactor_Vector_Graph
             {
                 primitiv.Draw(e.Graphics);
             }
+            foreach (Figure primitiv in figureArray)
+            {
+                primitiv.DrawColider(e.Graphics);
+            }
         }
 
         private void PaintBox_MouseDown(object sender, MouseEventArgs e) =>

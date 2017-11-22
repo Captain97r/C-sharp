@@ -502,17 +502,22 @@ namespace Redactor_Vector_Graph
         {
             if (e.Button == MouseButtons.Left)
             {
+                figureArray.RemoveAt(figureArray.Count - 1);
                 if ((pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10)
                 {
-                    foreach (Figure primitiv in figureArray)
+                    int i = figureArray.Count - 1;
+                    for (; i >= 0; --i )
                     {
-                        if (primitiv.SelectPoint(PointW.ScrnToPointW(e.Location)))
-                            break; 
+                        if (figureArray[i].SelectPoint(e.Location))
+                        {
+                            i--;
+                            break;
+                        }
                     }
-                    
-                    MessageBox.Show("point");
+                    for (; i >= 0; --i)
+                        figureArray[i].isSelected = false;
                 }
-              figureArray.RemoveAt(figureArray.Count - 1);
+              
               flagLeftMouseClick = false;
               paintBox.Invalidate();
             }
