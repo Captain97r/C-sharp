@@ -285,6 +285,7 @@ namespace Redactor_Vector_Graph
     }
         public class Ellipse : Figure
         {
+            Rectangle rectColider;
             PointW startPointW;
             PointW lastPointW;
             public Ellipse(Pen setPen, PointW start, Color? setColorFill = null)
@@ -298,17 +299,34 @@ namespace Redactor_Vector_Graph
                     isFill = true;
                 }
             }
-            public override void AddPoint(PointW pointW)
+        public override bool SelectPoint(Point pntClick)
+        {
+            double A = (lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X)/2;
+            double B = (lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)/2;
+            if (((Math.Pow((pntClick.X - startPointW.ToScrPnt().X - A) / A,2) + (Math.Pow((pntClick.Y - startPointW.ToScrPnt().Y - B)/B,2))) <=1))
+            {
+                isSelected = true;
+                return true;
+            }
+            isSelected = false;
+            return false;
+        }
+        public override void AddPoint(PointW pointW)
             {
                 lastPointW = pointW;
             }
             public override void Draw(Graphics graphics)
             {
-                graphics.DrawEllipse(pen, new Rectangle(startPointW.ToScrPnt(),
-                new Size(lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X, lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)));
-                if (isFill)
-                    graphics.FillEllipse(new SolidBrush(colorFill), new Rectangle(startPointW.ToScrPnt(),
-                    new Size(lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X, lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)));
+            rectColider = new Rectangle(startPointW.ToScrPnt(),
+                    new Size(lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X, lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y));
+                graphics.DrawEllipse(pen, rectColider);
+            if (isFill)
+                graphics.FillEllipse(new SolidBrush(colorFill), rectColider);
             }
+        public override void DrawColider(Graphics graphics)
+        {
+            if (isSelected)
+                DrawColiderRect(graphics, rectColider);
         }
+    }
 }
