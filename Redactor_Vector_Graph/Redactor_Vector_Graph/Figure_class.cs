@@ -95,7 +95,6 @@ namespace Redactor_Vector_Graph
             isSelected = false;
             return false;
         }
-
         public override void AddPoint(PointW pointW)
         {
             points_array.Add(pointW);
@@ -116,10 +115,7 @@ namespace Redactor_Vector_Graph
         public override void DrawColider(Graphics graphics)
         {
              if (isSelected)
-            {
                 DrawColiderRect(graphics, new Rectangle(pntWmin.ToScrPnt().X, pntWmin.ToScrPnt().Y, pntWmax.ToScrPnt().X - pntWmin.ToScrPnt().X, pntWmax.ToScrPnt().Y - pntWmin.ToScrPnt().Y));
-            }
-
         }
 
     }
@@ -165,16 +161,14 @@ namespace Redactor_Vector_Graph
             if (isFill)
                 graphics.FillRectangle(new SolidBrush(colorFill), new Rectangle(x + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
                                           y + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), width - (int)(pen.Width), height - (int)(pen.Width)));
+
             rectColider = new Rectangle(x - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), y - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
                              width + (int)(pen.Width), height + (int)(pen.Width));
         }
         public override void DrawColider(Graphics graphics)
         {
             if (isSelected)
-            {
                 DrawColiderRect(graphics, rectColider);
-            }
-
         }
     }
         public class RoundedRect : Figure
@@ -194,7 +188,6 @@ namespace Redactor_Vector_Graph
                     isFill = true;
                 }
             }
-
             public override void AddPoint(PointW pointW)
             {
                 lastPointW = pointW;
@@ -229,23 +222,18 @@ namespace Redactor_Vector_Graph
                         graphics.FillRectangle(new SolidBrush(colorFill), new Rectangle(x + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), y + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), width - (int)(pen.Width), height - (int)(pen.Width)));
                     return;
                 }
-
                 // top left arc  
                 path.AddArc(arc, 180, 90);
                 // top right arc  
                 arc.X = bounds.Right - diameter;
                 path.AddArc(arc, 270, 90);
-
                 // bottom right arc  
                 arc.Y = bounds.Bottom - diameter;
                 path.AddArc(arc, 0, 90);
-
                 // bottom left arc 
                 arc.X = bounds.Left;
                 path.AddArc(arc, 90, 90);
-
                 path.CloseFigure();
-
                 graphics.DrawPath(pen, path);
                 if (isFill)
                     graphics.FillPath(new SolidBrush(colorFill), path);
@@ -261,8 +249,27 @@ namespace Redactor_Vector_Graph
                 pen = (Pen)setPen.Clone();
                 startPointW = start;
             }
+        public override bool SelectPoint(Point pntClick)
+        {
+            const int dist = 20;
+            double A, B, C, C1;
+            Point pntH = new Point();
+            A = lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y;
+            B = startPointW.ToScrPnt().X - lastPointW.ToScrPnt().X;
+            C = -(startPointW.ToScrPnt().X * A + startPointW.ToScrPnt().Y * B);
+            C1 = -(B * pntClick.X + A * pntClick.Y);
+            pntH.Y = (int)Math.Round(-((B * C + C1 * A)/(B*B+A*A)));
+            pntH.X = (int)Math.Round(((C+B* pntH.Y) /  A));
+            if (pntH.X > startPointW.ToScrPnt().X && pntH.X < lastPointW.ToScrPnt().X && pntH.Y > startPointW.ToScrPnt().Y && pntH.Y < lastPointW.ToScrPnt().Y && (Math.Pow(pntClick.X-pntH.X,2.0)+ Math.Pow(pntClick.Y - pntH.Y, 2.0)) <=dist*dist)
+              {
+                    isSelected = true;
+                    return true;
+              }
+            isSelected = false;
+            return false;
+        }
 
-            public override void AddPoint(PointW pointW)
+        public override void AddPoint(PointW pointW)
             {
                 lastPointW = pointW;
             }
@@ -270,8 +277,14 @@ namespace Redactor_Vector_Graph
             {
                 graphics.DrawLine(pen, startPointW.ToScrPnt(), lastPointW.ToScrPnt());
             }
-
+        public override void DrawColider(Graphics graphics)
+        {
+            if (isSelected)
+                DrawColiderRect(graphics, new Rectangle(startPointW.ToScrPnt(),
+                    new Size(lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X, lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)));
         }
+
+    }
         public class Ellipse : Figure
         {
             PointW startPointW;
