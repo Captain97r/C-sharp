@@ -109,6 +109,7 @@
             this.toolStripUpLayer.Name = "toolStripUpLayer";
             this.toolStripUpLayer.Size = new System.Drawing.Size(217, 30);
             this.toolStripUpLayer.Text = "Up Layer";
+            this.toolStripUpLayer.Click += new System.EventHandler(this.toolStripUpLayer_Click);
             // 
             // toolStripDownLayer
             // 

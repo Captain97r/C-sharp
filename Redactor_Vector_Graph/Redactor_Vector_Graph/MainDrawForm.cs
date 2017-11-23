@@ -103,11 +103,20 @@ namespace Redactor_Vector_Graph
 
         private void toolStripDelSelected_Click(object sender, EventArgs e)
         {
-            figureArray.RemoveAll(delegate (Figure figure)
-            {
-                return figure.isSelected;
-            });
+            figureArray.RemoveAll(FindFigureIsSelected);
             paintBox.Invalidate();
+        }
+
+        private void toolStripUpLayer_Click(object sender, EventArgs e)
+        {
+            List<Figure> figureArrayTemp = figureArray.FindAll(FindFigureIsSelected);
+            figureArray.RemoveAll(FindFigureIsSelected);
+            figureArray.AddRange(figureArrayTemp);
+            paintBox.Invalidate();
+        }
+        private bool FindFigureIsSelected(Figure figure)
+        {
+            return figure.isSelected;
         }
     }
 }
