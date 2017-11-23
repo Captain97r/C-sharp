@@ -135,7 +135,6 @@ namespace Redactor_Vector_Graph
                 colorFill = (Color)setColorFill;
                 isFill = true;
             }
-
         }
         public override bool SelectPoint(Point pntClick)
         {
@@ -252,13 +251,14 @@ namespace Redactor_Vector_Graph
         public override bool SelectPoint(Point pntClick)
         {
             const int dist = 20;
-            double A, B, C, distToline,distToLastPoint,distToSatrtPoint;
+            double A, B, C, distToline,distToLastPoint,distToSatrtPoint,lineLength;
             A = startPointW.ToScrPnt().Y - lastPointW.ToScrPnt().Y;
             B = lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X;
             C = -(startPointW.ToScrPnt().X * A + startPointW.ToScrPnt().Y * B);
+            lineLength = Math.Sqrt(Math.Pow(startPointW.ToScrPnt().X - lastPointW.ToScrPnt().X, 2.0) + Math.Pow(startPointW.ToScrPnt().Y - lastPointW.ToScrPnt().Y, 2.0));
             distToline = (Math.Abs(A * pntClick.X + B * pntClick.Y + C) / (Math.Sqrt(A * A + B * B)));
-            distToSatrtPoint = Math.Sqrt(Math.Pow(startPointW.ToScrPnt().X - pntClick.X, 2.0) + Math.Pow(startPointW.ToScrPnt().Y - pntClick.Y, 2.0))- Math.Sqrt(Math.Pow(startPointW.ToScrPnt().X - lastPointW.ToScrPnt().X, 2.0) + Math.Pow(startPointW.ToScrPnt().Y - lastPointW.ToScrPnt().Y, 2.0));
-            distToLastPoint = Math.Sqrt(Math.Pow(lastPointW.ToScrPnt().X - pntClick.X, 2.0) + Math.Pow(lastPointW.ToScrPnt().Y - pntClick.Y, 2.0)) - Math.Sqrt(Math.Pow(startPointW.ToScrPnt().X - lastPointW.ToScrPnt().X, 2.0) + Math.Pow(startPointW.ToScrPnt().Y - lastPointW.ToScrPnt().Y, 2.0));
+            distToSatrtPoint = Math.Sqrt(Math.Pow(startPointW.ToScrPnt().X - pntClick.X, 2.0) + Math.Pow(startPointW.ToScrPnt().Y - pntClick.Y, 2.0))- lineLength;
+            distToLastPoint = Math.Sqrt(Math.Pow(lastPointW.ToScrPnt().X - pntClick.X, 2.0) + Math.Pow(lastPointW.ToScrPnt().Y - pntClick.Y, 2.0)) - lineLength;
             if ( distToline<=dist && distToSatrtPoint<dist && distToLastPoint < dist)
               {
                     isSelected = true;
@@ -267,7 +267,6 @@ namespace Redactor_Vector_Graph
             isSelected = false;
             return false;
         }
-
         public override void AddPoint(PointW pointW)
             {
                 lastPointW = pointW;
