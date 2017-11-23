@@ -100,5 +100,14 @@ namespace Redactor_Vector_Graph
                     }
             paintBox.Invalidate();
         }
+
+        private void toolStripDelSelected_Click(object sender, EventArgs e)
+        {
+            figureArray.RemoveAll(delegate (Figure figure)
+            {
+                return figure.isSelected;
+            });
+            paintBox.Invalidate();
+        }
     }
 }

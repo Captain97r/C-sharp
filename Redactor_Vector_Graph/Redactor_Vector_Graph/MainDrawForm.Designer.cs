@@ -30,25 +30,29 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainDrawForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.toolStripFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripDelSelected = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripUpLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripDownLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolPanel = new System.Windows.Forms.Panel();
+            this.btnToolSelection = new System.Windows.Forms.Button();
+            this.btnToolRoundedRect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnResetZoom = new System.Windows.Forms.Button();
             this.lblZoom = new System.Windows.Forms.Label();
             this.numZoom = new System.Windows.Forms.NumericUpDown();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.paintBox = new Redactor_Vector_Graph.PaintBox();
-            this.btnToolSelection = new System.Windows.Forms.Button();
-            this.btnToolRoundedRect = new System.Windows.Forms.Button();
             this.btnToolZoom = new System.Windows.Forms.Button();
             this.btnToolHand = new System.Windows.Forms.Button();
             this.btnToolEllipse = new System.Windows.Forms.Button();
             this.btnToolRect = new System.Windows.Forms.Button();
             this.btnToolLine = new System.Windows.Forms.Button();
             this.btnToolPolyLine = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.paintBox = new Redactor_Vector_Graph.PaintBox();
             this.menuStrip.SuspendLayout();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
@@ -59,7 +63,8 @@
             this.menuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripFile,
+            this.toolStripMenuItem1,
+            this.toolStripEdit,
             this.toolStripHelp});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -68,20 +73,48 @@
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip1";
             // 
-            // toolStripFile
+            // toolStripMenuItem1
             // 
-            this.toolStripFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripExit});
-            this.toolStripFile.Name = "toolStripFile";
-            this.toolStripFile.Size = new System.Drawing.Size(50, 29);
-            this.toolStripFile.Text = "File";
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(50, 29);
+            this.toolStripMenuItem1.Text = "File";
             // 
-            // toolStripExit
+            // toolStripMenuItem2
             // 
-            this.toolStripExit.Name = "toolStripExit";
-            this.toolStripExit.Size = new System.Drawing.Size(123, 30);
-            this.toolStripExit.Text = "Exit";
-            this.toolStripExit.Click += new System.EventHandler(this.ToolStripExit_Click);
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(123, 30);
+            this.toolStripMenuItem2.Text = "Exit";
+            // 
+            // toolStripEdit
+            // 
+            this.toolStripEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDelSelected,
+            this.toolStripUpLayer,
+            this.toolStripDownLayer});
+            this.toolStripEdit.Name = "toolStripEdit";
+            this.toolStripEdit.Size = new System.Drawing.Size(54, 29);
+            this.toolStripEdit.Text = "Edit";
+            // 
+            // toolStripDelSelected
+            // 
+            this.toolStripDelSelected.Name = "toolStripDelSelected";
+            this.toolStripDelSelected.Size = new System.Drawing.Size(217, 30);
+            this.toolStripDelSelected.Text = "Delete Selected";
+            this.toolStripDelSelected.Click += new System.EventHandler(this.toolStripDelSelected_Click);
+            // 
+            // toolStripUpLayer
+            // 
+            this.toolStripUpLayer.Name = "toolStripUpLayer";
+            this.toolStripUpLayer.Size = new System.Drawing.Size(217, 30);
+            this.toolStripUpLayer.Text = "Up Layer";
+            // 
+            // toolStripDownLayer
+            // 
+            this.toolStripDownLayer.Name = "toolStripDownLayer";
+            this.toolStripDownLayer.Size = new System.Drawing.Size(217, 30);
+            this.toolStripDownLayer.Text = "Down Layer";
             // 
             // toolStripHelp
             // 
@@ -120,6 +153,24 @@
             this.toolPanel.Name = "toolPanel";
             this.toolPanel.Size = new System.Drawing.Size(126, 571);
             this.toolPanel.TabIndex = 0;
+            // 
+            // btnToolSelection
+            // 
+            this.btnToolSelection.Image = global::Redactor_Vector_Graph.Properties.Resources.dashRect;
+            this.btnToolSelection.Location = new System.Drawing.Point(67, 123);
+            this.btnToolSelection.Name = "btnToolSelection";
+            this.btnToolSelection.Size = new System.Drawing.Size(54, 54);
+            this.btnToolSelection.TabIndex = 14;
+            this.btnToolSelection.UseVisualStyleBackColor = true;
+            // 
+            // btnToolRoundedRect
+            // 
+            this.btnToolRoundedRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RoundedRect;
+            this.btnToolRoundedRect.Location = new System.Drawing.Point(7, 123);
+            this.btnToolRoundedRect.Name = "btnToolRoundedRect";
+            this.btnToolRoundedRect.Size = new System.Drawing.Size(54, 54);
+            this.btnToolRoundedRect.TabIndex = 13;
+            this.btnToolRoundedRect.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -183,48 +234,6 @@
             0});
             this.numZoom.ValueChanged += new System.EventHandler(this.numZoom_ValueChanged);
             // 
-            // panel2
-            // 
-            this.panel2.AutoSize = true;
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 604);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1085, 0);
-            this.panel2.TabIndex = 4;
-            // 
-            // paintBox
-            // 
-            this.paintBox.AutoSize = true;
-            this.paintBox.BackColor = System.Drawing.SystemColors.Window;
-            this.paintBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.paintBox.Location = new System.Drawing.Point(0, 33);
-            this.paintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
-            this.paintBox.MinimumSize = new System.Drawing.Size(960, 555);
-            this.paintBox.Name = "paintBox";
-            this.paintBox.Size = new System.Drawing.Size(1085, 571);
-            this.paintBox.TabIndex = 0;
-            this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
-            this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
-            this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
-            // 
-            // btnToolSelection
-            // 
-            this.btnToolSelection.Image = global::Redactor_Vector_Graph.Properties.Resources.dashRect;
-            this.btnToolSelection.Location = new System.Drawing.Point(67, 123);
-            this.btnToolSelection.Name = "btnToolSelection";
-            this.btnToolSelection.Size = new System.Drawing.Size(54, 54);
-            this.btnToolSelection.TabIndex = 14;
-            this.btnToolSelection.UseVisualStyleBackColor = true;
-            // 
-            // btnToolRoundedRect
-            // 
-            this.btnToolRoundedRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RoundedRect;
-            this.btnToolRoundedRect.Location = new System.Drawing.Point(7, 123);
-            this.btnToolRoundedRect.Name = "btnToolRoundedRect";
-            this.btnToolRoundedRect.Size = new System.Drawing.Size(54, 54);
-            this.btnToolRoundedRect.TabIndex = 13;
-            this.btnToolRoundedRect.UseVisualStyleBackColor = true;
-            // 
             // btnToolZoom
             // 
             this.btnToolZoom.Image = ((System.Drawing.Image)(resources.GetObject("btnToolZoom.Image")));
@@ -279,6 +288,30 @@
             this.btnToolPolyLine.TabIndex = 0;
             this.btnToolPolyLine.UseVisualStyleBackColor = true;
             // 
+            // panel2
+            // 
+            this.panel2.AutoSize = true;
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 604);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1085, 0);
+            this.panel2.TabIndex = 4;
+            // 
+            // paintBox
+            // 
+            this.paintBox.AutoSize = true;
+            this.paintBox.BackColor = System.Drawing.SystemColors.Window;
+            this.paintBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.paintBox.Location = new System.Drawing.Point(0, 33);
+            this.paintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
+            this.paintBox.MinimumSize = new System.Drawing.Size(960, 555);
+            this.paintBox.Name = "paintBox";
+            this.paintBox.Size = new System.Drawing.Size(1085, 571);
+            this.paintBox.TabIndex = 0;
+            this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
+            this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
+            this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
+            // 
             // MainDrawForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -309,8 +342,8 @@
 
         private PaintBox paintBox;
         private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.ToolStripMenuItem toolStripFile;
-        private System.Windows.Forms.ToolStripMenuItem toolStripExit;
+        private System.Windows.Forms.ToolStripMenuItem toolStripEdit;
+        private System.Windows.Forms.ToolStripMenuItem toolStripDelSelected;
         private System.Windows.Forms.ToolStripMenuItem toolStripHelp;
         private System.Windows.Forms.ToolStripMenuItem toolStripAbout;
         private System.Windows.Forms.Panel toolPanel;
@@ -327,6 +360,10 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnToolRoundedRect;
         private System.Windows.Forms.Button btnToolSelection;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripUpLayer;
+        private System.Windows.Forms.ToolStripMenuItem toolStripDownLayer;
     }
 }
 
