@@ -116,6 +116,7 @@
             this.toolStripDownLayer.Name = "toolStripDownLayer";
             this.toolStripDownLayer.Size = new System.Drawing.Size(217, 30);
             this.toolStripDownLayer.Text = "Down Layer";
+            this.toolStripDownLayer.Click += new System.EventHandler(this.toolStripDownLayer_Click);
             // 
             // toolStripHelp
             // 

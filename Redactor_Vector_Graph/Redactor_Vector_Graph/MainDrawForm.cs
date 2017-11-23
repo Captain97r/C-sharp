@@ -118,5 +118,13 @@ namespace Redactor_Vector_Graph
         {
             return figure.isSelected;
         }
+
+        private void toolStripDownLayer_Click(object sender, EventArgs e)
+        {
+            List<Figure> figureArrayTemp = figureArray.FindAll(FindFigureIsSelected);
+            figureArray.RemoveAll(FindFigureIsSelected);
+            figureArray.InsertRange(0,figureArrayTemp);
+            paintBox.Invalidate();
+        }
     }
 }
