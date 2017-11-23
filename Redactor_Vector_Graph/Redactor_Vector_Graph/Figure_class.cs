@@ -54,8 +54,9 @@ namespace Redactor_Vector_Graph
         public bool isSelected = false;
         public abstract void Draw(Graphics graphics);
         public abstract void AddPoint(PointW pointW);
-        public virtual bool SelectPoint(Point pntClick) { return false; }
-        public virtual void DrawColider(Graphics graphics) { }
+        public abstract bool SelectPoint(Point pntClick);
+        public abstract void DrawColider(Graphics graphics);
+        public virtual bool SelectArea(Rectangle area) { return false; }
         protected void DrawColiderRect(Graphics g, Rectangle rect)
         {
             const int offset = 10;
@@ -92,6 +93,16 @@ namespace Redactor_Vector_Graph
                     isSelected = true;
                     return true;
                 }
+            }
+            isSelected = false;
+            return false;
+        }
+        public override bool SelectArea(Rectangle area)
+        {
+            if(area.Contains(pntWmin.ToScrPnt()) && area.Contains(pntWmax.ToScrPnt()))
+            {
+                isSelected = true;
+                return true;
             }
             isSelected = false;
             return false;

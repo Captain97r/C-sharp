@@ -515,6 +515,13 @@ namespace Redactor_Vector_Graph
                     for (; i >= 0; --i)
                         figureArray[i].isSelected = false;
                 }
+                else
+                {
+                    foreach (Figure primitiv in figureArray)
+                    {
+                        primitiv.SelectArea(new Rectangle(pointWStart.ToScrPnt(), new Size(pointWEnd.ToScrPnt().X - pointWStart.ToScrPnt().X, pointWEnd.ToScrPnt().Y - pointWStart.ToScrPnt().Y)));
+                    }
+                }
               
               flagLeftMouseClick = false;
               paintBox.Invalidate();
