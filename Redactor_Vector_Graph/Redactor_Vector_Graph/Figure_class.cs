@@ -252,15 +252,14 @@ namespace Redactor_Vector_Graph
         public override bool SelectPoint(Point pntClick)
         {
             const int dist = 20;
-            double A, B, C, C1;
-            Point pntH = new Point();
-            A = lastPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y;
-            B = startPointW.ToScrPnt().X - lastPointW.ToScrPnt().X;
+            double A, B, C, distToline,distToLastPoint,distToSatrtPoint;
+            A = startPointW.ToScrPnt().Y - lastPointW.ToScrPnt().Y;
+            B = lastPointW.ToScrPnt().X - startPointW.ToScrPnt().X;
             C = -(startPointW.ToScrPnt().X * A + startPointW.ToScrPnt().Y * B);
-            C1 = -(B * pntClick.X + A * pntClick.Y);
-            pntH.Y = (int)Math.Round(-((B * C + C1 * A)/(B*B+A*A)));
-            pntH.X = (int)Math.Round(((C+B* pntH.Y) /  A));
-            if (pntH.X > startPointW.ToScrPnt().X && pntH.X < lastPointW.ToScrPnt().X && pntH.Y > startPointW.ToScrPnt().Y && pntH.Y < lastPointW.ToScrPnt().Y && (Math.Pow(pntClick.X-pntH.X,2.0)+ Math.Pow(pntClick.Y - pntH.Y, 2.0)) <=dist*dist)
+            distToline = (Math.Abs(A * pntClick.X + B * pntClick.Y + C) / (Math.Sqrt(A * A + B * B)));
+            distToSatrtPoint = Math.Sqrt(Math.Pow(startPointW.ToScrPnt().X - pntClick.X, 2.0) + Math.Pow(startPointW.ToScrPnt().Y - pntClick.Y, 2.0))- Math.Sqrt(Math.Pow(startPointW.ToScrPnt().X - lastPointW.ToScrPnt().X, 2.0) + Math.Pow(startPointW.ToScrPnt().Y - lastPointW.ToScrPnt().Y, 2.0));
+            distToLastPoint = Math.Sqrt(Math.Pow(lastPointW.ToScrPnt().X - pntClick.X, 2.0) + Math.Pow(lastPointW.ToScrPnt().Y - pntClick.Y, 2.0)) - Math.Sqrt(Math.Pow(startPointW.ToScrPnt().X - lastPointW.ToScrPnt().X, 2.0) + Math.Pow(startPointW.ToScrPnt().Y - lastPointW.ToScrPnt().Y, 2.0));
+            if ( distToline<=dist && distToSatrtPoint<dist && distToLastPoint < dist)
               {
                     isSelected = true;
                     return true;
