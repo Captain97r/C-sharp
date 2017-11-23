@@ -522,6 +522,11 @@ namespace Redactor_Vector_Graph
         }
         public override void HidePanelProp()
         {
+            foreach (Figure primitiv in figureArray)
+            {
+                primitiv.isSelected = false;
+            }
+            paintBox.Invalidate();
             panelProp.Visible = false;
         }
         public override void ShowPanelProp()
