@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Redactor_Vector_Graph
-{
-    class Tool
-    {
+namespace Redactor_Vector_Graph {
+    class Tool {
         public static PointW pntwMinReact = new PointW(Double.MaxValue, Double.MaxValue);
         public static PointW pntwMaxReact = new PointW(0.0, 0.0);
         public static Tool ActiveTool { get; set; }
@@ -20,8 +18,7 @@ namespace Redactor_Vector_Graph
         protected PropColor propColor;
         protected PropPenWidth propPenWidth;
         protected PanelProp panelProp;
-        public void ToolButtonClick(object sender, EventArgs e)
-        {
+        public void ToolButtonClick(object sender, EventArgs e) {
             ActiveTool.HidePanelProp();
             ActiveTool = this;
             ActiveTool.ShowPanelProp();
@@ -32,8 +29,7 @@ namespace Redactor_Vector_Graph
         public virtual void MouseMove(object sender, MouseEventArgs e) { }
         public virtual void MouseDown(object sender, MouseEventArgs e) { }
         public virtual void MouseUp(object sender, MouseEventArgs e) { }
-        public void SetResetReact(int X, int Y)
-        {
+        public void SetResetReact(int X, int Y) {
             PointW pointW = new PointW(X, Y);
             pntwMinReact.X = Math.Min(pointW.X, pntwMinReact.X);
             pntwMinReact.Y = Math.Min(pointW.Y, pntwMinReact.Y);
@@ -42,12 +38,10 @@ namespace Redactor_Vector_Graph
         }
     }
 
-    class ToolRect : Tool
-    {
+    class ToolRect : Tool {
         PropFill propFill;
 
-        public ToolRect(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
-        {
+        public ToolRect(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set) {
             paintBox = paintBox_set;
             figureArray = figureArrayFrom;
             toolButton = button;
@@ -58,18 +52,14 @@ namespace Redactor_Vector_Graph
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
             propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
         }
-        public override void MouseMove(object sender, MouseEventArgs e)
-        {
-            if (flagLeftMouseClick)
-            {
+        public override void MouseMove(object sender, MouseEventArgs e) {
+            if (flagLeftMouseClick) {
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
-        public override void MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = true;
                 if (propFill.GetCheked())
                     figureArray.Add(new Rect(new Pen(propColor.GetColor(), propPenWidth.GetPenWidth()), new PointW(e.X, e.Y), propFill.GetColor()));
@@ -78,30 +68,24 @@ namespace Redactor_Vector_Graph
                 SetResetReact(e.X, e.Y);
             }
         }
-        public override void MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
             }
         }
-        public override void HidePanelProp()
-        {
+        public override void HidePanelProp() {
             panelProp.Visible = false;
         }
-        public override void ShowPanelProp()
-        {
+        public override void ShowPanelProp() {
             panelProp.Visible = true;
         }
     }
-    class ToolRoundedRect : Tool
-    {
+    class ToolRoundedRect : Tool {
         PropFill propFill;
         PropRadius propRadius;
 
-        public ToolRoundedRect(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
-        {
+        public ToolRoundedRect(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set) {
             paintBox = paintBox_set;
             figureArray = figureArrayFrom;
             toolButton = button;
@@ -113,18 +97,14 @@ namespace Redactor_Vector_Graph
             propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
             propRadius = new PropRadius(new Point(5, 140), "Radius:", panelProp);
         }
-        public override void MouseMove(object sender, MouseEventArgs e)
-        {
-            if (flagLeftMouseClick)
-            {
+        public override void MouseMove(object sender, MouseEventArgs e) {
+            if (flagLeftMouseClick) {
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
-        public override void MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = true;
                 if (propFill.GetCheked())
                     figureArray.Add(new RoundedRect(new Pen(propColor.GetColor(), propPenWidth.GetPenWidth()), new PointW(e.X, e.Y), propRadius.GetRadius(), propFill.GetColor()));
@@ -134,27 +114,21 @@ namespace Redactor_Vector_Graph
                 paintBox.Invalidate();
             }
         }
-        public override void MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
             }
         }
-        public override void HidePanelProp()
-        {
+        public override void HidePanelProp() {
             panelProp.Visible = false;
         }
-        public override void ShowPanelProp()
-        {
+        public override void ShowPanelProp() {
             panelProp.Visible = true;
         }
     }
-    class ToolPolyLine : Tool
-    {
-        public ToolPolyLine(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
-        {
+    class ToolPolyLine : Tool {
+        public ToolPolyLine(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set) {
             paintBox = paintBox_set;
             figureArray = figureArrayFrom;
             toolButton = button;
@@ -164,48 +138,38 @@ namespace Redactor_Vector_Graph
             propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
         }
-        public override void MouseMove(object sender, MouseEventArgs e)
-        {
-            if (flagLeftMouseClick)
-            {
+        public override void MouseMove(object sender, MouseEventArgs e) {
+            if (flagLeftMouseClick) {
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 paintBox.Invalidate();
                 SetResetReact(e.X, e.Y);
             }
         }
-        public override void MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = true;
                 figureArray.Add(new PolyLine(new Pen(propColor.GetColor(), propPenWidth.GetPenWidth()), new PointW(e.X, e.Y)));
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 SetResetReact(e.X, e.Y);
             }
         }
-        public override void MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
             }
         }
-        public override void HidePanelProp()
-        {
+        public override void HidePanelProp() {
             panelProp.Visible = false;
         }
-        public override void ShowPanelProp()
-        {
+        public override void ShowPanelProp() {
             panelProp.Visible = true;
         }
 
     }
-    class ToolLine : Tool
-    {
+    class ToolLine : Tool {
 
-        public ToolLine(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
-        {
+        public ToolLine(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set) {
             paintBox = paintBox_set;
             figureArray = figureArrayFrom;
             toolButton = button;
@@ -215,46 +179,36 @@ namespace Redactor_Vector_Graph
             propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
         }
-        public override void MouseMove(object sender, MouseEventArgs e)
-        {
-            if (flagLeftMouseClick)
-            {
+        public override void MouseMove(object sender, MouseEventArgs e) {
+            if (flagLeftMouseClick) {
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
-        public override void MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = true;
                 figureArray.Add(new Line(new Pen(propColor.GetColor(), propPenWidth.GetPenWidth()), new PointW(e.X, e.Y)));
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 SetResetReact(e.X, e.Y);
             }
         }
-        public override void MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
             }
         }
-        public override void HidePanelProp()
-        {
+        public override void HidePanelProp() {
             panelProp.Visible = false;
         }
-        public override void ShowPanelProp()
-        {
+        public override void ShowPanelProp() {
             panelProp.Visible = true;
         }
     }
-    class ToolEllipse : Tool
-    {
+    class ToolEllipse : Tool {
         PropFill propFill;
-        public ToolEllipse(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
-        {
+        public ToolEllipse(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set) {
             paintBox = paintBox_set;
             figureArray = figureArrayFrom;
             toolButton = button;
@@ -265,18 +219,14 @@ namespace Redactor_Vector_Graph
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
             propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
         }
-        public override void MouseMove(object sender, MouseEventArgs e)
-        {
-            if (flagLeftMouseClick)
-            {
+        public override void MouseMove(object sender, MouseEventArgs e) {
+            if (flagLeftMouseClick) {
                 figureArray.Last().AddPoint(new PointW(e.X, e.Y));
                 paintBox.Invalidate();
             }
         }
-        public override void MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = true;
                 if (propFill.GetCheked())
                     figureArray.Add(new Ellipse(new Pen(propColor.GetColor(), propPenWidth.GetPenWidth()), new PointW(e.X, e.Y), propFill.GetColor()));
@@ -286,25 +236,20 @@ namespace Redactor_Vector_Graph
                 SetResetReact(e.X, e.Y);
             }
         }
-        public override void MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
             }
         }
-        public override void HidePanelProp()
-        {
+        public override void HidePanelProp() {
             panelProp.Visible = false;
         }
-        public override void ShowPanelProp()
-        {
+        public override void ShowPanelProp() {
             panelProp.Visible = true;
         }
     }
-    class ToolZoom : Tool
-    {
+    class ToolZoom : Tool {
         NumericUpDown stepZoom;
         Label labelStepZoom;
         PointW pointWStart;
@@ -312,8 +257,7 @@ namespace Redactor_Vector_Graph
         Point pointStart;
         Point pointEnd;
         NumericUpDown numZoom;
-        public ToolZoom(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set, NumericUpDown numZoomSet)
-        {
+        public ToolZoom(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set, NumericUpDown numZoomSet) {
             numZoom = numZoomSet;
             paintBox = paintBox_set;
             figureArray = figureArrayFrom;
@@ -321,38 +265,31 @@ namespace Redactor_Vector_Graph
             toolButton.Click += new EventHandler(ToolButtonClick);
             CreatePanelProp();
         }
-        public override void MouseMove(object sender, MouseEventArgs e)
-        {
-            if (flagLeftMouseClick)
-            {
+        public override void MouseMove(object sender, MouseEventArgs e) {
+            if (flagLeftMouseClick) {
                 pointWEnd = new PointW(e.X, e.Y);
                 pointEnd = new Point(e.X, e.Y);
                 figureArray.Last().AddPoint(pointWEnd);
                 paintBox.Invalidate();
             }
         }
-        public override void MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                    flagLeftMouseClick = true;
-                    pointStart = new Point(e.X, e.Y);
-                    pointEnd = new Point(e.X + 1, e.Y + 1);
-                    pointWStart = new PointW(e.X, e.Y);
-                    pointWEnd = new PointW(e.X + 1, e.Y + 1);
-                    figureArray.Add(new Rect(new Pen(Color.Black), pointWStart));
-                    figureArray.Last().AddPoint(pointWStart);
-                    paintBox.Invalidate();
+        public override void MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
+                flagLeftMouseClick = true;
+                pointStart = new Point(e.X, e.Y);
+                pointEnd = new Point(e.X + 1, e.Y + 1);
+                pointWStart = new PointW(e.X, e.Y);
+                pointWEnd = new PointW(e.X + 1, e.Y + 1);
+                figureArray.Add(new Rect(new Pen(Color.Black), pointWStart));
+                figureArray.Last().AddPoint(pointWStart);
+                paintBox.Invalidate();
             }
         }
-        public override void MouseUp(object sender, MouseEventArgs e)
-        {
+        public override void MouseUp(object sender, MouseEventArgs e) {
             int stepZoomValue = (int)stepZoom.Value;
-            if (e.Button == MouseButtons.Left)
-            {
-                if ((pointEnd.X -pointStart.X + pointEnd.Y - pointStart.Y)>10)
-                {
-                    decimal zoom = (decimal)(Math.Min((paintBox.Width - 200) / Math.Abs(pointWEnd.X - pointWStart.X), 
+            if (e.Button == MouseButtons.Left) {
+                if ((pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) > 10) {
+                    decimal zoom = (decimal)(Math.Min((paintBox.Width - 200) / Math.Abs(pointWEnd.X - pointWStart.X),
                                             (paintBox.Height - 50) / Math.Abs(pointWEnd.Y - pointWStart.Y)) * 100);
                     if (Math.Min(zoom, numZoom.Maximum) > numZoom.Minimum)
                         numZoom.Value = Math.Min(zoom, numZoom.Maximum);
@@ -361,23 +298,21 @@ namespace Redactor_Vector_Graph
                     PointW.offset = new Point((int)Math.Round(-Math.Min(pointWEnd.X, pointWStart.X) * (double)(numZoom.Value / 100) + 150),
                                               (int)Math.Round(-Math.Min(pointWEnd.Y, pointWStart.Y) * (double)(numZoom.Value / 100)) + 10);
                 }
-                else
-                {
+                else {
                     if ((numZoom.Value + stepZoom.Value) >= 1000)
-                        stepZoomValue = 1000-(int)numZoom.Value;
+                        stepZoomValue = 1000 - (int)numZoom.Value;
                     else
                         stepZoomValue = (int)stepZoom.Value;
                     numZoom.Value += stepZoomValue;
-                        PointW.offset = new Point(
-                            (int)Math.Round((PointW.offset.X - e.X) * PointW.zoom / (PointW.zoom - (stepZoomValue / 100.0))) + e.X,
-                            (int)Math.Round((PointW.offset.Y - e.Y) * PointW.zoom / (PointW.zoom - (stepZoomValue / 100.0))) + e.Y);
+                    PointW.offset = new Point(
+                        (int)Math.Round((PointW.offset.X - e.X) * PointW.zoom / (PointW.zoom - (stepZoomValue / 100.0))) + e.X,
+                        (int)Math.Round((PointW.offset.Y - e.Y) * PointW.zoom / (PointW.zoom - (stepZoomValue / 100.0))) + e.Y);
                 }
                 figureArray.RemoveAt(figureArray.Count - 1);
                 flagLeftMouseClick = false;
                 paintBox.Invalidate();
             }
-            if (e.Button == MouseButtons.Right && (pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10)
-            {
+            if (e.Button == MouseButtons.Right && (pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10) {
                 if (numZoom.Value <= stepZoom.Value)
                     stepZoomValue = (int)numZoom.Value - 1;
                 else
@@ -386,12 +321,11 @@ namespace Redactor_Vector_Graph
                 PointW.offset = new Point(
                       (int)Math.Round((PointW.offset.X - e.X) * PointW.zoom / (PointW.zoom + (stepZoomValue / 100.0))) + e.X,
                       (int)Math.Round((PointW.offset.Y - e.Y) * PointW.zoom / (PointW.zoom + (stepZoomValue / 100.0))) + e.Y);
-                
+
                 paintBox.Invalidate();
             }
         }
-        private void CreatePanelProp()
-        {
+        private void CreatePanelProp() {
             panelProp = new PanelProp();
             panelProp.Text = "Zoom";
             stepZoom = new NumericUpDown();
@@ -407,29 +341,23 @@ namespace Redactor_Vector_Graph
             labelStepZoom.Text = "Step:";
             panelProp.Controls.Add(labelStepZoom);
         }
-        public override void HidePanelProp()
-        {
+        public override void HidePanelProp() {
             panelProp.Visible = false;
         }
-        public override void ShowPanelProp()
-        {
+        public override void ShowPanelProp() {
             panelProp.Visible = true;
         }
     }
- class ToolHand : Tool
-    {
+    class ToolHand : Tool {
         Point pntLastMause = new Point(0, 0);
-        public ToolHand(Button button, Panel paintBox_set)
-        {
+        public ToolHand(Button button, Panel paintBox_set) {
             paintBox = paintBox_set;
             cursor = Cursors.Hand;
             toolButton = button;
             toolButton.Click += new EventHandler(ToolButtonClick);
         }
-        public override void MouseMove(object sender, MouseEventArgs e)
-        {
-            if (flagLeftMouseClick)
-            {
+        public override void MouseMove(object sender, MouseEventArgs e) {
+            if (flagLeftMouseClick) {
                 PointW.offset.X += e.X - pntLastMause.X;
                 PointW.offset.Y += e.Y - pntLastMause.Y;
                 paintBox.Invalidate();
@@ -437,32 +365,26 @@ namespace Redactor_Vector_Graph
                 pntLastMause.Y = e.Y;
             }
         }
-        public override void MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
 
                 flagLeftMouseClick = true;
                 pntLastMause.X = e.X;
                 pntLastMause.Y = e.Y;
             }
         }
-        public override void MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
             }
         }
     }
-    class ToolSelection : Tool
-    {
+    class ToolSelection : Tool {
         PointW pointWStart;
         PointW pointWEnd;
         Point pointStart;
         Point pointEnd;
-        public ToolSelection(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set)
-        {
+        public ToolSelection(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set) {
             paintBox = paintBox_set;
             figureArray = figureArrayFrom;
             toolButton = button;
@@ -470,10 +392,8 @@ namespace Redactor_Vector_Graph
             panelProp = new PanelProp();
             panelProp.Text = "Selection";
         }
-        public override void MouseMove(object sender, MouseEventArgs e)
-        {
-            if (flagLeftMouseClick)
-            {
+        public override void MouseMove(object sender, MouseEventArgs e) {
+            if (flagLeftMouseClick) {
 
                 pointEnd = new Point(e.X, e.Y);
                 pointWEnd = new PointW(e.X, e.Y);
@@ -481,10 +401,8 @@ namespace Redactor_Vector_Graph
                 paintBox.Invalidate();
             }
         }
-        public override void MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 pointStart = new Point(e.X, e.Y);
                 pointEnd = new Point(e.X + 1, e.Y + 1);
                 Pen pen = new Pen(Color.Gray);
@@ -494,88 +412,72 @@ namespace Redactor_Vector_Graph
                 flagLeftMouseClick = true;
                 pointWStart = new PointW(e.X, e.Y);
                 pointWEnd = new PointW(e.X + 1, e.Y + 1);
-                figureArray.Add(new Rect(pen, pointWStart));          
+                figureArray.Add(new Rect(pen, pointWStart));
                 paintBox.Invalidate();
             }
         }
-        public override void MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
                 figureArray.RemoveAt(figureArray.Count - 1);
-                if ((pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10)
-                {
+                if ((pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10) {
                     int i = figureArray.Count - 1;
-                    for (; i >= 0; --i )
-                        if (figureArray[i].SelectPoint(e.Location))
-                        {
+                    for (; i >= 0; --i)
+                        if (figureArray[i].SelectPoint(e.Location)) {
                             i--;
                             break;
                         }
                     for (; i >= 0; --i)
                         figureArray[i].isSelected = false;
                 }
-                else
-                {
-                    foreach (Figure primitiv in figureArray)
-                    {
+                else {
+                    foreach (Figure primitiv in figureArray) {
                         primitiv.SelectArea(new Rectangle(pointWStart.ToScrPnt(), new Size(pointWEnd.ToScrPnt().X - pointWStart.ToScrPnt().X, pointWEnd.ToScrPnt().Y - pointWStart.ToScrPnt().Y)));
                     }
                 }
-              
-              flagLeftMouseClick = false;
-              paintBox.Invalidate();
+
+                flagLeftMouseClick = false;
+                paintBox.Invalidate();
             }
         }
-        public override void HidePanelProp()
-        {
-            foreach (Figure primitiv in figureArray)
-            {
+        public override void HidePanelProp() {
+            foreach (Figure primitiv in figureArray) {
                 primitiv.isSelected = false;
             }
             paintBox.Invalidate();
             panelProp.Visible = false;
         }
-        public override void ShowPanelProp()
-        {
+        public override void ShowPanelProp() {
             panelProp.Visible = true;
         }
     }
-    public class NumWidthPen : NumericUpDown
-    {
+    public class NumWidthPen : NumericUpDown {
         public float penWidth;
-        public NumWidthPen()
-        {
+        public NumWidthPen() {
             Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             Maximum = new decimal(new int[] { 100, 0, 0, 0 });
             Value = new decimal(new int[] { 1, 0, 0, 0 });
             ValueChanged += new EventHandler(NumWidthPen_ValueChanged);
             penWidth = (float)Value;
         }
-        private void NumWidthPen_ValueChanged(object sender, EventArgs e)
-        {
+        private void NumWidthPen_ValueChanged(object sender, EventArgs e) {
             penWidth = (float)Value;
         }
     }
- public class ColorButton : Button
-    {
+    public class ColorButton : Button {
         public Color color;
         private ColorDialog colorDialog = new ColorDialog();
-        public ColorButton(Color setColor)
-        {
+        public ColorButton(Color setColor) {
             this.Click += new EventHandler(ColorButton_Click);
             color = setColor;
             Size = new Size(48, 24);
             SetButtonColor(setColor);
         }
-        private void ColorButton_Click(object sender, EventArgs e)
-        {
+        private void ColorButton_Click(object sender, EventArgs e) {
             colorDialog.ShowDialog();
             color = colorDialog.Color;
             SetButtonColor(colorDialog.Color);
         }
-        private void SetButtonColor(Color color)
-        {
+        private void SetButtonColor(Color color) {
             Graphics bitmapGBtnMainColor;
             Bitmap bitmapBtnMainColor;
             bitmapBtnMainColor = new Bitmap(this.Width, this.Height);
@@ -584,11 +486,9 @@ namespace Redactor_Vector_Graph
             this.Image = bitmapBtnMainColor;
         }
     }
- public class PanelProp : GroupBox
-    {
+    public class PanelProp : GroupBox {
         public static Panel toolPanel;
-        public PanelProp()
-        {
+        public PanelProp() {
             BackColor = SystemColors.ControlDark;
             Location = new Point(3, 322);
             Size = new Size(120, 180);
@@ -598,87 +498,71 @@ namespace Redactor_Vector_Graph
             Visible = false;
         }
     }
-class Prop
-    {
+    class Prop {
         protected Control control;
         protected Label label;
 
     }
-    class PropColor : Prop
-    {
-        public PropColor(Point position, String text, PanelProp panelProp)
-        {
+    class PropColor : Prop {
+        public PropColor(Point position, String text, PanelProp panelProp) {
             control = new ColorButton(Color.Black);
             control.Location = new Point(position.X + 60, position.Y);
             panelProp.Controls.Add(control);
-            label = new Label
-            {
+            label = new Label {
                 Location = position,
                 Text = text
             };
             panelProp.Controls.Add(label);
         }
-        public Color GetColor()
-        {
+        public Color GetColor() {
             ColorButton colorButton = (ColorButton)control;
             return colorButton.color;
         }
     }
-    class PropPenWidth : Prop
-    {
-        public PropPenWidth(Point position, String text, PanelProp panelProp)
-        {
+    class PropPenWidth : Prop {
+        public PropPenWidth(Point position, String text, PanelProp panelProp) {
             control = new NumWidthPen();
             control.Location = new Point(position.X + 60, position.Y);
             control.Size = new Size(48, 26);
             panelProp.Controls.Add(control);
-            label = new Label
-            {
+            label = new Label {
                 Location = position,
                 Text = text
             };
             panelProp.Controls.Add(label);
         }
-        public float GetPenWidth()
-        {
+        public float GetPenWidth() {
             NumWidthPen numWidthPen = (NumWidthPen)control;
             return numWidthPen.penWidth;
         }
     }
-    class PropFill : Prop
-    {
-        PropColor propColor ;
-        public PropFill(Point position, String text, PanelProp panelProp)
-        {
+    class PropFill : Prop {
+        PropColor propColor;
+        public PropFill(Point position, String text, PanelProp panelProp) {
 
             control = new CheckBox();
             control.Location = new Point(position.X + 60, position.Y);
             control.Size = new Size(48, 26);
             control.Text = "";
             panelProp.Controls.Add(control);
-            label = new Label
-            {
+            label = new Label {
                 Location = position,
                 Text = text
             };
             panelProp.Controls.Add(label);
             propColor = new PropColor(new Point(position.X, position.Y + 25), "Clr fill:", panelProp);
         }
-        public bool GetCheked()
-        {
+        public bool GetCheked() {
             return ((CheckBox)control).Checked;
         }
         public Color color => propColor.GetColor();
-        public Color GetColor()
-        {
+        public Color GetColor() {
             return propColor.GetColor();
         }
     }
-    class PropRadius : Prop
-    {
+    class PropRadius : Prop {
         NumericUpDown numeric;
-        public PropRadius(Point position, String text, PanelProp panelProp)
-        {
+        public PropRadius(Point position, String text, PanelProp panelProp) {
             control = new NumericUpDown();
             control.Location = new Point(position.X + 60, position.Y);
             control.Size = new Size(48, 26);
@@ -686,15 +570,13 @@ class Prop
             numeric.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numeric.Value = new decimal(new int[] { 20, 0, 0, 0 });
             panelProp.Controls.Add(control);
-            label = new Label
-            {
+            label = new Label {
                 Location = position,
                 Text = text
             };
             panelProp.Controls.Add(label);
         }
-        public int GetRadius()
-        {
+        public int GetRadius() {
             return (int)numeric.Value;
         }
     }

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Redactor_Vector_Graph
-{
-    public partial class MainDrawForm : Form
-    {
+namespace Redactor_Vector_Graph {
+    public partial class MainDrawForm : Form {
         List<Figure> figureArray = new List<Figure>(20);
         ToolTip toolTipMain = new ToolTip();
         Pen penMain = new Pen(Color.Black);
@@ -18,11 +16,10 @@ namespace Redactor_Vector_Graph
         ToolZoom toolZoom;
         ToolRoundedRect toolRoundedRect;
         ToolSelection toolSelection;
-        public MainDrawForm()
-        {
+        public MainDrawForm() {
             InitializeComponent();
             PanelProp.toolPanel = toolPanel;
-            toolTipMain.SetToolTip(btnToolPolyLine,"Pencil");
+            toolTipMain.SetToolTip(btnToolPolyLine, "Pencil");
             toolTipMain.SetToolTip(btnToolLine, "Line");
             toolTipMain.SetToolTip(btnToolRect, "Rectangle");
             toolTipMain.SetToolTip(btnToolEllipse, "Ellipse");
@@ -37,24 +34,20 @@ namespace Redactor_Vector_Graph
             toolRoundedRect = new ToolRoundedRect(btnToolRoundedRect, ref figureArray, paintBox);
             toolCircle = new ToolEllipse(btnToolEllipse, ref figureArray, paintBox);
             toolZoom = new ToolZoom(btnToolZoom, ref figureArray, paintBox, numZoom);
-            toolHand = new ToolHand(btnToolHand,paintBox);
+            toolHand = new ToolHand(btnToolHand, paintBox);
             toolSelection = new ToolSelection(btnToolSelection, ref figureArray, paintBox);
 
             Tool.ActiveTool = toolPolyLine;
-            toolPolyLine.ToolButtonClick(null,null);
+            toolPolyLine.ToolButtonClick(null, null);
             paintBox.Paint += PaintBox_Paint;
-          
-        }
 
-        private void PaintBox_Paint(object sender, PaintEventArgs e)
-        {
-            
-            foreach (Figure primitiv in figureArray)
-            {
+        }
+        private void PaintBox_Paint(object sender, PaintEventArgs e) {
+
+            foreach (Figure primitiv in figureArray) {
                 primitiv.Draw(e.Graphics);
             }
-            foreach (Figure primitiv in figureArray)
-            {
+            foreach (Figure primitiv in figureArray) {
                 primitiv.DrawColider(e.Graphics);
             }
         }
@@ -64,66 +57,56 @@ namespace Redactor_Vector_Graph
 
         private void PaintBox_MouseUp(object sender, MouseEventArgs e) =>
             Tool.ActiveTool.MouseUp(sender, e);
-       
+
         private void PaintBox_MouseMove(object sender, MouseEventArgs e) =>
             Tool.ActiveTool.MouseMove(sender, e);
- 
+
         private void ToolStripExit_Click(object sender, EventArgs e) =>
             Application.Exit();
 
         private void ToolStripAbout_Click(object sender, EventArgs e) =>
             MessageBox.Show("Vector graph \nVersion: Alpha v0.1 \nMade by kenny5660(Liamaev Mikhail)");
 
-        private void Main_Draw_Form_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control && e.KeyCode == Keys.Z)
-            {
-                if (figureArray.Count > 0)
-                {
+        private void Main_Draw_Form_KeyDown(object sender, KeyEventArgs e) {
+            if (e.Control && e.KeyCode == Keys.Z) {
+                if (figureArray.Count > 0) {
                     figureArray.RemoveAt(figureArray.Count - 1);
                     paintBox.Invalidate();
                 }
             }
         }
-
-        private void numZoom_ValueChanged(object sender, EventArgs e)
-        {
-            PointW.zoom = (double)(numZoom.Value/100);
+        private void numZoom_ValueChanged(object sender, EventArgs e) {
+            PointW.zoom = (double)(numZoom.Value / 100);
             paintBox.Invalidate();
         }
 
-        private void btnResetZoom_Click(object sender, EventArgs e)
-        {
-            if (Tool.pntwMaxReact.X>0) { 
+        private void btnResetZoom_Click(object sender, EventArgs e) {
+            if (Tool.pntwMaxReact.X > 0) {
                 numZoom.Value = (decimal)(Math.Min((paintBox.Width - 200) / (Tool.pntwMaxReact.X - Tool.pntwMinReact.X), (paintBox.Height - 50) / (Tool.pntwMaxReact.Y - Tool.pntwMinReact.Y)) * 100);
-            PointW.offset = new Point((int)Math.Round(-Tool.pntwMinReact.X * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Tool.pntwMinReact.Y * (double)(numZoom.Value / 100)) + 10);
-                    }
+                PointW.offset = new Point((int)Math.Round(-Tool.pntwMinReact.X * (double)(numZoom.Value / 100) + 150), (int)Math.Round(-Tool.pntwMinReact.Y * (double)(numZoom.Value / 100)) + 10);
+            }
             paintBox.Invalidate();
         }
 
-        private void toolStripDelSelected_Click(object sender, EventArgs e)
-        {
+        private void toolStripDelSelected_Click(object sender, EventArgs e) {
             figureArray.RemoveAll(FindFigureIsSelected);
             paintBox.Invalidate();
         }
 
-        private void toolStripUpLayer_Click(object sender, EventArgs e)
-        {
+        private void toolStripUpLayer_Click(object sender, EventArgs e) {
             List<Figure> figureArrayTemp = figureArray.FindAll(FindFigureIsSelected);
             figureArray.RemoveAll(FindFigureIsSelected);
             figureArray.AddRange(figureArrayTemp);
             paintBox.Invalidate();
         }
-        private bool FindFigureIsSelected(Figure figure)
-        {
+        private bool FindFigureIsSelected(Figure figure) {
             return figure.isSelected;
         }
 
-        private void toolStripDownLayer_Click(object sender, EventArgs e)
-        {
+        private void toolStripDownLayer_Click(object sender, EventArgs e) {
             List<Figure> figureArrayTemp = figureArray.FindAll(FindFigureIsSelected);
             figureArray.RemoveAll(FindFigureIsSelected);
-            figureArray.InsertRange(0,figureArrayTemp);
+            figureArray.InsertRange(0, figureArrayTemp);
             paintBox.Invalidate();
         }
     }
