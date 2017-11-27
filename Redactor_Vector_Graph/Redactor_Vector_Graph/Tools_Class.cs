@@ -424,9 +424,8 @@ namespace Redactor_Vector_Graph {
                 if (Math.Abs(pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10) {
                     var hasSelected = false;
                     for (int i = figureArray.Count - 1; i >= 0; --i) {
-                        var f = figureArray[i];
-                        f.isSelected = !hasSelected && f.SelectPoint(e.Location);
-                        hasSelected |= f.isSelected;
+                        figureArray[i].isSelected = !hasSelected && figureArray[i].SelectPoint(e.Location);
+                        hasSelected |= figureArray[i].isSelected;
                     }
                 }
                 else {

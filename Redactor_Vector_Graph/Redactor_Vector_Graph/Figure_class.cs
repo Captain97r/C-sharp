@@ -259,8 +259,8 @@ namespace Redactor_Vector_Graph {
         }
         public override void DrawColider(Graphics graphics) {
             if (isSelected)
-                DrawColiderRect(graphics, new Rectangle(startPointW.ToScrPnt(),
-                    new Size(endPointW.ToScrPnt().X - startPointW.ToScrPnt().X, endPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y)));
+                DrawColiderRect(graphics, new Rectangle(Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X), Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y),
+                 Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X), Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y)));
         }
 
     }
@@ -302,7 +302,8 @@ namespace Redactor_Vector_Graph {
         }
         public override void DrawColider(Graphics graphics) {
             if (isSelected)
-                DrawColiderRect(graphics, rectColider);
+                DrawColiderRect(graphics, new Rectangle(Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X), Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y),
+                  Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X), Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y)));
         }
     }
 }
