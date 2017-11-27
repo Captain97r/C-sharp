@@ -81,14 +81,9 @@ namespace Redactor_Vector_Graph {
             isSelected = false;
             return false;
         }
-        public override bool SelectArea(Rectangle area) {
-            if (area.Contains(pntWmin.ToScrPnt()) && area.Contains(pntWmax.ToScrPnt())) {
-                isSelected = true;
-                return true;
-            }
-            isSelected = false;
-            return false;
-        }
+        public override bool SelectArea(Rectangle area) =>
+            area.Contains(pntWmin.ToScrPnt()) && area.Contains(pntWmax.ToScrPnt());
+ 
         public override void AddPoint(PointW pointW) {
             points_array.Add(pointW);
             pntWmin.X = Math.Min(pntWmin.X, pointW.X);
@@ -131,14 +126,9 @@ namespace Redactor_Vector_Graph {
             isSelected = false;
             return false;
         }
-        public override bool SelectArea(Rectangle area) {
-            if (area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt())) {
-                isSelected = true;
-                return true;
-            }
-            isSelected = false;
-            return false;
-        }
+        public override bool SelectArea(Rectangle area) =>
+            area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
+    
         public override void AddPoint(PointW pointW) {
             endPointW = pointW;
         }
@@ -176,7 +166,6 @@ namespace Redactor_Vector_Graph {
             }
         }
         public override bool SelectPoint(Point pntClick) {
-
             if (rectColider.Contains(pntClick)) {
                 isSelected = true;
                 return true;
@@ -184,14 +173,8 @@ namespace Redactor_Vector_Graph {
             isSelected = false;
             return false;
         }
-        public override bool SelectArea(Rectangle area) {
-            if (area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt())) {
-                isSelected = true;
-                return true;
-            }
-            isSelected = false;
-            return false;
-        }
+        public override bool SelectArea(Rectangle area) =>
+            area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
         public override void AddPoint(PointW pointW) {
             endPointW = pointW;
 
@@ -266,14 +249,8 @@ namespace Redactor_Vector_Graph {
             isSelected = false;
             return false;
         }
-        public override bool SelectArea(Rectangle area) {
-            if (area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt())) {
-                isSelected = true;
-                return true;
-            }
-            isSelected = false;
-            return false;
-        }
+        public override bool SelectArea(Rectangle area) =>
+            area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
         public override void AddPoint(PointW pointW) {
             endPointW = pointW;
         }
@@ -310,14 +287,9 @@ namespace Redactor_Vector_Graph {
             isSelected = false;
             return false;
         }
-        public override bool SelectArea(Rectangle area) {
-            if (area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt())) {
-                isSelected = true;
-                return true;
-            }
-            isSelected = false;
-            return false;
-        }
+        public override bool SelectArea(Rectangle area) =>
+            area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
+
         public override void AddPoint(PointW pointW) {
             endPointW = pointW;
         }

@@ -288,7 +288,7 @@ namespace Redactor_Vector_Graph {
         public override void MouseUp(object sender, MouseEventArgs e) {
             int stepZoomValue = (int)stepZoom.Value;
             if (e.Button == MouseButtons.Left) {
-                if ((pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) > 10) {
+                if (Math.Abs(pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) > 10) {
                     decimal zoom = (decimal)(Math.Min((paintBox.Width - 200) / Math.Abs(pointWEnd.X - pointWStart.X),
                                             (paintBox.Height - 50) / Math.Abs(pointWEnd.Y - pointWStart.Y)) * 100);
                     if (Math.Min(zoom, numZoom.Maximum) > numZoom.Minimum)
@@ -384,6 +384,7 @@ namespace Redactor_Vector_Graph {
         PointW pointWEnd;
         Point pointStart;
         Point pointEnd;
+
         public ToolSelection(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set) {
             paintBox = paintBox_set;
             figureArray = figureArrayFrom;
@@ -392,15 +393,16 @@ namespace Redactor_Vector_Graph {
             panelProp = new PanelProp();
             panelProp.Text = "Selection";
         }
+
         public override void MouseMove(object sender, MouseEventArgs e) {
             if (flagLeftMouseClick) {
-
                 pointEnd = new Point(e.X, e.Y);
                 pointWEnd = new PointW(e.X, e.Y);
                 figureArray.Last().AddPoint(pointWEnd);
                 paintBox.Invalidate();
             }
         }
+
         public override void MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 pointStart = new Point(e.X, e.Y);
@@ -419,19 +421,18 @@ namespace Redactor_Vector_Graph {
         public override void MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 figureArray.RemoveAt(figureArray.Count - 1);
-                if ((pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10) {
-                    int i = figureArray.Count - 1;
-                    for (; i >= 0; --i)
-                        if (figureArray[i].SelectPoint(e.Location)) {
-                            i--;
-                            break;
-                        }
-                    for (; i >= 0; --i)
-                        figureArray[i].isSelected = false;
+                if (Math.Abs(pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10) {
+                    var hasSelected = false;
+                    for (int i = figureArray.Count - 1; i >= 0; --i) {
+                        var f = figureArray[i];
+                        f.isSelected = !hasSelected && f.SelectPoint(e.Location);
+                        hasSelected |= f.isSelected;
+                    }
                 }
                 else {
                     foreach (Figure primitiv in figureArray) {
-                        primitiv.SelectArea(new Rectangle(pointWStart.ToScrPnt(), new Size(pointWEnd.ToScrPnt().X - pointWStart.ToScrPnt().X, pointWEnd.ToScrPnt().Y - pointWStart.ToScrPnt().Y)));
+                        primitiv.isSelected = primitiv.SelectArea(new Rectangle(Math.Min(pointWStart.ToScrPnt().X, pointWEnd.ToScrPnt().X), Math.Min(pointWStart.ToScrPnt().Y, pointWEnd.ToScrPnt().Y),
+                            Math.Abs(pointWStart.ToScrPnt().X - pointWEnd.ToScrPnt().X), Math.Abs(pointWStart.ToScrPnt().Y - pointWEnd.ToScrPnt().Y)));
                     }
                 }
 
