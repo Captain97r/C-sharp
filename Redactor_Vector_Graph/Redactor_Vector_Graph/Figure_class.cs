@@ -42,12 +42,14 @@ namespace Redactor_Vector_Graph {
         public Color colorFill;
         public bool isFill = false;
         public bool isSelected = false;
+        public Rectangle rectColider;
         public abstract void Draw(Graphics graphics);
         public abstract void AddPoint(PointW pointW);
         public abstract bool SelectPoint(Point pntClick);
         public abstract void DrawColider(Graphics graphics);
         public virtual bool SelectArea(Rectangle area) { return false; }
         protected void DrawColiderRect(Graphics g, Rectangle rect) {
+            rectColider = rect;
             const int offset = 10;
             rect.X -= offset;
             rect.Y -= offset;
@@ -105,7 +107,7 @@ namespace Redactor_Vector_Graph {
 
     }
     public class Rect : Figure {
-        Rectangle rectColider;
+ 
         PointW startPointW;
         PointW endPointW;
         int x, y, width, height;
@@ -151,7 +153,6 @@ namespace Redactor_Vector_Graph {
         }
     }
     public class RoundedRect : Figure {
-        Rectangle rectColider;
         PointW startPointW;
         PointW endPointW;
         int radius;
@@ -265,7 +266,6 @@ namespace Redactor_Vector_Graph {
 
     }
     public class Ellipse : Figure {
-        Rectangle rectColider;
         PointW startPointW;
         PointW endPointW;
         public Ellipse(Pen setPen, PointW start, Color? setColorFill = null) {

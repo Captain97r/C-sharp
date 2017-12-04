@@ -36,7 +36,6 @@ namespace Redactor_Vector_Graph {
             toolZoom = new ToolZoom(btnToolZoom, ref figureArray, paintBox, numZoom);
             toolHand = new ToolHand(btnToolHand, paintBox);
             toolSelection = new ToolSelection(btnToolSelection, ref figureArray, paintBox);
-
             Tool.ActiveTool = toolPolyLine;
             toolPolyLine.ToolButtonClick(null, null);
             paintBox.Paint += PaintBox_Paint;
