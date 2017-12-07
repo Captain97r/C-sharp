@@ -384,7 +384,10 @@ namespace Redactor_Vector_Graph {
         PointW pointWEnd;
         Point pointStart;
         Point pointEnd;
-
+        List<Figure> figureSelectionArray;
+        Anchor anchorSelected;
+        Figure figureAnchorSelected;
+        bool flagDragPoint = false;
         public ToolSelection(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set) {
             paintBox = paintBox_set;
             figureArray = figureArrayFrom;
@@ -396,47 +399,80 @@ namespace Redactor_Vector_Graph {
 
         public override void MouseMove(object sender, MouseEventArgs e) {
             if (flagLeftMouseClick) {
-                pointEnd = new Point(e.X, e.Y);
-                pointWEnd = new PointW(e.X, e.Y);
-                figureArray.Last().AddPoint(pointWEnd);
+                if (flagDragPoint) {
+                    anchorSelected.EditPoint(new Point(e.X, e.Y));
+                }
+                else {
+                    pointEnd = new Point(e.X, e.Y);
+                    pointWEnd = new PointW(e.X, e.Y);
+                    figureArray.Last().AddPoint(pointWEnd);
+                }
                 paintBox.Invalidate();
             }
         }
 
         public override void MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
-                pointStart = new Point(e.X, e.Y);
-                pointEnd = new Point(e.X + 1, e.Y + 1);
-                Pen pen = new Pen(Color.Gray);
-                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
-                pen.DashOffset = 15;
-                pen.Width = 2;
+                if (figureSelectionArray != null) {
+                    foreach (Figure primitiv in figureSelectionArray) {
+                        foreach (Anchor anchor in primitiv.anchorArray) {
+                            if (anchor.rect.Contains(e.Location)) {
+                                anchorSelected = anchor;
+                                flagDragPoint = true;
+                            }
+                        }
+                    }
+                }
+                if(!flagDragPoint) {
+                    pointStart = new Point(e.X, e.Y);
+                    pointEnd = new Point(e.X + 1, e.Y + 1);
+                    Pen pen = new Pen(Color.Gray);
+                    pen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
+                    pen.DashOffset = 15;
+                    pen.Width = 2;
+                    pointWStart = new PointW(e.X, e.Y);
+                    pointWEnd = new PointW(e.X + 1, e.Y + 1);
+                    figureArray.Add(new Rect(pen, pointWStart));
+                    paintBox.Invalidate();
+                }
                 flagLeftMouseClick = true;
-                pointWStart = new PointW(e.X, e.Y);
-                pointWEnd = new PointW(e.X + 1, e.Y + 1);
-                figureArray.Add(new Rect(pen, pointWStart));
-                paintBox.Invalidate();
             }
         }
         public override void MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
-                figureArray.RemoveAt(figureArray.Count - 1);
-                if (Math.Abs(pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10) {
-                    var hasSelected = false;
-                    for (int i = figureArray.Count - 1; i >= 0; --i) {
-                        figureArray[i].isSelected = !hasSelected && figureArray[i].SelectPoint(e.Location);
-                        hasSelected |= figureArray[i].isSelected;
-                    }
+                if (flagDragPoint) {
+                    flagDragPoint = false;
+                  //  figureSelectionArray = null;
                 }
                 else {
-                    foreach (Figure primitiv in figureArray) {
-                        primitiv.isSelected = primitiv.SelectArea(new Rectangle(Math.Min(pointWStart.ToScrPnt().X, pointWEnd.ToScrPnt().X), Math.Min(pointWStart.ToScrPnt().Y, pointWEnd.ToScrPnt().Y),
-                            Math.Abs(pointWStart.ToScrPnt().X - pointWEnd.ToScrPnt().X), Math.Abs(pointWStart.ToScrPnt().Y - pointWEnd.ToScrPnt().Y)));
+                    figureArray.RemoveAt(figureArray.Count - 1);
+                    figureSelectionArray = new List<Figure>();
+                    if (Math.Abs(pointEnd.X - pointStart.X + pointEnd.Y - pointStart.Y) < 10) {
+                        var hasSelected = false;
+                        for (int i = figureArray.Count - 1; i >= 0; --i) {
+                            figureArray[i].isSelected = !hasSelected && figureArray[i].SelectPoint(e.Location);
+                            hasSelected |= figureArray[i].isSelected;
+                            if (figureArray[i].isSelected) {
+                                figureSelectionArray.Add(figureArray[i]);
+                            }
+                        }
+                    }
+                    else {
+
+                        foreach (Figure primitiv in figureArray) {
+                            primitiv.isSelected = primitiv.SelectArea(new Rectangle(Math.Min(pointWStart.ToScrPnt().X, pointWEnd.ToScrPnt().X), Math.Min(pointWStart.ToScrPnt().Y, pointWEnd.ToScrPnt().Y),
+                                Math.Abs(pointWStart.ToScrPnt().X - pointWEnd.ToScrPnt().X), Math.Abs(pointWStart.ToScrPnt().Y - pointWEnd.ToScrPnt().Y)));
+                            if (primitiv.isSelected) {
+                                figureSelectionArray.Add(primitiv);
+                            }
+                        }
+                    }
+                    if(figureSelectionArray.Count == 0) {
+                        figureSelectionArray = null;
                     }
                 }
-
-                flagLeftMouseClick = false;
                 paintBox.Invalidate();
+                flagLeftMouseClick = false;
             }
         }
         public override void HidePanelProp() {

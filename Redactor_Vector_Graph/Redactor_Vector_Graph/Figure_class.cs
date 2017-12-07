@@ -37,44 +37,32 @@ namespace Redactor_Vector_Graph {
     }
 
     public abstract class Figure {
-
+        public List<Anchor> anchorArray = new List<Anchor>(8);
         public Pen pen = new Pen(Color.Black);
         public Color colorFill;
         public bool isFill = false;
         public bool isSelected = false;
         public Rectangle rectColider;
-        public abstract void Draw(Graphics graphics);
-        public abstract void AddPoint(PointW pointW);
-        public abstract bool SelectPoint(Point pntClick);
-        public abstract void DrawColider(Graphics graphics);
+        public virtual void Draw(Graphics graphics) { }
+        public virtual void AddPoint(PointW pointW) { }
+        public virtual bool SelectPoint(Point pntClick) { return false; }
+        public virtual void DrawColider(Graphics graphics) { }
         public virtual bool SelectArea(Rectangle area) { return false; }
-        protected void DrawColiderRect(Graphics g, Rectangle rect) {
-            rectColider = rect;
-            const int offset = 10;
-            rect.X -= offset;
-            rect.Y -= offset;
-            rect.Width += offset * 2;
-            rect.Height += offset * 2;
-            Pen penColider = new Pen(Color.Gray);
-            penColider.Width = 3;
-            penColider.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
-            g.DrawRectangle(penColider, rect);
-        }
     }
 
     public class PolyLine : Figure {
         PointW pntWmin;
         PointW pntWmax;
-        public List<PointW> points_array = new List<PointW>(10);
+        public List<PointW> pointsArray = new List<PointW>(10);
         public PolyLine(Pen setPen, PointW start) {
             pen = (Pen)setPen.Clone();
-            points_array.Add(start);
+            pointsArray.Add(start);
             pntWmin = start.Clone();
             pntWmax = new PointW(0.0, 0.0);
         }
         public override bool SelectPoint(Point pntClick) {
             const int dist = 20;
-            foreach (PointW pointW in points_array) {
+            foreach (PointW pointW in pointsArray) {
                 if ((Math.Pow(pointW.ToScrPnt().X - pntClick.X, 2.0) + Math.Pow(pointW.ToScrPnt().Y - pntClick.Y, 2.0)) <= dist * dist) {
                     isSelected = true;
                     return true;
@@ -87,144 +75,24 @@ namespace Redactor_Vector_Graph {
             area.Contains(pntWmin.ToScrPnt()) && area.Contains(pntWmax.ToScrPnt());
  
         public override void AddPoint(PointW pointW) {
-            points_array.Add(pointW);
+            pointsArray.Add(pointW);
             pntWmin.X = Math.Min(pntWmin.X, pointW.X);
             pntWmin.Y = Math.Min(pntWmin.Y, pointW.Y);
             pntWmax.X = Math.Max(pntWmax.X, pointW.X);
             pntWmax.Y = Math.Max(pntWmax.Y, pointW.Y);
         }
         public override void Draw(Graphics graphics) {
-            PointW lastPointW = points_array[0];
-            foreach (PointW pointW in points_array) {
+            PointW lastPointW = pointsArray[0];
+            foreach (PointW pointW in pointsArray) {
                 graphics.DrawLine(pen, pointW.ToScrPnt(), lastPointW.ToScrPnt());
                 lastPointW = pointW;
             }
         }
-        public override void DrawColider(Graphics graphics) {
-            if (isSelected)
-                DrawColiderRect(graphics, new Rectangle(pntWmin.ToScrPnt().X, pntWmin.ToScrPnt().Y, pntWmax.ToScrPnt().X - pntWmin.ToScrPnt().X, pntWmax.ToScrPnt().Y - pntWmin.ToScrPnt().Y));
-        }
+        //public override void DrawColider(Graphics graphics) {
+        //    if (isSelected)
+        //        DrawColiderRect(graphics, new Rectangle(pntWmin.ToScrPnt().X, pntWmin.ToScrPnt().Y, pntWmax.ToScrPnt().X - pntWmin.ToScrPnt().X, pntWmax.ToScrPnt().Y - pntWmin.ToScrPnt().Y));
+        //}
 
-    }
-    public class Rect : Figure {
- 
-        PointW startPointW;
-        PointW endPointW;
-        int x, y, width, height;
-        public Rect(Pen setPen, PointW start, Color? setColorFill = null) {
-            pen = (Pen)setPen.Clone();
-            startPointW = start;
-            endPointW = start;
-            if (setColorFill.HasValue) {
-                colorFill = (Color)setColorFill;
-                isFill = true;
-            }
-        }
-        public override bool SelectPoint(Point pntClick) {
-            if (rectColider.Contains(pntClick)) {
-                isSelected = true;
-                return true;
-            }
-            isSelected = false;
-            return false;
-        }
-        public override bool SelectArea(Rectangle area) =>
-            area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
-    
-        public override void AddPoint(PointW pointW) {
-            endPointW = pointW;
-        }
-        public override void Draw(Graphics graphics) {
-            x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
-            y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
-            width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
-            height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y);
-            graphics.DrawRectangle(pen, new Rectangle(x, y, width, height));
-            if (isFill)
-                graphics.FillRectangle(new SolidBrush(colorFill), new Rectangle(x + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
-                                          y + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), width - (int)(pen.Width), height - (int)(pen.Width)));
-
-            rectColider = new Rectangle(x - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), y - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
-                             width + (int)(pen.Width), height + (int)(pen.Width));
-        }
-        public override void DrawColider(Graphics graphics) {
-            if (isSelected)
-                DrawColiderRect(graphics, rectColider);
-        }
-    }
-    public class RoundedRect : Figure {
-        PointW startPointW;
-        PointW endPointW;
-        int radius;
-        public RoundedRect(Pen setPen, PointW start, int setRadius, Color? setColorFill = null) {
-            pen = (Pen)setPen.Clone();
-            startPointW = start;
-            endPointW = start;
-            radius = setRadius;
-            if (setColorFill.HasValue) {
-                colorFill = (Color)setColorFill;
-                isFill = true;
-            }
-        }
-        public override bool SelectPoint(Point pntClick) {
-            if (rectColider.Contains(pntClick)) {
-                isSelected = true;
-                return true;
-            }
-            isSelected = false;
-            return false;
-        }
-        public override bool SelectArea(Rectangle area) =>
-            area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
-        public override void AddPoint(PointW pointW) {
-            endPointW = pointW;
-
-        }
-        public override void Draw(Graphics graphics) {
-            int x, y;
-            x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
-            y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
-            int width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
-            int height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y);
-            rectColider = new Rectangle(x - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), y - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
-                        width + (int)(pen.Width), height + (int)(pen.Width));
-
-            int diameter = radius * 2;
-            if (diameter * 2 > rectColider.Width & rectColider.Width <= rectColider.Height) {
-                diameter = rectColider.Width + 1;
-            }
-            if (diameter * 2 > rectColider.Height & rectColider.Width >= rectColider.Height) {
-                diameter = rectColider.Height + 1;
-            }
-            Size size = new Size(diameter, diameter);
-            Rectangle arc = new Rectangle(rectColider.Location, size);
-            GraphicsPath path = new GraphicsPath();
-            if (radius == 0) {
-                graphics.DrawRectangle(pen, new Rectangle(x, y, width, height));
-                if (isFill)
-                    graphics.FillRectangle(new SolidBrush(colorFill), new Rectangle(x + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), y + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), width - (int)(pen.Width), height - (int)(pen.Width)));
-                return;
-            }
-            // top left arc  
-            path.AddArc(arc, 180, 90);
-            // top right arc  
-            arc.X = rectColider.Right - diameter;
-            path.AddArc(arc, 270, 90);
-            // bottom right arc  
-            arc.Y = rectColider.Bottom - diameter;
-            path.AddArc(arc, 0, 90);
-            // bottom left arc 
-            arc.X = rectColider.Left;
-            path.AddArc(arc, 90, 90);
-            path.CloseFigure();
-            graphics.DrawPath(pen, path);
-            if (isFill)
-                graphics.FillPath(new SolidBrush(colorFill), path);
-        }
-        public override void DrawColider(Graphics graphics) {
-            if (isSelected)
-                DrawColiderRect(graphics, rectColider);
-        }
     }
     public class Line : Figure {
         PointW startPointW;
@@ -258,16 +126,147 @@ namespace Redactor_Vector_Graph {
         public override void Draw(Graphics graphics) {
             graphics.DrawLine(pen, startPointW.ToScrPnt(), endPointW.ToScrPnt());
         }
-        public override void DrawColider(Graphics graphics) {
-            if (isSelected)
-                DrawColiderRect(graphics, new Rectangle(Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X), Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y),
-                 Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X), Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y)));
+        //public override void DrawColider(Graphics graphics) {
+        //    if (isSelected)
+        //        DrawColiderRect(graphics, new Rectangle(Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X), Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y),
+        //         Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X), Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y)));
+        //}
+    }
+    public class RectangularFigure : Figure {
+       public PointW startPointW;
+       public PointW endPointW;
+       protected void CreateAnchors() {
+            anchorArray.Add(new Anchor(ref startPointW));
+            anchorArray.Add(new Anchor(ref endPointW));
+        }
+        protected void SetAnchors() {
+            
+        }
+        public override void AddPoint(PointW pointW) {
+            endPointW = pointW;
+            anchorArray[0] = new Anchor(ref startPointW);
+            anchorArray[1] = new Anchor(ref endPointW);
+        }
+        protected void DrawColiderRect(Graphics g, Rectangle rect) {
+            rectColider = rect;
+            Pen penColider = new Pen(Color.Gray);
+            penColider.Width = 3;
+            penColider.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
+            g.DrawRectangle(penColider, rect);
+            anchorArray[0].Draw(g);
+            //  anchorArray[1].Draw(g, new Point(rect.X+rect.Width, rect.Y + rect.Height));
+            anchorArray[1].Draw(g);
         }
 
     }
-    public class Ellipse : Figure {
-        PointW startPointW;
-        PointW endPointW;
+    public class Rect : RectangularFigure {
+        int x, y, width, height;
+        public Rect(Pen setPen, PointW start, Color? setColorFill = null) {
+            pen = (Pen)setPen.Clone();
+            startPointW = start;
+            endPointW = start;
+            if (setColorFill.HasValue) {
+                colorFill = (Color)setColorFill;
+                isFill = true;
+            }
+            CreateAnchors();
+        }
+        public override bool SelectPoint(Point pntClick) {
+            if (rectColider.Contains(pntClick)) {
+                isSelected = true;
+                return true;
+            }
+            isSelected = false;
+            return false;
+        }
+        public override bool SelectArea(Rectangle area) =>
+            area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
+    
+        public override void Draw(Graphics graphics) {
+            x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
+            y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
+            width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
+            height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y);
+            graphics.DrawRectangle(pen, new Rectangle(x, y, width, height));
+            if (isFill)
+                graphics.FillRectangle(new SolidBrush(colorFill), new Rectangle(x + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
+                                          y + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), width - (int)(pen.Width), height - (int)(pen.Width)));
+
+            rectColider = new Rectangle(x - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), y - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
+                             width + (int)(pen.Width), height + (int)(pen.Width));
+        }
+        public override void DrawColider(Graphics graphics) {
+            if (isSelected)
+                DrawColiderRect(graphics, new Rectangle(x, y, width, height));
+        }
+    }
+    public class RoundedRect : RectangularFigure {
+        int radius;
+        public RoundedRect(Pen setPen, PointW start, int setRadius, Color? setColorFill = null) {
+            pen = (Pen)setPen.Clone();
+            startPointW = start;
+            endPointW = start;
+            radius = setRadius;
+            if (setColorFill.HasValue) {
+                colorFill = (Color)setColorFill;
+                isFill = true;
+            }
+            CreateAnchors();
+        }
+        public override bool SelectPoint(Point pntClick) {
+            if (rectColider.Contains(pntClick)) {
+                isSelected = true;
+                return true;
+            }
+            isSelected = false;
+            return false;
+        }
+        public override bool SelectArea(Rectangle area) =>
+            area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
+
+        public override void Draw(Graphics graphics) {
+            int x, y;
+            x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
+            y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
+            int width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
+            int height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y);
+            rectColider = new Rectangle(x - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), y - (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero),
+                        width + (int)(pen.Width), height + (int)(pen.Width));
+
+            int diameter = radius * 2;
+            if (diameter * 2 > rectColider.Width & rectColider.Width <= rectColider.Height) {
+                diameter = rectColider.Width + 1;
+            }
+            if (diameter * 2 > rectColider.Height & rectColider.Width >= rectColider.Height) {
+                diameter = rectColider.Height + 1;
+            }
+            Size size = new Size(diameter, diameter);
+            Rectangle arc = new Rectangle(rectColider.Location, size);
+            GraphicsPath path = new GraphicsPath();
+            if (radius == 0) {
+                graphics.DrawRectangle(pen, new Rectangle(x, y, width, height));
+                if (isFill)
+                    graphics.FillRectangle(new SolidBrush(colorFill), new Rectangle(x + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), y + (int)Math.Round(pen.Width / 2, MidpointRounding.AwayFromZero), width - (int)(pen.Width), height - (int)(pen.Width)));
+                return;
+            }
+            path.AddArc(arc, 180, 90);
+            arc.X = rectColider.Right - diameter;
+            path.AddArc(arc, 270, 90);
+            arc.Y = rectColider.Bottom - diameter;
+            path.AddArc(arc, 0, 90);
+            arc.X = rectColider.Left;
+            path.AddArc(arc, 90, 90);
+            path.CloseFigure();
+            graphics.DrawPath(pen, path);
+            if (isFill)
+                graphics.FillPath(new SolidBrush(colorFill), path);
+        }
+        public override void DrawColider(Graphics graphics) {
+            if (isSelected)
+                DrawColiderRect(graphics, rectColider);
+        }
+    }
+    public class Ellipse : RectangularFigure {
         public Ellipse(Pen setPen, PointW start, Color? setColorFill = null) {
             pen = (Pen)setPen.Clone();
             startPointW = start;
@@ -276,7 +275,9 @@ namespace Redactor_Vector_Graph {
                 colorFill = (Color)setColorFill;
                 isFill = true;
             }
+            CreateAnchors();
         }
+
         public override bool SelectPoint(Point pntClick) {
             double A = (endPointW.ToScrPnt().X - startPointW.ToScrPnt().X) / 2;
             double B = (endPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y) / 2;
@@ -290,9 +291,6 @@ namespace Redactor_Vector_Graph {
         public override bool SelectArea(Rectangle area) =>
             area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
 
-        public override void AddPoint(PointW pointW) {
-            endPointW = pointW;
-        }
         public override void Draw(Graphics graphics) {
             rectColider = new Rectangle(startPointW.ToScrPnt(),
                     new Size(endPointW.ToScrPnt().X - startPointW.ToScrPnt().X, endPointW.ToScrPnt().Y - startPointW.ToScrPnt().Y));
@@ -305,5 +303,29 @@ namespace Redactor_Vector_Graph {
                 DrawColiderRect(graphics, new Rectangle(Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X), Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y),
                   Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X), Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y)));
         }
+    }
+    public class Anchor {
+        public PointW editedPoint;
+        public PointW anchorPoint;
+        public Rectangle rect;
+        public Anchor(ref PointW editedPointSet) {
+            editedPoint = editedPointSet;
+        }
+        public void EditPoint(Point pointTo) {
+            PointW pointW = PointW.ScrnToPointW(pointTo);
+            editedPoint.X = pointW.X;
+            editedPoint.Y = pointW.Y;
+        }
+        public void Draw(Graphics g) {
+            const int width = 4;
+            Point point = editedPoint.ToScrPnt();
+            Pen pen = new Pen(Color.Black);
+            pen.Width = 2;
+            rect = new Rectangle(point.X - width, point.Y - width, width*2, width*2);
+            g.DrawRectangle(pen, rect);
+            g.FillRectangle(new SolidBrush(Color.White), rect);
+
+        }
+
     }
 }
