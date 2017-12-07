@@ -37,6 +37,7 @@ namespace Redactor_Vector_Graph {
 
     public abstract class Figure {
         public List<Anchor> anchorArray = new List<Anchor>(8);
+        public Dictionary<string, Prop> propArray = new Dictionary<string, Prop>(5);
         public Pen pen = new Pen(Color.Black);
         public Color colorFill;
         public bool isFill = false;
@@ -162,7 +163,6 @@ namespace Redactor_Vector_Graph {
     public class RectangularFigure : Figure {
        public PointW startPointW;
        public PointW endPointW;
-       public Dictionary<string,Prop> propArray = new Dictionary<string, Prop>(5);
        protected void Create() {
             anchorArray.Add(new Anchor(ref startPointW));
             anchorArray.Add(new Anchor(ref endPointW));
@@ -193,9 +193,9 @@ namespace Redactor_Vector_Graph {
     }
     public class Rect : RectangularFigure {
         int x, y, width, height;
-        public Rect(Color penColor,int penWidth, PointW start, Color? setColorFill = null) {
-            ((PropColor)propArray["PenColor"]).colorButton.color = penColor;
-            ((PropPenWidth)propArray["PenWidth"]).numWidthPen.penWidth = penWidth;
+        public Rect(Pen pen, PointW start, Color? setColorFill = null) {
+         
+            this.pen = (Pen)pen.Clone();
             startPointW = start;
             endPointW = start;
             if (setColorFill.HasValue) {
@@ -203,6 +203,9 @@ namespace Redactor_Vector_Graph {
                 isFill = true;
             }
             Create();
+            ((PropColor)propArray["PenColor"]).colorButton.color = pen.Color;
+            ((PropPenWidth)propArray["PenWidth"]).numWidthPen.penWidth = pen.Width;
+
         }
         public override bool SelectPoint(Point pntClick) {
             if (rectColider.Contains(pntClick)) {
@@ -216,7 +219,7 @@ namespace Redactor_Vector_Graph {
             area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
     
         public override void Draw(Graphics graphics) {
-            Pen pen = new Pen(((PropColor)propArray["PenColor"]).colorButton.color);
+            pen.Color = ((PropColor)propArray["PenColor"]).colorButton.color;
             pen.Width = ((PropPenWidth)propArray["PenWidth"]).numWidthPen.penWidth;
             x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
             y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
