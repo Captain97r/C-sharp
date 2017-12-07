@@ -50,7 +50,7 @@ namespace Redactor_Vector_Graph {
             toolButton.Click += new EventHandler(ToolButtonClick);
             panelProp = new PanelProp();
             panelProp.Text = "Rect";
-            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp, Color.Black);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
             propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
         }
@@ -94,7 +94,7 @@ namespace Redactor_Vector_Graph {
             toolButton.Click += new EventHandler(ToolButtonClick);
             panelProp = new PanelProp();
             panelProp.Text = "Rounded Rect";
-            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp, Color.Black);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
             propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
             propRadius = new PropRadius(new Point(5, 140), "Radius:", panelProp);
@@ -137,7 +137,7 @@ namespace Redactor_Vector_Graph {
             toolButton.Click += new EventHandler(ToolButtonClick);
             panelProp = new PanelProp();
             panelProp.Text = "Poly line";
-            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp, Color.Black);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
@@ -178,7 +178,7 @@ namespace Redactor_Vector_Graph {
             toolButton.Click += new EventHandler(ToolButtonClick);
             panelProp = new PanelProp();
             panelProp.Text = "Line";
-            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp, Color.Black);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
@@ -217,7 +217,7 @@ namespace Redactor_Vector_Graph {
             toolButton.Click += new EventHandler(ToolButtonClick);
             panelProp = new PanelProp();
             panelProp.Text = "Ellipse";
-            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp,Color.Black);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
             propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
         }
@@ -509,12 +509,20 @@ namespace Redactor_Vector_Graph {
                 flagLeftMouseClick = false;
             }
         }
+        public void DrawProp() {
+            if (figureSelectionArray != null) {
+                foreach (Figure primitiv in figureSelectionArray) {
+                    primitiv.
+                }
+            }
+        }
         public override void HidePanelProp() {
             //foreach (Figure primitiv in figureArray) {
             //    primitiv.isSelected = false;
             //}
             paintBox.Invalidate();
             panelProp.Visible = false;
+            panelProp = new PanelProp();
         }
         public override void ShowPanelProp() {
             panelProp.Visible = true;
@@ -535,8 +543,11 @@ namespace Redactor_Vector_Graph {
     }
     public class ColorButton : Button {
         public Color color;
+        public delegate void ValueChanged();
+        public ValueChanged valueChanged;
         private ColorDialog colorDialog = new ColorDialog();
-        public ColorButton(Color setColor) {
+        public ColorButton(Color setColor, ValueChanged valueChanged = null) {
+            this.valueChanged = valueChanged;
             this.Click += new EventHandler(ColorButton_Click);
             color = setColor;
             Size = new Size(48, 24);
@@ -546,6 +557,9 @@ namespace Redactor_Vector_Graph {
             colorDialog.ShowDialog();
             color = colorDialog.Color;
             SetButtonColor(colorDialog.Color);
+            if(valueChanged != null) {
+                valueChanged();
+            }
         }
         private void SetButtonColor(Color color) {
             Graphics bitmapGBtnMainColor;
@@ -571,13 +585,13 @@ namespace Redactor_Vector_Graph {
     class Prop {
         protected Control control;
         protected Label label;
-
     }
     class PropColor : Prop {
-        public PropColor(Point position, String text, PanelProp panelProp) {
-            control = new ColorButton(Color.Black);
-            control.Location = new Point(position.X + 60, position.Y);
-            panelProp.Controls.Add(control);
+        ColorButton colorButton;
+        public PropColor(Point position, String text, PanelProp panelProp,Color color, ColorButton.ValueChanged valueChanged = null) {
+            colorButton = new ColorButton(color, valueChanged);
+            colorButton.Location = new Point(position.X + 60, position.Y);
+            panelProp.Controls.Add(colorButton);
             label = new Label {
                 Location = position,
                 Text = text
@@ -585,7 +599,6 @@ namespace Redactor_Vector_Graph {
             panelProp.Controls.Add(label);
         }
         public Color GetColor() {
-            ColorButton colorButton = (ColorButton)control;
             return colorButton.color;
         }
     }
@@ -620,7 +633,7 @@ namespace Redactor_Vector_Graph {
                 Text = text
             };
             panelProp.Controls.Add(label);
-            propColor = new PropColor(new Point(position.X, position.Y + 25), "Clr fill:", panelProp);
+            propColor = new PropColor(new Point(position.X, position.Y + 25), "Clr fill:", panelProp,Color.Black);
         }
         public bool GetCheked() {
             return ((CheckBox)control).Checked;

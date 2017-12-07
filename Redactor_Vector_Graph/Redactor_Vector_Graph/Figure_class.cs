@@ -5,6 +5,12 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 namespace Redactor_Vector_Graph {
+    public enum Props{
+        PenColor,
+        PenWidth,
+        Fill,
+        Radius
+    }
     public class PointW {
         public static double zoom = 1;
         public static Point offset = new Point(0, 0);
@@ -39,6 +45,7 @@ namespace Redactor_Vector_Graph {
 
     public abstract class Figure {
         public List<Anchor> anchorArray = new List<Anchor>(8);
+        public List<Props> props = new List<Props>(5);
         public Pen pen = new Pen(Color.Black);
         public Color colorFill;
         public bool isFill = false;
@@ -164,7 +171,10 @@ namespace Redactor_Vector_Graph {
     public class RectangularFigure : Figure {
        public PointW startPointW;
        public PointW endPointW;
-       protected void CreateAnchors() {
+       protected void Create() {
+            props.Add(Props.PenColor);
+            props.Add(Props.PenWidth);
+            props.Add(Props.Fill);
             anchorArray.Add(new Anchor(ref startPointW));
             anchorArray.Add(new Anchor(ref endPointW));
         }
@@ -200,7 +210,7 @@ namespace Redactor_Vector_Graph {
                 colorFill = (Color)setColorFill;
                 isFill = true;
             }
-            CreateAnchors();
+            Create();
         }
         public override bool SelectPoint(Point pntClick) {
             if (rectColider.Contains(pntClick)) {
@@ -242,7 +252,7 @@ namespace Redactor_Vector_Graph {
                 colorFill = (Color)setColorFill;
                 isFill = true;
             }
-            CreateAnchors();
+            Create();
         }
         public override bool SelectPoint(Point pntClick) {
             if (rectColider.Contains(pntClick)) {
@@ -306,7 +316,7 @@ namespace Redactor_Vector_Graph {
                 colorFill = (Color)setColorFill;
                 isFill = true;
             }
-            CreateAnchors();
+            Create();
         }
 
         public override bool SelectPoint(Point pntClick) {
