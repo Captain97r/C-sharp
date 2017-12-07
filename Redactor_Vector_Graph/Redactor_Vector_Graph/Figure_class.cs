@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 namespace Redactor_Vector_Graph {
     public class PointW {
@@ -57,6 +58,7 @@ namespace Redactor_Vector_Graph {
         public PolyLine(Pen setPen, PointW start) {
             pen = (Pen)setPen.Clone();
             pointsArray.Add(start);
+            anchorArray.Add(new Anchor(pointsArray,pointsArray.Count-1));
             pntWmin = start.Clone();
             pntWmax = new PointW(0.0, 0.0);
         }
@@ -80,6 +82,7 @@ namespace Redactor_Vector_Graph {
             pntWmin.Y = Math.Min(pntWmin.Y, pointW.Y);
             pntWmax.X = Math.Max(pntWmax.X, pointW.X);
             pntWmax.Y = Math.Max(pntWmax.Y, pointW.Y);
+            anchorArray.Add(new Anchor(pointsArray, pointsArray.Count - 1));
         }
         public override void Draw(Graphics graphics) {
             PointW lastPointW = pointsArray[0];
@@ -88,11 +91,13 @@ namespace Redactor_Vector_Graph {
                 lastPointW = pointW;
             }
         }
-        //public override void DrawColider(Graphics graphics) {
-        //    if (isSelected)
-        //        DrawColiderRect(graphics, new Rectangle(pntWmin.ToScrPnt().X, pntWmin.ToScrPnt().Y, pntWmax.ToScrPnt().X - pntWmin.ToScrPnt().X, pntWmax.ToScrPnt().Y - pntWmin.ToScrPnt().Y));
-        //}
-
+        public override void DrawColider(Graphics graphics) {
+            if (isSelected) {
+                foreach (Anchor anchor in anchorArray) {
+                    anchor.Draw(graphics);
+                }
+            }
+        }
     }
     public class Line : Figure {
         PointW startPointW;
@@ -315,6 +320,9 @@ namespace Redactor_Vector_Graph {
         public Rectangle rect;
         public Anchor(ref PointW editedPointSet) {
             editedPoint = editedPointSet;
+        }
+        public Anchor(List<PointW> editedPointSet, int index) {
+            editedPoint = editedPointSet[index];
         }
         public void EditPoint(Point pointTo) {
             PointW pointW = PointW.ScrnToPointW(pointTo);
