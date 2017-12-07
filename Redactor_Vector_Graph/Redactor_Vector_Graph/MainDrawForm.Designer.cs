@@ -39,21 +39,21 @@
             this.toolStripHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolPanel = new System.Windows.Forms.Panel();
-            this.btnToolSelection = new System.Windows.Forms.Button();
-            this.btnToolRoundedRect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnResetZoom = new System.Windows.Forms.Button();
             this.lblZoom = new System.Windows.Forms.Label();
             this.numZoom = new System.Windows.Forms.NumericUpDown();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.paintBox = new Redactor_Vector_Graph.PaintBox();
+            this.btnToolMoveFigure = new System.Windows.Forms.Button();
+            this.btnToolSelection = new System.Windows.Forms.Button();
+            this.btnToolRoundedRect = new System.Windows.Forms.Button();
             this.btnToolZoom = new System.Windows.Forms.Button();
             this.btnToolHand = new System.Windows.Forms.Button();
             this.btnToolEllipse = new System.Windows.Forms.Button();
             this.btnToolRect = new System.Windows.Forms.Button();
             this.btnToolLine = new System.Windows.Forms.Button();
             this.btnToolPolyLine = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.paintBox = new Redactor_Vector_Graph.PaintBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
@@ -138,7 +138,7 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.toolPanel.Controls.Add(this.button1);
+            this.toolPanel.Controls.Add(this.btnToolMoveFigure);
             this.toolPanel.Controls.Add(this.btnToolSelection);
             this.toolPanel.Controls.Add(this.btnToolRoundedRect);
             this.toolPanel.Controls.Add(this.panel1);
@@ -157,24 +157,6 @@
             this.toolPanel.Name = "toolPanel";
             this.toolPanel.Size = new System.Drawing.Size(126, 571);
             this.toolPanel.TabIndex = 0;
-            // 
-            // btnToolSelection
-            // 
-            this.btnToolSelection.Image = global::Redactor_Vector_Graph.Properties.Resources.dashRect;
-            this.btnToolSelection.Location = new System.Drawing.Point(67, 123);
-            this.btnToolSelection.Name = "btnToolSelection";
-            this.btnToolSelection.Size = new System.Drawing.Size(54, 54);
-            this.btnToolSelection.TabIndex = 14;
-            this.btnToolSelection.UseVisualStyleBackColor = true;
-            // 
-            // btnToolRoundedRect
-            // 
-            this.btnToolRoundedRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RoundedRect;
-            this.btnToolRoundedRect.Location = new System.Drawing.Point(7, 123);
-            this.btnToolRoundedRect.Name = "btnToolRoundedRect";
-            this.btnToolRoundedRect.Size = new System.Drawing.Size(54, 54);
-            this.btnToolRoundedRect.TabIndex = 13;
-            this.btnToolRoundedRect.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -238,6 +220,57 @@
             0});
             this.numZoom.ValueChanged += new System.EventHandler(this.numZoom_ValueChanged);
             // 
+            // panel2
+            // 
+            this.panel2.AutoSize = true;
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 604);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1085, 0);
+            this.panel2.TabIndex = 4;
+            // 
+            // paintBox
+            // 
+            this.paintBox.AutoSize = true;
+            this.paintBox.BackColor = System.Drawing.SystemColors.Window;
+            this.paintBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.paintBox.Location = new System.Drawing.Point(0, 33);
+            this.paintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
+            this.paintBox.MinimumSize = new System.Drawing.Size(960, 555);
+            this.paintBox.Name = "paintBox";
+            this.paintBox.Size = new System.Drawing.Size(1085, 571);
+            this.paintBox.TabIndex = 0;
+            this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
+            this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
+            this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
+            // 
+            // btnToolMoveFigure
+            // 
+            this.btnToolMoveFigure.Image = global::Redactor_Vector_Graph.Properties.Resources.move;
+            this.btnToolMoveFigure.Location = new System.Drawing.Point(7, 243);
+            this.btnToolMoveFigure.Name = "btnToolMoveFigure";
+            this.btnToolMoveFigure.Size = new System.Drawing.Size(54, 54);
+            this.btnToolMoveFigure.TabIndex = 15;
+            this.btnToolMoveFigure.UseVisualStyleBackColor = true;
+            // 
+            // btnToolSelection
+            // 
+            this.btnToolSelection.Image = global::Redactor_Vector_Graph.Properties.Resources.dashRect;
+            this.btnToolSelection.Location = new System.Drawing.Point(67, 123);
+            this.btnToolSelection.Name = "btnToolSelection";
+            this.btnToolSelection.Size = new System.Drawing.Size(54, 54);
+            this.btnToolSelection.TabIndex = 14;
+            this.btnToolSelection.UseVisualStyleBackColor = true;
+            // 
+            // btnToolRoundedRect
+            // 
+            this.btnToolRoundedRect.Image = global::Redactor_Vector_Graph.Properties.Resources.RoundedRect;
+            this.btnToolRoundedRect.Location = new System.Drawing.Point(7, 123);
+            this.btnToolRoundedRect.Name = "btnToolRoundedRect";
+            this.btnToolRoundedRect.Size = new System.Drawing.Size(54, 54);
+            this.btnToolRoundedRect.TabIndex = 13;
+            this.btnToolRoundedRect.UseVisualStyleBackColor = true;
+            // 
             // btnToolZoom
             // 
             this.btnToolZoom.Image = ((System.Drawing.Image)(resources.GetObject("btnToolZoom.Image")));
@@ -292,39 +325,6 @@
             this.btnToolPolyLine.TabIndex = 0;
             this.btnToolPolyLine.UseVisualStyleBackColor = true;
             // 
-            // panel2
-            // 
-            this.panel2.AutoSize = true;
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 604);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1085, 0);
-            this.panel2.TabIndex = 4;
-            // 
-            // paintBox
-            // 
-            this.paintBox.AutoSize = true;
-            this.paintBox.BackColor = System.Drawing.SystemColors.Window;
-            this.paintBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.paintBox.Location = new System.Drawing.Point(0, 33);
-            this.paintBox.MaximumSize = new System.Drawing.Size(2000, 2000);
-            this.paintBox.MinimumSize = new System.Drawing.Size(960, 555);
-            this.paintBox.Name = "paintBox";
-            this.paintBox.Size = new System.Drawing.Size(1085, 571);
-            this.paintBox.TabIndex = 0;
-            this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
-            this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
-            this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
-            // 
-            // button1
-            // 
-            this.button1.Image = global::Redactor_Vector_Graph.Properties.Resources.dashRect;
-            this.button1.Location = new System.Drawing.Point(7, 243);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(54, 54);
-            this.button1.TabIndex = 15;
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // MainDrawForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -377,7 +377,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripUpLayer;
         private System.Windows.Forms.ToolStripMenuItem toolStripDownLayer;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnToolMoveFigure;
     }
 }
 

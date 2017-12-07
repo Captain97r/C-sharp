@@ -13,6 +13,7 @@ namespace Redactor_Vector_Graph {
         ToolRect toolRect;
         ToolEllipse toolCircle;
         ToolHand toolHand;
+        ToolMoveFigure toolMoveFigure;
         ToolZoom toolZoom;
         ToolRoundedRect toolRoundedRect;
         ToolSelection toolSelection;
@@ -27,6 +28,7 @@ namespace Redactor_Vector_Graph {
             toolTipMain.SetToolTip(btnToolHand, "Hand");
             toolTipMain.SetToolTip(btnToolRoundedRect, "Rounded Rect");
             toolTipMain.SetToolTip(btnToolRoundedRect, "Selection");
+            toolTipMain.SetToolTip(btnToolMoveFigure, "Move Figure");
 
             toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, paintBox);
             toolLine = new ToolLine(btnToolLine, ref figureArray, paintBox);
@@ -36,6 +38,7 @@ namespace Redactor_Vector_Graph {
             toolZoom = new ToolZoom(btnToolZoom, ref figureArray, paintBox, numZoom);
             toolHand = new ToolHand(btnToolHand, paintBox);
             toolSelection = new ToolSelection(btnToolSelection, ref figureArray, paintBox);
+            toolMoveFigure = new ToolMoveFigure(btnToolMoveFigure, paintBox);
             Tool.ActiveTool = toolPolyLine;
             toolPolyLine.ToolButtonClick(null, null);
             paintBox.Paint += PaintBox_Paint;
@@ -89,6 +92,7 @@ namespace Redactor_Vector_Graph {
 
         private void toolStripDelSelected_Click(object sender, EventArgs e) {
             figureArray.RemoveAll(FindFigureIsSelected);
+            Tool.figureSelectionArray = null;
             paintBox.Invalidate();
         }
 

@@ -8,10 +8,12 @@ namespace Redactor_Vector_Graph {
     class Tool {
         public static PointW pntwMinReact = new PointW(Double.MaxValue, Double.MaxValue);
         public static PointW pntwMaxReact = new PointW(0.0, 0.0);
+        public static List<Figure> figureSelectionArray;
         public static Tool ActiveTool { get; set; }
         public Button toolButton;
         public List<Figure> figureArray;
         public Panel paintBox;
+        
         public Cursor cursor = Cursors.Default;
         protected bool flagLeftMouseClick = false;
         protected bool flagRightMouseClick = false;
@@ -379,12 +381,47 @@ namespace Redactor_Vector_Graph {
             }
         }
     }
+    class ToolMoveFigure : Tool {
+        PointW pntLastMause = new PointW(0, 0);
+        public ToolMoveFigure(Button button, Panel paintBox_set) {
+            paintBox = paintBox_set;
+            cursor = Cursors.Hand;
+            toolButton = button;
+            toolButton.Click += new EventHandler(ToolButtonClick);
+        }
+        public override void MouseMove(object sender, MouseEventArgs e) {
+            if (flagLeftMouseClick) {
+                PointW clickW = PointW.ScrnToPointW(e.Location);
+                if (figureSelectionArray != null) {
+                    foreach (Figure primitiv in figureSelectionArray) {
+                        primitiv.Move(new PointW(clickW.X - pntLastMause.X, clickW.Y - pntLastMause.Y));
+                    }
+                }
+                paintBox.Invalidate();
+
+                pntLastMause.X = clickW.X;
+                pntLastMause.Y = clickW.Y;
+            }
+        }
+        public override void MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
+                PointW clickW = PointW.ScrnToPointW(e.Location);
+                flagLeftMouseClick = true;
+                pntLastMause.X = clickW.X;
+                pntLastMause.Y = clickW.Y;
+            }
+        }
+        public override void MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
+                flagLeftMouseClick = false;
+            }
+        }
+    }
     class ToolSelection : Tool {
         PointW pointWStart;
         PointW pointWEnd;
         Point pointStart;
         Point pointEnd;
-        List<Figure> figureSelectionArray;
         Anchor anchorSelected;
         bool flagDragPoint = false;
         public ToolSelection(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set) {

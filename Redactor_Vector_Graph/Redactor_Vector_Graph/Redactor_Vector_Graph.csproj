@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\dashRect.png" />
+    <Content Include="Images\move.png" />
     <Content Include="Images\RoundedRect.png" />
     <None Include="Resources\Icon1.ico" />
     <None Include="Images\handImage.png" />

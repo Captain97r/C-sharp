@@ -45,6 +45,7 @@ namespace Redactor_Vector_Graph {
         public bool isSelected = false;
         public Rectangle rectColider;
         public virtual void Draw(Graphics graphics) { }
+        public virtual void Move(PointW offset) { }
         public virtual void AddPoint(PointW pointW) { }
         public virtual bool SelectPoint(Point pntClick) { return false; }
         public virtual void DrawColider(Graphics graphics) { }
@@ -155,8 +156,12 @@ namespace Redactor_Vector_Graph {
             anchorArray.Add(new Anchor(ref startPointW));
             anchorArray.Add(new Anchor(ref endPointW));
         }
-        protected void SetAnchors() {
-            
+        public override void Move(PointW offset) {
+           // PointW offsetW = PointW.ScrnToPointW(offset);
+            startPointW.X += offset.X;
+            startPointW.Y += offset.Y;
+            endPointW.X += offset.X;
+            endPointW.Y += offset.Y;
         }
         public override void AddPoint(PointW pointW) {
             endPointW = pointW;
