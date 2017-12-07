@@ -2,8 +2,6 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System;
-using System.Linq;
-using System.Windows.Forms;
 namespace Redactor_Vector_Graph {
     public class PointW {
         public static double zoom = 1;
@@ -164,9 +162,12 @@ namespace Redactor_Vector_Graph {
     public class RectangularFigure : Figure {
        public PointW startPointW;
        public PointW endPointW;
-       protected void CreateAnchors() {
+       public Dictionary<string,Prop> propArray = new Dictionary<string, Prop>(5);
+       protected void Create() {
             anchorArray.Add(new Anchor(ref startPointW));
             anchorArray.Add(new Anchor(ref endPointW));
+            propArray.Add("PenColor",new PropColor(Color.Black));
+            propArray.Add("PenWidth", new PropPenWidth());
         }
         public override void Move(PointW offset) {
             startPointW.X += offset.X;
@@ -192,15 +193,16 @@ namespace Redactor_Vector_Graph {
     }
     public class Rect : RectangularFigure {
         int x, y, width, height;
-        public Rect(Pen setPen, PointW start, Color? setColorFill = null) {
-            pen = (Pen)setPen.Clone();
+        public Rect(Color penColor,int penWidth, PointW start, Color? setColorFill = null) {
+            ((PropColor)propArray["PenColor"]).colorButton.color = penColor;
+            ((PropPenWidth)propArray["PenWidth"]).numWidthPen.penWidth = penWidth;
             startPointW = start;
             endPointW = start;
             if (setColorFill.HasValue) {
                 colorFill = (Color)setColorFill;
                 isFill = true;
             }
-            CreateAnchors();
+            Create();
         }
         public override bool SelectPoint(Point pntClick) {
             if (rectColider.Contains(pntClick)) {
@@ -214,6 +216,8 @@ namespace Redactor_Vector_Graph {
             area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
     
         public override void Draw(Graphics graphics) {
+            Pen pen = new Pen(((PropColor)propArray["PenColor"]).colorButton.color);
+            pen.Width = ((PropPenWidth)propArray["PenWidth"]).numWidthPen.penWidth;
             x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
             y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
             width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
@@ -242,7 +246,7 @@ namespace Redactor_Vector_Graph {
                 colorFill = (Color)setColorFill;
                 isFill = true;
             }
-            CreateAnchors();
+            Create();
         }
         public override bool SelectPoint(Point pntClick) {
             if (rectColider.Contains(pntClick)) {
@@ -306,7 +310,7 @@ namespace Redactor_Vector_Graph {
                 colorFill = (Color)setColorFill;
                 isFill = true;
             }
-            CreateAnchors();
+            Create();
         }
 
         public override bool SelectPoint(Point pntClick) {
