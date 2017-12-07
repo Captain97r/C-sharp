@@ -58,7 +58,7 @@ namespace Redactor_Vector_Graph {
         public PolyLine(Pen setPen, PointW start) {
             pen = (Pen)setPen.Clone();
             pointsArray.Add(start);
-            anchorArray.Add(new Anchor(pointsArray,pointsArray.Count-1));
+            anchorArray.Add(new Anchor(pointsArray,pointsArray.Count-1, SetMaxMin));
             pntWmin = start.Clone();
             pntWmax = new PointW(0.0, 0.0);
         }
@@ -82,7 +82,13 @@ namespace Redactor_Vector_Graph {
             pntWmin.Y = Math.Min(pntWmin.Y, pointW.Y);
             pntWmax.X = Math.Max(pntWmax.X, pointW.X);
             pntWmax.Y = Math.Max(pntWmax.Y, pointW.Y);
-            anchorArray.Add(new Anchor(pointsArray, pointsArray.Count - 1));
+            anchorArray.Add(new Anchor(pointsArray, pointsArray.Count - 1, SetMaxMin));
+        }
+        public void SetMaxMin(PointW pointW) {
+            pntWmin.X = Math.Min(pntWmin.X, pointW.X);
+            pntWmin.Y = Math.Min(pntWmin.Y, pointW.Y);
+            pntWmax.X = Math.Max(pntWmax.X, pointW.X);
+            pntWmax.Y = Math.Max(pntWmax.Y, pointW.Y);
         }
         public override void Draw(Graphics graphics) {
             PointW lastPointW = pointsArray[0];
@@ -317,17 +323,23 @@ namespace Redactor_Vector_Graph {
     public class Anchor {
         public PointW editedPoint;
         public PointW anchorPoint;
+        public delegate void EditCallBack(PointW editedPoint);
+        public EditCallBack editCallBack;
         public Rectangle rect;
         public Anchor(ref PointW editedPointSet) {
             editedPoint = editedPointSet;
         }
-        public Anchor(List<PointW> editedPointSet, int index) {
+        public Anchor(List<PointW> editedPointSet, int index, EditCallBack editCallBack) {
             editedPoint = editedPointSet[index];
+            this.editCallBack = editCallBack;
         }
         public void EditPoint(Point pointTo) {
             PointW pointW = PointW.ScrnToPointW(pointTo);
             editedPoint.X = pointW.X;
             editedPoint.Y = pointW.Y;
+            if (editCallBack != null) {
+                editCallBack.Invoke(editedPoint);
+            }
         }
         public void Draw(Graphics g) {
             const int width = 4;

@@ -386,7 +386,6 @@ namespace Redactor_Vector_Graph {
         Point pointEnd;
         List<Figure> figureSelectionArray;
         Anchor anchorSelected;
-        Figure figureAnchorSelected;
         bool flagDragPoint = false;
         public ToolSelection(Button button, ref List<Figure> figureArrayFrom, Panel paintBox_set) {
             paintBox = paintBox_set;
@@ -410,7 +409,6 @@ namespace Redactor_Vector_Graph {
                 paintBox.Invalidate();
             }
         }
-
         public override void MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 if (figureSelectionArray != null) {
@@ -442,7 +440,6 @@ namespace Redactor_Vector_Graph {
             if (e.Button == MouseButtons.Left) {
                 if (flagDragPoint) {
                     flagDragPoint = false;
-                  //  figureSelectionArray = null;
                 }
                 else {
                     figureArray.RemoveAt(figureArray.Count - 1);
@@ -476,9 +473,9 @@ namespace Redactor_Vector_Graph {
             }
         }
         public override void HidePanelProp() {
-            foreach (Figure primitiv in figureArray) {
-                primitiv.isSelected = false;
-            }
+            //foreach (Figure primitiv in figureArray) {
+            //    primitiv.isSelected = false;
+            //}
             paintBox.Invalidate();
             panelProp.Visible = false;
         }

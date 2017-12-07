@@ -53,6 +53,7 @@
             this.btnToolPolyLine = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
@@ -137,6 +138,7 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.toolPanel.Controls.Add(this.button1);
             this.toolPanel.Controls.Add(this.btnToolSelection);
             this.toolPanel.Controls.Add(this.btnToolRoundedRect);
             this.toolPanel.Controls.Add(this.panel1);
@@ -314,6 +316,15 @@
             this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
             // 
+            // button1
+            // 
+            this.button1.Image = global::Redactor_Vector_Graph.Properties.Resources.dashRect;
+            this.button1.Location = new System.Drawing.Point(7, 243);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(54, 54);
+            this.button1.TabIndex = 15;
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // MainDrawForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -366,6 +377,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripUpLayer;
         private System.Windows.Forms.ToolStripMenuItem toolStripDownLayer;
+        private System.Windows.Forms.Button button1;
     }
 }
 
