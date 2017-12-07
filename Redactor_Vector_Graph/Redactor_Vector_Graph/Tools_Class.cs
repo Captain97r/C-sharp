@@ -13,8 +13,8 @@ namespace Redactor_Vector_Graph {
         public Button toolButton;
         public List<Figure> figureArray;
         public Panel paintBox;
-        
         public Cursor cursor = Cursors.Default;
+
         protected bool flagLeftMouseClick = false;
         protected bool flagRightMouseClick = false;
         protected PropColor propColor;

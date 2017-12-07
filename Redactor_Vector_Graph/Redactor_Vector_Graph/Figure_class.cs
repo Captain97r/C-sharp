@@ -74,6 +74,12 @@ namespace Redactor_Vector_Graph {
             isSelected = false;
             return false;
         }
+        public override void Move(PointW offset) {
+            foreach (PointW pointW in pointsArray) {
+                pointW.X += offset.X;
+                pointW.Y += offset.Y;
+            }
+        }
         public override bool SelectArea(Rectangle area) =>
             area.Contains(pntWmin.ToScrPnt()) && area.Contains(pntWmax.ToScrPnt());
  
@@ -114,6 +120,12 @@ namespace Redactor_Vector_Graph {
             startPointW = start;
             anchorArray.Add(new Anchor(ref startPointW));
             anchorArray.Add(new Anchor(ref endPointW));
+        }
+        public override void Move(PointW offset) {
+            startPointW.X += offset.X;
+            startPointW.Y += offset.Y;
+            endPointW.X += offset.X;
+            endPointW.Y += offset.Y;
         }
         public override bool SelectPoint(Point pntClick) {
             const int dist = 20;
@@ -157,7 +169,6 @@ namespace Redactor_Vector_Graph {
             anchorArray.Add(new Anchor(ref endPointW));
         }
         public override void Move(PointW offset) {
-           // PointW offsetW = PointW.ScrnToPointW(offset);
             startPointW.X += offset.X;
             startPointW.Y += offset.Y;
             endPointW.X += offset.X;
@@ -175,7 +186,6 @@ namespace Redactor_Vector_Graph {
             penColider.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
             g.DrawRectangle(penColider, rect);
             anchorArray[0].Draw(g);
-            //  anchorArray[1].Draw(g, new Point(rect.X+rect.Width, rect.Y + rect.Height));
             anchorArray[1].Draw(g);
         }
 
