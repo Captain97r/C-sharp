@@ -50,7 +50,7 @@ namespace Redactor_Vector_Graph {
             toolButton.Click += new EventHandler(ToolButtonClick);
             panelProp = new PanelProp();
             panelProp.Text = "Rect";
-            propColor = new PropColor(new Point(5, 20), "Color:", panelProp, Color.Black);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
             propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
         }
@@ -94,7 +94,7 @@ namespace Redactor_Vector_Graph {
             toolButton.Click += new EventHandler(ToolButtonClick);
             panelProp = new PanelProp();
             panelProp.Text = "Rounded Rect";
-            propColor = new PropColor(new Point(5, 20), "Color:", panelProp, Color.Black);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
             propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
             propRadius = new PropRadius(new Point(5, 140), "Radius:", panelProp);
@@ -137,7 +137,7 @@ namespace Redactor_Vector_Graph {
             toolButton.Click += new EventHandler(ToolButtonClick);
             panelProp = new PanelProp();
             panelProp.Text = "Poly line";
-            propColor = new PropColor(new Point(5, 20), "Color:", panelProp, Color.Black);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
@@ -178,7 +178,7 @@ namespace Redactor_Vector_Graph {
             toolButton.Click += new EventHandler(ToolButtonClick);
             panelProp = new PanelProp();
             panelProp.Text = "Line";
-            propColor = new PropColor(new Point(5, 20), "Color:", panelProp, Color.Black);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
@@ -217,7 +217,7 @@ namespace Redactor_Vector_Graph {
             toolButton.Click += new EventHandler(ToolButtonClick);
             panelProp = new PanelProp();
             panelProp.Text = "Ellipse";
-            propColor = new PropColor(new Point(5, 20), "Color:", panelProp,Color.Black);
+            propColor = new PropColor(new Point(5, 20), "Color:", panelProp);
             propPenWidth = new PropPenWidth(new Point(5, 50), "Width:", panelProp);
             propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
         }
@@ -458,7 +458,7 @@ namespace Redactor_Vector_Graph {
                         }
                     }
                 }
-                if(!flagDragPoint) {
+                if (!flagDragPoint) {
                     pointStart = new Point(e.X, e.Y);
                     pointEnd = new Point(e.X + 1, e.Y + 1);
                     Pen pen = new Pen(Color.Gray);
@@ -501,19 +501,12 @@ namespace Redactor_Vector_Graph {
                             }
                         }
                     }
-                    if(figureSelectionArray.Count == 0) {
+                    if (figureSelectionArray.Count == 0) {
                         figureSelectionArray = null;
                     }
                 }
                 paintBox.Invalidate();
                 flagLeftMouseClick = false;
-            }
-        }
-        public void DrawProp() {
-            if (figureSelectionArray != null) {
-                foreach (Figure primitiv in figureSelectionArray) {
-                    primitiv.
-                }
             }
         }
         public override void HidePanelProp() {
@@ -522,7 +515,6 @@ namespace Redactor_Vector_Graph {
             //}
             paintBox.Invalidate();
             panelProp.Visible = false;
-            panelProp = new PanelProp();
         }
         public override void ShowPanelProp() {
             panelProp.Visible = true;
@@ -530,10 +522,11 @@ namespace Redactor_Vector_Graph {
     }
     public class NumWidthPen : NumericUpDown {
         public float penWidth;
-        public NumWidthPen() {
+        public NumWidthPen(decimal val) {
             Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             Maximum = new decimal(new int[] { 100, 0, 0, 0 });
-            Value = new decimal(new int[] { 1, 0, 0, 0 });
+            //      Value = new decimal(new int[] { 1, 0, 0, 0 });
+            Value = val;
             ValueChanged += new EventHandler(NumWidthPen_ValueChanged);
             penWidth = (float)Value;
         }
@@ -543,11 +536,8 @@ namespace Redactor_Vector_Graph {
     }
     public class ColorButton : Button {
         public Color color;
-        public delegate void ValueChanged();
-        public ValueChanged valueChanged;
         private ColorDialog colorDialog = new ColorDialog();
-        public ColorButton(Color setColor, ValueChanged valueChanged = null) {
-            this.valueChanged = valueChanged;
+        public ColorButton(Color setColor) {
             this.Click += new EventHandler(ColorButton_Click);
             color = setColor;
             Size = new Size(48, 24);
@@ -557,9 +547,6 @@ namespace Redactor_Vector_Graph {
             colorDialog.ShowDialog();
             color = colorDialog.Color;
             SetButtonColor(colorDialog.Color);
-            if(valueChanged != null) {
-                valueChanged();
-            }
         }
         private void SetButtonColor(Color color) {
             Graphics bitmapGBtnMainColor;
@@ -582,14 +569,18 @@ namespace Redactor_Vector_Graph {
             Visible = false;
         }
     }
-    class Prop {
+    public class Prop {
         protected Control control;
         protected Label label;
+        public virtual void Draw(Point position, String text, PanelProp panelProp) { }
     }
-    class PropColor : Prop {
-        ColorButton colorButton;
-        public PropColor(Point position, String text, PanelProp panelProp,Color color, ColorButton.ValueChanged valueChanged = null) {
-            colorButton = new ColorButton(color, valueChanged);
+    public class PropColor : Prop {
+        public ColorButton colorButton;
+        public PropColor(Color col) {
+            colorButton = new ColorButton(col);
+        }
+        public override void Draw(Point position, String text, PanelProp panelProp) {
+
             colorButton.Location = new Point(position.X + 60, position.Y);
             panelProp.Controls.Add(colorButton);
             label = new Label {
@@ -599,30 +590,37 @@ namespace Redactor_Vector_Graph {
             panelProp.Controls.Add(label);
         }
         public Color GetColor() {
-            return colorButton.color;
+            return ((ColorButton)colorButton).color;
         }
     }
-    class PropPenWidth : Prop {
-        public PropPenWidth(Point position, String text, PanelProp panelProp) {
-            control = new NumWidthPen();
-            control.Location = new Point(position.X + 60, position.Y);
-            control.Size = new Size(48, 26);
-            panelProp.Controls.Add(control);
+    public class PropPenWidth : Prop {
+        public NumWidthPen numWidthPen;
+        public PropPenWidth() {
+            numWidthPen = new NumWidthPen(new decimal(new int[] { 1, 0, 0, 0 }));
+        }
+        public override void Draw(Point position, String text, PanelProp panelProp) {
+            
+            numWidthPen.Location = new Point(position.X + 60, position.Y);
+            numWidthPen.Size = new Size(48, 26);
+            panelProp.Controls.Add(numWidthPen);
             label = new Label {
                 Location = position,
                 Text = text
             };
             panelProp.Controls.Add(label);
         }
+
         public float GetPenWidth() {
-            NumWidthPen numWidthPen = (NumWidthPen)control;
-            return numWidthPen.penWidth;
+            return ((NumWidthPen)numWidthPen).penWidth;
         }
     }
-    class PropFill : Prop {
+    public class PropFill : Prop {
         PropColor propColor;
         public PropFill(Point position, String text, PanelProp panelProp) {
-
+            propColor = new PropColor(Color.Black);
+        }
+        public override void Draw(Point position, String text, PanelProp panelProp) {
+            
             control = new CheckBox();
             control.Location = new Point(position.X + 60, position.Y);
             control.Size = new Size(48, 26);
@@ -633,9 +631,10 @@ namespace Redactor_Vector_Graph {
                 Text = text
             };
             panelProp.Controls.Add(label);
-            propColor = new PropColor(new Point(position.X, position.Y + 25), "Clr fill:", panelProp,Color.Black);
-        }
-        public bool GetCheked() {
+          
+            propColor.Draw(new Point(position.X, position.Y + 25), "Clr fill:", panelProp);
+            }
+            public bool GetCheked() {
             return ((CheckBox)control).Checked;
         }
         public Color color => propColor.GetColor();
@@ -643,7 +642,7 @@ namespace Redactor_Vector_Graph {
             return propColor.GetColor();
         }
     }
-    class PropRadius : Prop {
+    public class PropRadius : Prop {
         NumericUpDown numeric;
         public PropRadius(Point position, String text, PanelProp panelProp) {
             control = new NumericUpDown();
