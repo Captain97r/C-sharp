@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 
 namespace Redactor_Vector_Graph {
-    class PaintBox : Panel {
+   public class PaintBox : Panel {
         public PaintBox() {
             this.DoubleBuffered = true;
 
