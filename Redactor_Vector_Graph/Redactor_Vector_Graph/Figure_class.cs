@@ -100,6 +100,8 @@ namespace Redactor_Vector_Graph {
         public Line(Pen setPen, PointW start) {
             pen = (Pen)setPen.Clone();
             startPointW = start;
+            anchorArray.Add(new Anchor(ref startPointW));
+            anchorArray.Add(new Anchor(ref endPointW));
         }
         public override bool SelectPoint(Point pntClick) {
             const int dist = 20;
@@ -122,15 +124,18 @@ namespace Redactor_Vector_Graph {
             area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
         public override void AddPoint(PointW pointW) {
             endPointW = pointW;
+            anchorArray[0] = new Anchor(ref startPointW);
+            anchorArray[1] = new Anchor(ref endPointW);
         }
         public override void Draw(Graphics graphics) {
             graphics.DrawLine(pen, startPointW.ToScrPnt(), endPointW.ToScrPnt());
         }
-        //public override void DrawColider(Graphics graphics) {
-        //    if (isSelected)
-        //        DrawColiderRect(graphics, new Rectangle(Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X), Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y),
-        //         Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X), Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y)));
-        //}
+        public override void DrawColider(Graphics graphics) {
+            if (isSelected) {
+                anchorArray[0].Draw(graphics);
+                anchorArray[1].Draw(graphics);
+            }
+        }
     }
     public class RectangularFigure : Figure {
        public PointW startPointW;
