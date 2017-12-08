@@ -54,7 +54,8 @@ namespace Redactor_Vector_Graph {
             propColor.Draw(new Point(5, 20), panelProp, "Color:");
             propPenWidth = new PropPenWidth();
             propPenWidth.Draw(new Point(5, 50), panelProp, "Width:");
-            propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
+            propFill = new PropFill();
+            propFill.Draw(new Point(5, 80), panelProp, "Fill:");
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
             if (flagLeftMouseClick) {
@@ -100,7 +101,8 @@ namespace Redactor_Vector_Graph {
             propColor.Draw(new Point(5, 20), panelProp, "Color:");
             propPenWidth = new PropPenWidth();
             propPenWidth.Draw(new Point(5, 50), panelProp, "Width:");
-            propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
+            propFill = new PropFill();
+            propFill.Draw(new Point(5, 80), panelProp, "Fill:");
             propRadius = new PropRadius(new Point(5, 140), "Radius:", panelProp);
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
@@ -229,7 +231,8 @@ namespace Redactor_Vector_Graph {
             propColor.Draw(new Point(5, 20), panelProp, "Color:");
             propPenWidth = new PropPenWidth();
             propPenWidth.Draw(new Point(5, 50), panelProp, "Width:");
-            propFill = new PropFill(new Point(5, 80), "Fill:", panelProp);
+            propFill = new PropFill();
+            propFill.Draw(new Point(5, 80), panelProp, "Fill:");
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
             if (flagLeftMouseClick) {
@@ -604,6 +607,10 @@ namespace Redactor_Vector_Graph {
         protected PaintBox paintBox;
         protected Label label;
         public virtual void Draw(Point position, PanelProp panelProp, String text = null, PaintBox paintBox = null) { }
+        protected void ValChanged(object sender, EventArgs e) {
+            if (paintBox != null)
+                paintBox.Invalidate();
+        }
     }
     public class PropColor : Prop {
         public ColorButton colorButton;
@@ -612,7 +619,7 @@ namespace Redactor_Vector_Graph {
         }
         public override void Draw(Point position, PanelProp panelProp, String text, PaintBox paintBox = null) {
             this.paintBox = paintBox;
-            colorButton.Click += ColorButton_Click;
+            colorButton.Click += ValChanged;
             if (text == null)
                 text = "Color:";
             colorButton.Location = new Point(position.X + 60, position.Y);
@@ -623,12 +630,6 @@ namespace Redactor_Vector_Graph {
             };
             panelProp.Controls.Add(label);
         }
-
-        private void ColorButton_Click(object sender, EventArgs e) {
-            if (paintBox != null)
-                paintBox.Invalidate();
-        }
-
         public Color GetColor() {
             return ((ColorButton)colorButton).color;
         }
@@ -640,7 +641,7 @@ namespace Redactor_Vector_Graph {
         }
         public override void Draw(Point position, PanelProp panelProp, String text,PaintBox paintBox = null) {
             this.paintBox = paintBox;
-            numWidthPen.ValueChanged += NumWidthPen_ValueChanged;
+            numWidthPen.ValueChanged += ValChanged;
             if (text == null)
                 text = "Width:";
             numWidthPen.Location = new Point(position.X + 60, position.Y);
@@ -652,39 +653,40 @@ namespace Redactor_Vector_Graph {
             };
             panelProp.Controls.Add(label);
         }
-
-        private void NumWidthPen_ValueChanged(object sender, EventArgs e) {
-            if(paintBox != null)
-            paintBox.Invalidate();
-        }
-
         public float GetPenWidth() {
             return ((NumWidthPen)numWidthPen).penWidth;
         }
     }
     public class PropFill : Prop {
-        PropColor propColor;
-        public PropFill(Point position, String text, PanelProp panelProp) {
+        public CheckBox checkBox;
+        public PropColor propColor;
+        public PropFill() {
             propColor = new PropColor(Color.Black);
-            control = new CheckBox();
-            control.Location = new Point(position.X + 60, position.Y);
-            control.Size = new Size(48, 26);
-            control.Text = "";
-            panelProp.Controls.Add(control);
+            checkBox = new CheckBox();
+        }
+        public override void Draw(Point position, PanelProp panelProp, String text, PaintBox paintBox = null) {
+            this.paintBox = paintBox;
+            if (text == null)
+                text = "Fill:";
+            checkBox.Click += ValChanged;
+            propColor.colorButton.Click += ValChanged;
+            checkBox.Location = new Point(position.X + 60, position.Y);
+            checkBox.Size = new Size(48, 26);
+            checkBox.Text = "";
+            panelProp.Controls.Add(checkBox);
             label = new Label {
                 Location = position,
                 Text = text
             };
             panelProp.Controls.Add(label);
-
             propColor.Draw(new Point(position.X, position.Y + 25), panelProp, "Clr fill:");
+
         }
-        public override void Draw(Point position, PanelProp panelProp, String text, PaintBox paintBox = null) {
-            
-       
-            }
-            public bool GetCheked() {
-            return ((CheckBox)control).Checked;
+
+        
+
+        public bool GetCheked() {
+            return ((CheckBox)checkBox).Checked;
         }
         public Color color => propColor.GetColor();
         public Color GetColor() {
