@@ -180,7 +180,7 @@ namespace Redactor_Vector_Graph {
             anchorArray.Add(new Anchor(ref endPointW));
             propArray.Add("PenColor",new PropColor(Color.Black));
             propArray.Add("PenWidth", new PropPenWidth());
-            propArray.Add("Fill", new PropFill());
+            propArray.Add("Fill", new PropFill(Color.Black));
             colorFill = Color.Black;
             ((PropColor)propArray["PenColor"]).colorButton.color = pen.Color;
             ((PropPenWidth)propArray["PenWidth"]).numWidthPen.penWidth = pen.Width;

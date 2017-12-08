@@ -54,7 +54,7 @@ namespace Redactor_Vector_Graph {
             propColor.Draw(new Point(5, 20), panelProp, "Color:");
             propPenWidth = new PropPenWidth();
             propPenWidth.Draw(new Point(5, 50), panelProp, "Width:");
-            propFill = new PropFill();
+            propFill = new PropFill(Color.Black);
             propFill.Draw(new Point(5, 80), panelProp, "Fill:");
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
@@ -101,7 +101,7 @@ namespace Redactor_Vector_Graph {
             propColor.Draw(new Point(5, 20), panelProp, "Color:");
             propPenWidth = new PropPenWidth();
             propPenWidth.Draw(new Point(5, 50), panelProp, "Width:");
-            propFill = new PropFill();
+            propFill = new PropFill(Color.Black);
             propFill.Draw(new Point(5, 80), panelProp, "Fill:");
             propRadius = new PropRadius();
             propRadius.Draw(new Point(5, 140), panelProp, "Radius:");
@@ -232,7 +232,7 @@ namespace Redactor_Vector_Graph {
             propColor.Draw(new Point(5, 20), panelProp, "Color:");
             propPenWidth = new PropPenWidth();
             propPenWidth.Draw(new Point(5, 50), panelProp, "Width:");
-            propFill = new PropFill();
+            propFill = new PropFill(Color.Black);
             propFill.Draw(new Point(5, 80), panelProp, "Fill:");
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
@@ -437,6 +437,7 @@ namespace Redactor_Vector_Graph {
         Point pointStart;
         Point pointEnd;
         Anchor anchorSelected;
+        Dictionary<string,Prop> intersectProps = new Dictionary<string, Prop>(5);
         bool flagDragPoint = false;
         public ToolSelection(Button button, ref List<Figure> figureArrayFrom, PaintBox paintBox_set) {
             paintBox = paintBox_set;
@@ -518,6 +519,7 @@ namespace Redactor_Vector_Graph {
                     }
                     if (figureSelectionArray.Count == 0) {
                         figureSelectionArray = null;
+                        intersectProps = null;
                     }
                 }
                 paintBox.Invalidate();
@@ -527,23 +529,42 @@ namespace Redactor_Vector_Graph {
         }
         void DrawPanel() {
             int offset = 0;
+            int i = 0;
+            intersectProps = new Dictionary<string, Prop>(5);
             panelProp.Visible = false;
             panelProp = new PanelProp();
             panelProp.Visible = true;
             panelProp.Text = "Selection";
             if (figureSelectionArray != null) {
                 foreach (Figure primitiv in figureSelectionArray) {
-                    foreach (Prop prop in primitiv.propArray.Values) {
-                        prop.Draw(new Point(5, 20+ offset),panelProp,null,paintBox);
-                        if (prop.GetType().Name == "PropFill")
-                            offset += 50;
-                        else
-                            offset += 30;
-
+                    foreach (var prop in primitiv.propArray) {
+                        if (figureSelectionArray[0].propArray.ContainsKey(prop.Key)) {
+                            i++;
+                        }
+                        if (i == figureSelectionArray.Count) {
+                            if(!intersectProps.ContainsKey(prop.Key))
+                                 intersectProps.Add(prop.Key,prop.Value);
+                            i = 0;
+                        }
                     }
+                }
+                foreach(var prop in intersectProps) {
+                    prop.Value.Draw(new Point(5, 20 + offset), panelProp, null, paintBox);
+                    prop.Value.changeAll = changeAll;
+                    if (prop.GetType().Name == "PropFill")
+                        offset += 50;
+                    else
+                        offset += 30;
                 }
             }
         }
+        void changeAll() {
+            foreach (Figure primitiv in figureSelectionArray) {
+                foreach(var prop in intersectProps) {
+                    primitiv.propArray[prop.Key] = prop.Value.Clone();
+                }
+            }
+         }
         public override void HidePanelProp() {
             paintBox.Invalidate();
             panelProp.Visible = false;
@@ -603,15 +624,21 @@ namespace Redactor_Vector_Graph {
             toolPanel.Controls.Add(this);
             Visible = false;
         }
+        
     }
     public class Prop {
         protected Control control;
         protected PaintBox paintBox;
         protected Label label;
+        public delegate void ChangeAll();
+        public ChangeAll changeAll = null;
+        public virtual Prop Clone() { return new Prop(); }
         public virtual void Draw(Point position, PanelProp panelProp, String text = null, PaintBox paintBox = null) { }
         protected void ValChanged(object sender, EventArgs e) {
             if (paintBox != null)
                 paintBox.Invalidate();
+            if (changeAll != null)
+                changeAll();
         }
     }
     public class PropColor : Prop {
@@ -635,11 +662,14 @@ namespace Redactor_Vector_Graph {
         public Color GetColor() {
             return ((ColorButton)colorButton).color;
         }
+        public override Prop Clone() {
+            return new PropColor(colorButton.color);
+        }
     }
     public class PropPenWidth : Prop {
         public NumWidthPen numWidthPen;
-        public PropPenWidth() {
-            numWidthPen = new NumWidthPen(new decimal(new int[] { 1, 0, 0, 0 }));
+        public PropPenWidth(int val = 1) {
+            numWidthPen = new NumWidthPen(val);
         }
         public override void Draw(Point position, PanelProp panelProp, String text,PaintBox paintBox = null) {
             this.paintBox = paintBox;
@@ -658,13 +688,17 @@ namespace Redactor_Vector_Graph {
         public float GetPenWidth() {
             return ((NumWidthPen)numWidthPen).penWidth;
         }
+        public override Prop Clone() {
+            return new PropPenWidth((int)numWidthPen.Value);
+        }
     }
     public class PropFill : Prop {
         public CheckBox checkBox;
         public PropColor propColor;
-        public PropFill() {
-            propColor = new PropColor(Color.Black);
+        public PropFill(Color col,bool chek = false) {
+            propColor = new PropColor(col);
             checkBox = new CheckBox();
+            checkBox.Checked = chek;
         }
         public override void Draw(Point position, PanelProp panelProp, String text, PaintBox paintBox = null) {
             this.paintBox = paintBox;
@@ -684,15 +718,15 @@ namespace Redactor_Vector_Graph {
             propColor.Draw(new Point(position.X, position.Y + 25), panelProp, "Clr fill:");
 
         }
-
-        
-
         public bool GetCheked() {
             return ((CheckBox)checkBox).Checked;
         }
         public Color color => propColor.GetColor();
         public Color GetColor() {
             return propColor.GetColor();
+        }
+        public override Prop Clone() {
+            return new PropFill(propColor.colorButton.color,checkBox.Checked);
         }
     }
     public class PropRadius : Prop {
