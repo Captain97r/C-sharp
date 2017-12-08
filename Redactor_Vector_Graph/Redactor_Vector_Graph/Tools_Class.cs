@@ -103,7 +103,7 @@ namespace Redactor_Vector_Graph {
             propPenWidth.Draw(new Point(5, 50), panelProp, "Width:");
             propFill = new PropFill(Color.Black);
             propFill.Draw(new Point(5, 80), panelProp, "Fill:");
-            propRadius = new PropRadius();
+            propRadius = new PropRadius(25);
             propRadius.Draw(new Point(5, 140), panelProp, "Radius:");
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
@@ -541,7 +541,7 @@ namespace Redactor_Vector_Graph {
                         if (figureSelectionArray[0].propArray.ContainsKey(prop.Key)) {
                             i++;
                         }
-                        if (i == figureSelectionArray.Count) {
+                        if (i == figureSelectionArray.Count-1 || figureSelectionArray.Count == 1) {
                             if(!intersectProps.ContainsKey(prop.Key))
                                  intersectProps.Add(prop.Key,prop.Value);
                             i = 0;
@@ -551,18 +551,16 @@ namespace Redactor_Vector_Graph {
                 foreach(var prop in intersectProps) {
                     prop.Value.Draw(new Point(5, 20 + offset), panelProp, null, paintBox);
                     prop.Value.changeAll = changeAll;
-                    if (prop.GetType().Name == "PropFill")
+                    if (prop.Value.GetType() == typeof(PropFill))
                         offset += 50;
                     else
                         offset += 30;
                 }
             }
         }
-        void changeAll() {
+        void changeAll(object sender) {
             foreach (Figure primitiv in figureSelectionArray) {
-                foreach(var prop in intersectProps) {
-                    primitiv.propArray[prop.Key] = prop.Value.Clone();
-                }
+                primitiv.propArray[sender.GetType().Name] = intersectProps[sender.GetType().Name].Clone();
             }
          }
         public override void HidePanelProp() {
@@ -630,15 +628,16 @@ namespace Redactor_Vector_Graph {
         protected Control control;
         protected PaintBox paintBox;
         protected Label label;
-        public delegate void ChangeAll();
+        public delegate void ChangeAll(object sender);
         public ChangeAll changeAll = null;
         public virtual Prop Clone() { return new Prop(); }
         public virtual void Draw(Point position, PanelProp panelProp, String text = null, PaintBox paintBox = null) { }
         protected void ValChanged(object sender, EventArgs e) {
             if (paintBox != null)
                 paintBox.Invalidate();
-            if (changeAll != null)
-                changeAll();
+            if (changeAll != null) {
+                changeAll(this);
+            }
         }
     }
     public class PropColor : Prop {
@@ -732,10 +731,10 @@ namespace Redactor_Vector_Graph {
     public class PropRadius : Prop {
        public NumericUpDown numeric;
 
-        public PropRadius() {
+        public PropRadius(int radius) {
             numeric = new NumericUpDown();
             numeric.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numeric.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            numeric.Value = new decimal(radius);
         }
         public override void Draw(Point position, PanelProp panelProp, String text, PaintBox paintBox = null) {
             this.paintBox = paintBox;
@@ -753,6 +752,9 @@ namespace Redactor_Vector_Graph {
         }
             public int GetRadius() {
             return (int)numeric.Value;
+        }
+        public override Prop Clone() {
+            return new PropRadius((int)numeric.Value);
         }
     }
 
