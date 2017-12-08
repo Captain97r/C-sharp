@@ -269,6 +269,8 @@ namespace Redactor_Vector_Graph {
                 isFill = true;
             }
             Create();
+            propArray.Add("Radius", new PropRadius());
+            ((PropRadius)propArray["Radius"]).numeric.Value = radius;
         }
         public override bool SelectPoint(Point pntClick) {
             if (rectColider.Contains(pntClick)) {
@@ -286,6 +288,7 @@ namespace Redactor_Vector_Graph {
             pen.Width = ((PropPenWidth)propArray["PenWidth"]).numWidthPen.penWidth;
             colorFill = ((PropFill)propArray["Fill"]).propColor.colorButton.color;
             isFill = ((PropFill)propArray["Fill"]).checkBox.Checked;
+            radius = (int)((PropRadius)propArray["Radius"]).numeric.Value;
             int x, y;
             x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
             y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);

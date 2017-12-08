@@ -103,7 +103,8 @@ namespace Redactor_Vector_Graph {
             propPenWidth.Draw(new Point(5, 50), panelProp, "Width:");
             propFill = new PropFill();
             propFill.Draw(new Point(5, 80), panelProp, "Fill:");
-            propRadius = new PropRadius(new Point(5, 140), "Radius:", panelProp);
+            propRadius = new PropRadius();
+            propRadius.Draw(new Point(5, 140), panelProp, "Radius:");
         }
         public override void MouseMove(object sender, MouseEventArgs e) {
             if (flagLeftMouseClick) {
@@ -534,15 +535,16 @@ namespace Redactor_Vector_Graph {
                 foreach (Figure primitiv in figureSelectionArray) {
                     foreach (Prop prop in primitiv.propArray.Values) {
                         prop.Draw(new Point(5, 20+ offset),panelProp,null,paintBox);
-                        offset += 30;
+                        if (prop.GetType().Name == "PropFill")
+                            offset += 50;
+                        else
+                            offset += 30;
+
                     }
                 }
             }
         }
         public override void HidePanelProp() {
-            //foreach (Figure primitiv in figureArray) {
-            //    primitiv.isSelected = false;
-            //}
             paintBox.Invalidate();
             panelProp.Visible = false;
             panelProp = new PanelProp();
@@ -694,22 +696,28 @@ namespace Redactor_Vector_Graph {
         }
     }
     public class PropRadius : Prop {
-        NumericUpDown numeric;
-        public PropRadius(Point position, String text, PanelProp panelProp) {
-            control = new NumericUpDown();
-            control.Location = new Point(position.X + 60, position.Y);
-            control.Size = new Size(48, 26);
-            numeric = (NumericUpDown)control;
+       public NumericUpDown numeric;
+
+        public PropRadius() {
+            numeric = new NumericUpDown();
             numeric.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numeric.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            panelProp.Controls.Add(control);
+        }
+        public override void Draw(Point position, PanelProp panelProp, String text, PaintBox paintBox = null) {
+            this.paintBox = paintBox;
+            if (text == null)
+                text = "Radius:";
+            numeric.Location = new Point(position.X + 60, position.Y);
+            numeric.Size = new Size(48, 26);
+            numeric.ValueChanged += ValChanged;
+            panelProp.Controls.Add(numeric);
             label = new Label {
                 Location = position,
                 Text = text
             };
             panelProp.Controls.Add(label);
         }
-        public int GetRadius() {
+            public int GetRadius() {
             return (int)numeric.Value;
         }
     }
