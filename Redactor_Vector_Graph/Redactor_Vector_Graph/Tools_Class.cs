@@ -437,7 +437,7 @@ namespace Redactor_Vector_Graph {
         Point pointStart;
         Point pointEnd;
         Anchor anchorSelected;
-        Dictionary<string,Prop> intersectProps = new Dictionary<string, Prop>(5);
+        Dictionary<string, Prop> intersectProps = new Dictionary<string, Prop>(5);
         bool flagDragPoint = false;
         public ToolSelection(Button button, ref List<Figure> figureArrayFrom, PaintBox paintBox_set) {
             paintBox = paintBox_set;
@@ -529,26 +529,22 @@ namespace Redactor_Vector_Graph {
         }
         void DrawPanel() {
             int offset = 0;
-            int i = 0;
             intersectProps = new Dictionary<string, Prop>(5);
             panelProp.Visible = false;
             panelProp = new PanelProp();
             panelProp.Visible = true;
             panelProp.Text = "Selection";
             if (figureSelectionArray != null) {
-                foreach (Figure primitiv in figureSelectionArray) {
-                    foreach (var prop in primitiv.propArray) {
+                foreach (Figure primitiv in figureSelectionArray)
+                    foreach (var prop in primitiv.propArray)
                         if (figureSelectionArray[0].propArray.ContainsKey(prop.Key)) {
-                            i++;
+                            if (!intersectProps.ContainsKey(prop.Key)) {
+                                intersectProps.Add(prop.Key, prop.Value);
+                            }
                         }
-                        if (i == figureSelectionArray.Count-1 || figureSelectionArray.Count == 1) {
-                            if(!intersectProps.ContainsKey(prop.Key))
-                                 intersectProps.Add(prop.Key,prop.Value);
-                            i = 0;
-                        }
-                    }
-                }
-                foreach(var prop in intersectProps) {
+                        else
+                            intersectProps.Remove(prop.Key);
+                foreach (var prop in intersectProps) {
                     prop.Value.Draw(new Point(5, 20 + offset), panelProp, null, paintBox);
                     prop.Value.changeAll = changeAll;
                     if (prop.Value.GetType() == typeof(PropFill))
@@ -562,7 +558,7 @@ namespace Redactor_Vector_Graph {
             foreach (Figure primitiv in figureSelectionArray) {
                 primitiv.propArray[sender.GetType().Name] = intersectProps[sender.GetType().Name].Clone();
             }
-         }
+        }
         public override void HidePanelProp() {
             paintBox.Invalidate();
             panelProp.Visible = false;
@@ -622,7 +618,7 @@ namespace Redactor_Vector_Graph {
             toolPanel.Controls.Add(this);
             Visible = false;
         }
-        
+
     }
     public class Prop {
         protected Control control;
@@ -670,7 +666,7 @@ namespace Redactor_Vector_Graph {
         public PropPenWidth(int val = 1) {
             numWidthPen = new NumWidthPen(val);
         }
-        public override void Draw(Point position, PanelProp panelProp, String text,PaintBox paintBox = null) {
+        public override void Draw(Point position, PanelProp panelProp, String text, PaintBox paintBox = null) {
             this.paintBox = paintBox;
             numWidthPen.ValueChanged += ValChanged;
             if (text == null)
@@ -694,7 +690,7 @@ namespace Redactor_Vector_Graph {
     public class PropFill : Prop {
         public CheckBox checkBox;
         public PropColor propColor;
-        public PropFill(Color col,bool chek = false) {
+        public PropFill(Color col, bool chek = false) {
             propColor = new PropColor(col);
             checkBox = new CheckBox();
             checkBox.Checked = chek;
@@ -725,11 +721,11 @@ namespace Redactor_Vector_Graph {
             return propColor.GetColor();
         }
         public override Prop Clone() {
-            return new PropFill(propColor.colorButton.color,checkBox.Checked);
+            return new PropFill(propColor.colorButton.color, checkBox.Checked);
         }
     }
     public class PropRadius : Prop {
-       public NumericUpDown numeric;
+        public NumericUpDown numeric;
 
         public PropRadius(int radius) {
             numeric = new NumericUpDown();
@@ -750,7 +746,7 @@ namespace Redactor_Vector_Graph {
             };
             panelProp.Controls.Add(label);
         }
-            public int GetRadius() {
+        public int GetRadius() {
             return (int)numeric.Value;
         }
         public override Prop Clone() {
