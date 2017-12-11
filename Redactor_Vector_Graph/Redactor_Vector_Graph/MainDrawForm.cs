@@ -27,7 +27,7 @@ namespace Redactor_Vector_Graph {
             toolTipMain.SetToolTip(btnToolZoom, "Zoom");
             toolTipMain.SetToolTip(btnToolHand, "Hand");
             toolTipMain.SetToolTip(btnToolRoundedRect, "Rounded Rect");
-            toolTipMain.SetToolTip(btnToolRoundedRect, "Selection");
+            toolTipMain.SetToolTip(btnToolSelection, "Selection");
             toolTipMain.SetToolTip(btnToolMoveFigure, "Move Figure");
 
             toolPolyLine = new ToolPolyLine(btnToolPolyLine, ref figureArray, paintBox);
