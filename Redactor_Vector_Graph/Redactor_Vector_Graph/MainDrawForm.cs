@@ -19,6 +19,8 @@ namespace Redactor_Vector_Graph {
         ToolZoom toolZoom;
         ToolRoundedRect toolRoundedRect;
         ToolSelection toolSelection;
+        bool isFirstSave = true;
+        DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Figure[]));
         public MainDrawForm() {
             InitializeComponent();
             PanelProp.toolPanel = toolPanel;
@@ -44,7 +46,9 @@ namespace Redactor_Vector_Graph {
             Tool.ActiveTool = toolPolyLine;
             toolPolyLine.ToolButtonClick(null, null);
             paintBox.Paint += PaintBox_Paint;
-
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects");
+            fileDialogSave.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects";
+            fileDialogOpen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects";
         }
         private void PaintBox_Paint(object sender, PaintEventArgs e) {
 
@@ -116,10 +120,47 @@ namespace Redactor_Vector_Graph {
         }
 
         private void ToolStripSave_Click(object sender, EventArgs e) {
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Figure));
-            using (FileStream fs = new FileStream("picture1.json", FileMode.OpenOrCreate)) {
-                jsonFormatter.WriteObject(fs, figureArray[0]);
+            if (!isFirstSave) {
+                using (FileStream fs = new FileStream(fileDialogSave.FileName, FileMode.Create)) {
+                    
+                        jsonFormatter.WriteObject(fs, figureArray.ToArray());
+                    
+                }
             }
+            else {
+                
+                toolStripSaveAs_Click(null, null);
+            }
+
+        }
+
+        private void ToolStripOpen_Click(object sender, EventArgs e) {
+            fileDialogOpen.ShowDialog();
+        }
+
+        private void fileDialogOpen_FileOk(object sender, System.ComponentModel.CancelEventArgs e) {
+
+            using (FileStream fs = new FileStream(fileDialogOpen.FileName, FileMode.Open)) {
+                for (int i = figureArray.Count - 1; i >= 0; i--) {
+                    figureArray.Remove(figureArray[i]);
+                }
+                foreach (var figure in (Figure[])jsonFormatter.ReadObject(fs)) {
+                    figure.Load();
+                    figureArray.Add(figure);
+                }
+            }
+            fileDialogSave.FileName = fileDialogOpen.FileName;
+            isFirstSave = false;
+            paintBox.Invalidate();
+        }
+
+        private void fileDialogSave_FileOk(object sender, System.ComponentModel.CancelEventArgs e) {
+            isFirstSave = false;
+            ToolStripSave_Click(null, null);
+        }
+
+        private void toolStripSaveAs_Click(object sender, EventArgs e) {
+            fileDialogSave.ShowDialog();
         }
     }
 }

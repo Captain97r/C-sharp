@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainDrawForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDelSelected = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,9 +55,10 @@
             this.btnToolLine = new System.Windows.Forms.Button();
             this.btnToolPolyLine = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.fileDialogOpen = new System.Windows.Forms.OpenFileDialog();
+            this.fileDialogSave = new System.Windows.Forms.SaveFileDialog();
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
-            this.ToolStripOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
@@ -81,10 +84,25 @@
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripOpen,
             this.ToolStripSave,
+            this.toolStripSaveAs,
             this.toolStripExit});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(50, 29);
             this.toolStripMenuItem1.Text = "File";
+            // 
+            // ToolStripOpen
+            // 
+            this.ToolStripOpen.Name = "ToolStripOpen";
+            this.ToolStripOpen.Size = new System.Drawing.Size(210, 30);
+            this.ToolStripOpen.Text = "Open...";
+            this.ToolStripOpen.Click += new System.EventHandler(this.ToolStripOpen_Click);
+            // 
+            // ToolStripSave
+            // 
+            this.ToolStripSave.Name = "ToolStripSave";
+            this.ToolStripSave.Size = new System.Drawing.Size(210, 30);
+            this.ToolStripSave.Text = "Save";
+            this.ToolStripSave.Click += new System.EventHandler(this.ToolStripSave_Click);
             // 
             // toolStripExit
             // 
@@ -314,6 +332,17 @@
             this.panel2.Size = new System.Drawing.Size(1085, 0);
             this.panel2.TabIndex = 4;
             // 
+            // fileDialogOpen
+            // 
+            this.fileDialogOpen.FileOk += new System.ComponentModel.CancelEventHandler(this.fileDialogOpen_FileOk);
+            // 
+            // fileDialogSave
+            // 
+            this.fileDialogSave.DefaultExt = "json";
+            this.fileDialogSave.FileName = "new.json";
+            this.fileDialogSave.Filter = "|*.json";
+            this.fileDialogSave.FileOk += new System.ComponentModel.CancelEventHandler(this.fileDialogSave_FileOk);
+            // 
             // paintBox
             // 
             this.paintBox.AutoSize = true;
@@ -329,18 +358,12 @@
             this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
             // 
-            // ToolStripOpen
+            // toolStripSaveAs
             // 
-            this.ToolStripOpen.Name = "ToolStripOpen";
-            this.ToolStripOpen.Size = new System.Drawing.Size(210, 30);
-            this.ToolStripOpen.Text = "Open...";
-            // 
-            // ToolStripSave
-            // 
-            this.ToolStripSave.Name = "ToolStripSave";
-            this.ToolStripSave.Size = new System.Drawing.Size(210, 30);
-            this.ToolStripSave.Text = "Save";
-            this.ToolStripSave.Click += new System.EventHandler(this.ToolStripSave_Click);
+            this.toolStripSaveAs.Name = "toolStripSaveAs";
+            this.toolStripSaveAs.Size = new System.Drawing.Size(210, 30);
+            this.toolStripSaveAs.Text = "Save as...";
+            this.toolStripSaveAs.Click += new System.EventHandler(this.toolStripSaveAs_Click);
             // 
             // MainDrawForm
             // 
@@ -397,6 +420,9 @@
         private System.Windows.Forms.Button btnToolMoveFigure;
         private System.Windows.Forms.ToolStripMenuItem ToolStripOpen;
         private System.Windows.Forms.ToolStripMenuItem ToolStripSave;
+        private System.Windows.Forms.OpenFileDialog fileDialogOpen;
+        private System.Windows.Forms.SaveFileDialog fileDialogSave;
+        private System.Windows.Forms.ToolStripMenuItem toolStripSaveAs;
     }
 }
 
