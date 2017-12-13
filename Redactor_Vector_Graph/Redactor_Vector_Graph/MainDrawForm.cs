@@ -141,12 +141,18 @@ namespace Redactor_Vector_Graph {
         private void fileDialogOpen_FileOk(object sender, System.ComponentModel.CancelEventArgs e) {
 
             using (FileStream fs = new FileStream(fileDialogOpen.FileName, FileMode.Open)) {
+                
                 for (int i = figureArray.Count - 1; i >= 0; i--) {
                     figureArray.Remove(figureArray[i]);
                 }
-                foreach (var figure in (Figure[])jsonFormatter.ReadObject(fs)) {
-                    figure.Load();
-                    figureArray.Add(figure);
+                try {
+                    foreach (var figure in (Figure[])jsonFormatter.ReadObject(fs)) {
+                        figure.Load();
+                        figureArray.Add(figure);
+                    }
+                }
+                catch {
+                    MessageBox.Show("Error, file is corrupted!","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 }
             }
             fileDialogSave.FileName = fileDialogOpen.FileName;
@@ -161,6 +167,14 @@ namespace Redactor_Vector_Graph {
 
         private void toolStripSaveAs_Click(object sender, EventArgs e) {
             fileDialogSave.ShowDialog();
+        }
+
+        private void toolStripNew_Click(object sender, EventArgs e) {
+            for (int i = figureArray.Count - 1; i >= 0; i--) {
+                figureArray.Remove(figureArray[i]);
+            }
+            isFirstSave = true;
+            paintBox.Invalidate();
         }
     }
 }
