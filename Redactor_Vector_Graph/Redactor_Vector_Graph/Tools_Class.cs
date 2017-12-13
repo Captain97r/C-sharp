@@ -598,7 +598,7 @@ namespace Redactor_Vector_Graph {
             color = colorDialog.Color;
             SetButtonColor(colorDialog.Color);
         }
-        private void SetButtonColor(Color color) {
+        public void SetButtonColor(Color color) {
             Graphics bitmapGBtnMainColor;
             Bitmap bitmapBtnMainColor;
             bitmapBtnMainColor = new Bitmap(this.Width, this.Height);
@@ -642,6 +642,7 @@ namespace Redactor_Vector_Graph {
             colorButton = new ColorButton(col);
         }
         public override void Draw(Point position, PanelProp panelProp, String text, PaintBox paintBox = null) {
+            colorButton.SetButtonColor(colorButton.color);
             this.paintBox = paintBox;
             colorButton.Click += ValChanged;
             if (text == null)
@@ -655,7 +656,7 @@ namespace Redactor_Vector_Graph {
             panelProp.Controls.Add(label);
         }
         public Color GetColor() {
-            return ((ColorButton)colorButton).color;
+            return colorButton.color;
         }
         public override Prop Clone() {
             return new PropColor(colorButton.color);
@@ -667,6 +668,7 @@ namespace Redactor_Vector_Graph {
             numWidthPen = new NumWidthPen(val);
         }
         public override void Draw(Point position, PanelProp panelProp, String text, PaintBox paintBox = null) {
+            numWidthPen.Value = (decimal)numWidthPen.penWidth;
             this.paintBox = paintBox;
             numWidthPen.ValueChanged += ValChanged;
             if (text == null)

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
+using System.IO;
+using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 namespace Redactor_Vector_Graph {
     public partial class MainDrawForm : Form {
         List<Figure> figureArray = new List<Figure>(20);
@@ -111,6 +113,13 @@ namespace Redactor_Vector_Graph {
             figureArray.RemoveAll(FindFigureIsSelected);
             figureArray.InsertRange(0, figureArrayTemp);
             paintBox.Invalidate();
+        }
+
+        private void ToolStripSave_Click(object sender, EventArgs e) {
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Figure));
+            using (FileStream fs = new FileStream("picture1.json", FileMode.OpenOrCreate)) {
+                jsonFormatter.WriteObject(fs, figureArray[0]);
+            }
         }
     }
 }

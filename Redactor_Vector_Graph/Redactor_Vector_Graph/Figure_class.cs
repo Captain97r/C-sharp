@@ -2,12 +2,16 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System;
+using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 namespace Redactor_Vector_Graph {
-    public class PointW {
-        public static double zoom = 1;
-        public static Point offset = new Point(0, 0);
-        public double X;
-        public double Y;
+
+
+[DataContract] public class PointW {
+        [DataMember] public static double zoom = 1;
+        [DataMember] public static Point offset = new Point(0, 0);
+        [DataMember] public double X;
+        [DataMember] public double Y;
         public PointW(double setX, double setY) {
             X = setX;
             Y = setY;
@@ -34,13 +38,18 @@ namespace Redactor_Vector_Graph {
             return new PointW(X, Y);
         }
     }
-
+    [KnownType(typeof( PolyLine))]
+    [KnownType(typeof(Line))]
+    [DataContract]
     public abstract class Figure {
         public List<Anchor> anchorArray = new List<Anchor>(8);
         public Dictionary<string, Prop> propArray = new Dictionary<string, Prop>(5);
+
         public Pen pen = new Pen(Color.Black);
-        public Color colorFill;
-        public bool isFill = false;
+        [DataMember] public Color colorFill;
+        [DataMember] public Color colorPen;
+        [DataMember] public float widthPen;
+        [DataMember] public bool isFill = false;
         public bool isSelected = false;
         public Rectangle rectColider;
         public virtual void Draw(Graphics graphics) { }
@@ -50,11 +59,11 @@ namespace Redactor_Vector_Graph {
         public virtual void DrawColider(Graphics graphics) { }
         public virtual bool SelectArea(Rectangle area) { return false; }
     }
-
+    [DataContract]
     public class PolyLine : Figure {
-        PointW pntWmin;
-        PointW pntWmax;
-        public List<PointW> pointsArray = new List<PointW>(10);
+        [DataMember] PointW pntWmin;
+        [DataMember] PointW pntWmax;
+        [DataMember] public List<PointW> pointsArray = new List<PointW>(10);
         public PolyLine(Pen setPen, PointW start) {
             pen = (Pen)setPen.Clone();
             pointsArray.Add(start);
@@ -117,18 +126,20 @@ namespace Redactor_Vector_Graph {
             }
         }
     }
+    [Serializable]
     public class Line : Figure {
-        PointW startPointW;
-        PointW endPointW;
+        [DataMember] PointW startPointW;
+        [DataMember] PointW endPointW;
         public Line(Pen setPen, PointW start) {
-            pen = (Pen)setPen.Clone();
+            colorPen = setPen.Color;
+            widthPen = setPen.Width;
             startPointW = start;
             anchorArray.Add(new Anchor(ref startPointW));
             anchorArray.Add(new Anchor(ref endPointW));
             propArray.Add("PropColor", new PropColor(Color.Black));
             propArray.Add("PropPenWidth", new PropPenWidth());
-            ((PropColor)propArray["PropColor"]).colorButton.color = pen.Color;
-            ((PropPenWidth)propArray["PropPenWidth"]).numWidthPen.penWidth = pen.Width;
+            ((PropColor)propArray["PropColor"]).colorButton.color = colorPen;
+            ((PropPenWidth)propArray["PropPenWidth"]).numWidthPen.penWidth = widthPen;
         }
         public override void Move(PointW offset) {
             startPointW.X += offset.X;
@@ -161,8 +172,10 @@ namespace Redactor_Vector_Graph {
             anchorArray[1] = new Anchor(ref endPointW);
         }
         public override void Draw(Graphics graphics) {
-            pen.Color = ((PropColor)propArray["PropColor"]).colorButton.color;
-            pen.Width = ((PropPenWidth)propArray["PropPenWidth"]).numWidthPen.penWidth;
+            colorPen = ((PropColor)propArray["PropColor"]).colorButton.color;
+            widthPen = ((PropPenWidth)propArray["PropPenWidth"]).numWidthPen.penWidth;
+            Pen pen = new Pen(colorPen);
+            pen.Width = widthPen;
             graphics.DrawLine(pen, startPointW.ToScrPnt(), endPointW.ToScrPnt());
         }
         public override void DrawColider(Graphics graphics) {
@@ -172,16 +185,16 @@ namespace Redactor_Vector_Graph {
             }
         }
     }
+    [DataContract]
     public class RectangularFigure : Figure {
-       public PointW startPointW;
-       public PointW endPointW;
+      [DataMember] public PointW startPointW;
+      [DataMember] public PointW endPointW;
        protected void Create() {
             anchorArray.Add(new Anchor(ref startPointW));
             anchorArray.Add(new Anchor(ref endPointW));
             propArray.Add("PropColor", new PropColor(Color.Black));
             propArray.Add("PropPenWidth", new PropPenWidth());
             propArray.Add("PropFill", new PropFill(Color.Black));
-            colorFill = Color.Black;
             ((PropColor)propArray["PropColor"]).colorButton.color = pen.Color;
             ((PropPenWidth)propArray["PropPenWidth"]).numWidthPen.penWidth = pen.Width;
             ((PropFill)propArray["PropFill"]).propColor.colorButton.color = colorFill;
@@ -209,6 +222,7 @@ namespace Redactor_Vector_Graph {
         }
 
     }
+    [DataContract]
     public class Rect : RectangularFigure {
         int x, y, width, height;
         public Rect(Pen pen, PointW start, Color? setColorFill = null) {
@@ -257,6 +271,7 @@ namespace Redactor_Vector_Graph {
                 DrawColiderRect(graphics, new Rectangle(x, y, width, height));
         }
     }
+    [DataContract]
     public class RoundedRect : RectangularFigure {
         int radius;
         public RoundedRect(Pen setPen, PointW start, int setRadius, Color? setColorFill = null) {
@@ -330,6 +345,7 @@ namespace Redactor_Vector_Graph {
                 DrawColiderRect(graphics, rectColider);
         }
     }
+    [DataContract]
     public class Ellipse : RectangularFigure {
         public Ellipse(Pen setPen, PointW start, Color? setColorFill = null) {
             pen = (Pen)setPen.Clone();
@@ -371,6 +387,7 @@ namespace Redactor_Vector_Graph {
                   Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X), Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y)));
         }
     }
+
     public class Anchor {
         public PointW editedPoint;
         public PointW anchorPoint;
