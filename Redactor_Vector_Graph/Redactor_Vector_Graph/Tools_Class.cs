@@ -31,7 +31,7 @@ namespace Redactor_Vector_Graph {
         public virtual void MouseMove(object sender, MouseEventArgs e) { }
         public virtual void MouseDown(object sender, MouseEventArgs e) { }
         public virtual void MouseUp(object sender, MouseEventArgs e) { }
-        public void SetResetReact(int X, int Y) {
+        public static void SetResetReact(int X, int Y) {
             PointW pointW = new PointW(X, Y);
             pntwMinReact.X = Math.Min(pointW.X, pntwMinReact.X);
             pntwMinReact.Y = Math.Min(pointW.Y, pntwMinReact.Y);
@@ -510,8 +510,11 @@ namespace Redactor_Vector_Graph {
                     else {
 
                         foreach (Figure primitiv in figureArray) {
-                            primitiv.isSelected = primitiv.SelectArea(new Rectangle(Math.Min(pointWStart.ToScrPnt().X, pointWEnd.ToScrPnt().X), Math.Min(pointWStart.ToScrPnt().Y, pointWEnd.ToScrPnt().Y),
-                                Math.Abs(pointWStart.ToScrPnt().X - pointWEnd.ToScrPnt().X), Math.Abs(pointWStart.ToScrPnt().Y - pointWEnd.ToScrPnt().Y)));
+                            var a = pointWStart.ToScrPnt();
+                            primitiv.isSelected = primitiv.SelectArea(
+                                new Rectangle(
+                                    Math.Min(a.X, pointWEnd.ToScrPnt().X), Math.Min(a.Y, pointWEnd.ToScrPnt().Y),
+                                    Math.Abs(a.X - pointWEnd.ToScrPnt().X), Math.Abs(a.Y - pointWEnd.ToScrPnt().Y)));
                             if (primitiv.isSelected) {
                                 figureSelectionArray.Add(primitiv);
                             }

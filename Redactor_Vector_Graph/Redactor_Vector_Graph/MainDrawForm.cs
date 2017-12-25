@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
+using System.Text;
+
 namespace Redactor_Vector_Graph {
     public partial class MainDrawForm : Form {
         List<Figure> figureArray = new List<Figure>(20);
@@ -21,6 +23,7 @@ namespace Redactor_Vector_Graph {
         ToolSelection toolSelection;
         bool isFirstSave = true;
         DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Figure[]));
+        DataContractJsonSerializer jsonFormatter2 = new DataContractJsonSerializer(typeof(Figure));
         public MainDrawForm() {
             InitializeComponent();
             PanelProp.toolPanel = toolPanel;
@@ -119,12 +122,16 @@ namespace Redactor_Vector_Graph {
             paintBox.Invalidate();
         }
 
+
+
+
         private void ToolStripSave_Click(object sender, EventArgs e) {
             if (!isFirstSave) {
                 using (FileStream fs = new FileStream(fileDialogSave.FileName, FileMode.Create)) {
-                    
-                        jsonFormatter.WriteObject(fs, figureArray.ToArray());
-                    
+
+                    using (StreamWriter sw = new StreamWriter(fs)) {
+                        sw.WriteLine(SerializerFigure.SerializeAllFigures(ref figureArray));
+                    }
                 }
             }
             else {
@@ -157,6 +164,7 @@ namespace Redactor_Vector_Graph {
             }
             fileDialogSave.FileName = fileDialogOpen.FileName;
             isFirstSave = false;
+            
             paintBox.Invalidate();
         }
 

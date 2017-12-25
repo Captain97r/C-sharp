@@ -7,8 +7,8 @@ using System.Runtime.Serialization;
 namespace Redactor_Vector_Graph {
     [DataContract]
     public class PointW {
-        [DataMember] public static double zoom = 1;
-        [DataMember] public static Point offset = new Point(0, 0);
+         public static double zoom = 1;
+         public static Point offset = new Point(0, 0);
         [DataMember] public double X;
         [DataMember] public double Y;
         public PointW(double setX, double setY) {
