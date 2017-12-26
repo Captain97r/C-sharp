@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using System.Collections;
 
 namespace Redactor_Vector_Graph {
     class SerializerFigure {
@@ -18,8 +19,8 @@ namespace Redactor_Vector_Graph {
                 var fields = typeFigure.GetFields();
                 foreach (var field in fields) {
                     if (field.GetCustomAttribute(typeof(DataMemberAttribute)) != null) {
-                        SerializeMember(field, figure);
-                      
+                        SerializeMember(field.Name, field.GetValue(figure));
+
                     }
                 }
                 strReturn = strReturn.Remove(strReturn.Length - 1);
@@ -36,30 +37,38 @@ namespace Redactor_Vector_Graph {
                 var fields = typeFigure.GetFields();
                 foreach (var field in fields) {
                     if (field.GetCustomAttribute(typeof(DataMemberAttribute)) != null) {
-                        SerializeMember(field, figure);
-
+                        SerializeMember(field.Name, field.GetValue(figure));
                     }
                 }
                 strReturn = strReturn.Remove(strReturn.Length - 1);
                 strReturn += "},";
             return strReturn;
         }
-        static private void SerializeMember(FieldInfo fieldFrom, object objFrom) {
-            strReturn += "\"" + fieldFrom.Name + "\":";
-            Object obj = fieldFrom.GetValue(objFrom);
+        static private void SerializeMember(string name, object obj) {
+            if (name != "")
+                strReturn += "\"" + name + "\":";
+           
             if (obj == null) {
                 strReturn += "null,";
                 return;
             }
 
             Type typeField = obj.GetType();
-
+            if (obj is IEnumerable) {
+                strReturn += "[";
+                foreach (var member in (IEnumerable)obj) {
+                        SerializeMember("", member);
+                }
+                strReturn = strReturn.Remove(strReturn.Length - 1);
+                strReturn += "],";
+                return;
+            }
             if (typeField.IsClass) {
                 strReturn += "{";
                 var fields = typeField.GetFields();
                 foreach (var field in fields) {
                     if (field.FieldType.IsSerializable && !field.IsStatic) {
-                        SerializeMember(field, obj);
+                        SerializeMember(field.Name, field.GetValue(obj));
                     }
                 }
                 strReturn = strReturn.Remove(strReturn.Length - 1);
@@ -89,7 +98,7 @@ namespace Redactor_Vector_Graph {
                     var fields = typeField.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
                     foreach (var field in fields) {
                         if (field.FieldType.IsSerializable) {
-                            SerializeMember(field, obj);
+                            SerializeMember(field.Name, field.GetValue(obj));
                         }
                     }
                     strReturn = strReturn.Remove(strReturn.Length - 1);
