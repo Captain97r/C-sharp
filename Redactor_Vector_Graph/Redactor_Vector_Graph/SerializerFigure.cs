@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Collections;
+using System.IO;
+using System.Runtime.Serialization.Json;
 
 namespace Redactor_Vector_Graph {
     class SerializerFigure {
@@ -43,6 +45,16 @@ namespace Redactor_Vector_Graph {
                 strReturn = strReturn.Remove(strReturn.Length - 1);
                 strReturn += "},";
             return strReturn;
+        }
+        public static Figure[] Parse(string str) {
+            List<Figure> figureArray = new List<Figure>();
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Figure[]));
+            MemoryStream ms = new MemoryStream(Encoding.ASCII.GetBytes(str));
+                foreach (var figure in (Figure[])jsonFormatter.ReadObject(ms)) {
+                        figure.Load();
+                        figureArray.Add(figure);
+                }
+            return figureArray.ToArray();
         }
         static private void SerializeMember(string name, object obj) {
             if (name != "")
