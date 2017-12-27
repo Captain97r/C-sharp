@@ -31,8 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainDrawForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripNew = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDelSelected = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,6 +43,8 @@
             this.toolStripHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolPanel = new System.Windows.Forms.Panel();
+            this.btnRedo = new System.Windows.Forms.Button();
+            this.btnUndo = new System.Windows.Forms.Button();
             this.btnToolMoveFigure = new System.Windows.Forms.Button();
             this.btnToolSelection = new System.Windows.Forms.Button();
             this.btnToolRoundedRect = new System.Windows.Forms.Button();
@@ -57,9 +61,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.fileDialogOpen = new System.Windows.Forms.OpenFileDialog();
             this.fileDialogSave = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
-            this.toolStripNew = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
@@ -92,24 +94,38 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(50, 29);
             this.toolStripMenuItem1.Text = "File";
             // 
+            // toolStripNew
+            // 
+            this.toolStripNew.Name = "toolStripNew";
+            this.toolStripNew.Size = new System.Drawing.Size(167, 30);
+            this.toolStripNew.Text = "New";
+            this.toolStripNew.Click += new System.EventHandler(this.toolStripNew_Click);
+            // 
             // ToolStripOpen
             // 
             this.ToolStripOpen.Name = "ToolStripOpen";
-            this.ToolStripOpen.Size = new System.Drawing.Size(210, 30);
+            this.ToolStripOpen.Size = new System.Drawing.Size(167, 30);
             this.ToolStripOpen.Text = "Open...";
             this.ToolStripOpen.Click += new System.EventHandler(this.ToolStripOpen_Click);
             // 
             // ToolStripSave
             // 
             this.ToolStripSave.Name = "ToolStripSave";
-            this.ToolStripSave.Size = new System.Drawing.Size(210, 30);
+            this.ToolStripSave.Size = new System.Drawing.Size(167, 30);
             this.ToolStripSave.Text = "Save";
             this.ToolStripSave.Click += new System.EventHandler(this.ToolStripSave_Click);
+            // 
+            // toolStripSaveAs
+            // 
+            this.toolStripSaveAs.Name = "toolStripSaveAs";
+            this.toolStripSaveAs.Size = new System.Drawing.Size(167, 30);
+            this.toolStripSaveAs.Text = "Save as...";
+            this.toolStripSaveAs.Click += new System.EventHandler(this.toolStripSaveAs_Click);
             // 
             // toolStripExit
             // 
             this.toolStripExit.Name = "toolStripExit";
-            this.toolStripExit.Size = new System.Drawing.Size(210, 30);
+            this.toolStripExit.Size = new System.Drawing.Size(167, 30);
             this.toolStripExit.Text = "Exit";
             // 
             // toolStripEdit
@@ -162,6 +178,8 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.toolPanel.Controls.Add(this.btnRedo);
+            this.toolPanel.Controls.Add(this.btnUndo);
             this.toolPanel.Controls.Add(this.btnToolMoveFigure);
             this.toolPanel.Controls.Add(this.btnToolSelection);
             this.toolPanel.Controls.Add(this.btnToolRoundedRect);
@@ -181,6 +199,34 @@
             this.toolPanel.Name = "toolPanel";
             this.toolPanel.Size = new System.Drawing.Size(126, 571);
             this.toolPanel.TabIndex = 0;
+            // 
+            // btnRedo
+            // 
+            this.btnRedo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRedo.Enabled = false;
+            this.btnRedo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnRedo.Location = new System.Drawing.Point(36, 512);
+            this.btnRedo.Margin = new System.Windows.Forms.Padding(2);
+            this.btnRedo.Name = "btnRedo";
+            this.btnRedo.Size = new System.Drawing.Size(30, 30);
+            this.btnRedo.TabIndex = 17;
+            this.btnRedo.Text = "↷";
+            this.btnRedo.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnRedo.UseVisualStyleBackColor = true;
+            // 
+            // btnUndo
+            // 
+            this.btnUndo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnUndo.Enabled = false;
+            this.btnUndo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnUndo.Location = new System.Drawing.Point(2, 512);
+            this.btnUndo.Margin = new System.Windows.Forms.Padding(2);
+            this.btnUndo.Name = "btnUndo";
+            this.btnUndo.Size = new System.Drawing.Size(30, 30);
+            this.btnUndo.TabIndex = 18;
+            this.btnUndo.Text = "↶";
+            this.btnUndo.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.btnUndo.UseVisualStyleBackColor = true;
             // 
             // btnToolMoveFigure
             // 
@@ -224,9 +270,9 @@
             // btnResetZoom
             // 
             this.btnResetZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnResetZoom.Location = new System.Drawing.Point(61, 508);
+            this.btnResetZoom.Location = new System.Drawing.Point(67, 512);
             this.btnResetZoom.Name = "btnResetZoom";
-            this.btnResetZoom.Size = new System.Drawing.Size(54, 28);
+            this.btnResetZoom.Size = new System.Drawing.Size(54, 30);
             this.btnResetZoom.TabIndex = 11;
             this.btnResetZoom.Text = "reset";
             this.btnResetZoom.UseVisualStyleBackColor = true;
@@ -345,13 +391,6 @@
             this.fileDialogSave.Filter = "|*.json";
             this.fileDialogSave.FileOk += new System.ComponentModel.CancelEventHandler(this.fileDialogSave_FileOk);
             // 
-            // toolStripSaveAs
-            // 
-            this.toolStripSaveAs.Name = "toolStripSaveAs";
-            this.toolStripSaveAs.Size = new System.Drawing.Size(210, 30);
-            this.toolStripSaveAs.Text = "Save as...";
-            this.toolStripSaveAs.Click += new System.EventHandler(this.toolStripSaveAs_Click);
-            // 
             // paintBox
             // 
             this.paintBox.AutoSize = true;
@@ -366,13 +405,6 @@
             this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
             this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
-            // 
-            // toolStripNew
-            // 
-            this.toolStripNew.Name = "toolStripNew";
-            this.toolStripNew.Size = new System.Drawing.Size(210, 30);
-            this.toolStripNew.Text = "New";
-            this.toolStripNew.Click += new System.EventHandler(this.toolStripNew_Click);
             // 
             // MainDrawForm
             // 
@@ -433,6 +465,8 @@
         private System.Windows.Forms.SaveFileDialog fileDialogSave;
         private System.Windows.Forms.ToolStripMenuItem toolStripSaveAs;
         private System.Windows.Forms.ToolStripMenuItem toolStripNew;
+        private System.Windows.Forms.Button btnRedo;
+        private System.Windows.Forms.Button btnUndo;
     }
 }
 
