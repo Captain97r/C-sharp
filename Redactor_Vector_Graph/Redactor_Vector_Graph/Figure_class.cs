@@ -141,8 +141,8 @@ namespace Redactor_Vector_Graph {
     }
     [Serializable]
     public class Line : Figure {
-        [DataMember] PointW startPointW;
-        [DataMember] PointW endPointW;
+        [DataMember] public PointW startPointW;
+        [DataMember] public PointW endPointW;
         public Line(Pen setPen, PointW start) {
             colorPen = setPen.Color;
             widthPen = setPen.Width;

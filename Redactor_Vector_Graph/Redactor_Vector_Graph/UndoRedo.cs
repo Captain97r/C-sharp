@@ -7,7 +7,8 @@ using System.Windows.Forms;
 
 namespace Redactor_Vector_Graph {
     class UndoRedo {
-        const int bufferSize = 5;
+        const int bufferSize = 30000;
+        static private bool firstSaveState = false;
         static private Button _btnUndo;
         static private Button _btnRedo;
         static private PaintBox _paintBox;
@@ -23,7 +24,8 @@ namespace Redactor_Vector_Graph {
             ringBuffer.Push(SerializerFigure.SerializeAllFigures(ref _figureArray));
         }
 
-        public static void Redo(object sender, EventArgs e) {//
+        public static void Redo(object sender, EventArgs e) {
+            if (!firstSaveState) return;
             _btnUndo.Enabled = true;
             _btnRedo.Enabled = ringBuffer.Up(); ;
             for (int i = _figureArray.Count - 1; i >= 0; i--) {
@@ -35,8 +37,9 @@ namespace Redactor_Vector_Graph {
         }
 
         public static void Undo(object sender, EventArgs e) {
+            if (!firstSaveState) return;
                 _btnRedo.Enabled = true;
-                _btnUndo.Enabled = ringBuffer.Down(); ;
+                _btnUndo.Enabled = ringBuffer.Down();
 
             for (int i = _figureArray.Count - 1; i >= 0; i--) {
                 _figureArray.Remove(_figureArray[i]);
@@ -45,6 +48,7 @@ namespace Redactor_Vector_Graph {
             _paintBox.Invalidate();
         }
         public static void SaveState() {
+            firstSaveState = true;
             ringBuffer.Push(SerializerFigure.SerializeAllFigures(ref _figureArray));
             _btnRedo.Enabled = false;
             _btnUndo.Enabled = true;
