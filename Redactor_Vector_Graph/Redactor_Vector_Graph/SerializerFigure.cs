@@ -28,7 +28,8 @@ namespace Redactor_Vector_Graph {
                 strReturn = strReturn.Remove(strReturn.Length - 1);
                 strReturn += "},";
             }
-            strReturn = strReturn.Remove(strReturn.Length - 1);
+           if(strReturn.Last() == ',')
+                strReturn = strReturn.Remove(strReturn.Length - 1);
             strReturn += "]";
             return strReturn;
         }

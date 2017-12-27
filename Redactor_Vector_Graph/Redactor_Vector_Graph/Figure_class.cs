@@ -41,7 +41,7 @@ namespace Redactor_Vector_Graph {
     [KnownType(typeof(Line))]
     [KnownType(typeof(RectangularFigure))]
     [KnownType(typeof(Rect))]
-    [KnownType(typeof(RectangularFigure))]
+    [KnownType(typeof(RoundedRect))]
     [KnownType(typeof(Ellipse))]
     [DataContract]
     public abstract class Figure {
@@ -297,7 +297,7 @@ namespace Redactor_Vector_Graph {
     }
     [DataContract]
     public class RoundedRect : RectangularFigure {
-        int radius;
+        [DataMember] public int radius = 25;
         public RoundedRect(Pen setPen, PointW start, int setRadius, Color? setColorFill = null) {
             colorPen = setPen.Color;
             widthPen = setPen.Width;
@@ -309,6 +309,20 @@ namespace Redactor_Vector_Graph {
                 isFill = true;
             }
             Load();
+            
+        }
+        public override void Load() {
+            anchorArray = new List<Anchor>(8);
+            propArray = new Dictionary<string, Prop>(5);
+            anchorArray.Add(new Anchor(ref startPointW));
+            anchorArray.Add(new Anchor(ref endPointW));
+            propArray.Add("PropColor", new PropColor(Color.Black));
+            propArray.Add("PropPenWidth", new PropPenWidth());
+            propArray.Add("PropFill", new PropFill(Color.Black));
+            ((PropColor)propArray["PropColor"]).colorButton.color = colorPen;
+            ((PropPenWidth)propArray["PropPenWidth"]).numWidthPen.penWidth = widthPen;
+            ((PropFill)propArray["PropFill"]).propColor.colorButton.color = colorFill;
+            ((PropFill)propArray["PropFill"]).checkBox.Checked = isFill;
             propArray.Add("PropRadius", new PropRadius(25));
             ((PropRadius)propArray["PropRadius"]).numeric.Value = radius;
         }

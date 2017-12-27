@@ -77,6 +77,7 @@ namespace Redactor_Vector_Graph {
             if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
+                UndoRedo.SaveState();
             }
         }
         public override void HidePanelProp() {
@@ -127,7 +128,9 @@ namespace Redactor_Vector_Graph {
             if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
+                UndoRedo.SaveState();
             }
+           
         }
         public override void HidePanelProp() {
             panelProp.Visible = false;
@@ -168,7 +171,9 @@ namespace Redactor_Vector_Graph {
             if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
+                UndoRedo.SaveState();
             }
+
         }
         public override void HidePanelProp() {
             panelProp.Visible = false;
@@ -210,6 +215,7 @@ namespace Redactor_Vector_Graph {
             if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
+                UndoRedo.SaveState();
             }
         }
         public override void HidePanelProp() {
@@ -256,6 +262,7 @@ namespace Redactor_Vector_Graph {
             if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
                 SetResetReact(e.X, e.Y);
+                UndoRedo.SaveState();
             }
         }
         public override void HidePanelProp() {

@@ -25,20 +25,19 @@
             buffer[head] = data;
         }
         public bool Down() {
-            current = (current + buffer.Length - 1) % buffer.Length;
-            if(current == bottom) {
-              current = (current + 1) % buffer.Length;
+            if(current == bottom || Value ==null) {
               return false;
             }
-                isLastDown = ((current + buffer.Length - 1) % buffer.Length) == bottom;
-            return true;
+            else {
+                current = (current + buffer.Length - 1) % buffer.Length;
+                return true;
+            }
         }
         public bool Up() {
             if (current != head) {
                 current = (current + 1) % buffer.Length;
                 return true;
             }
-            isLastUp = ((current + 1) % buffer.Length) == head;
             return false;
         }
 
