@@ -497,6 +497,7 @@ namespace Redactor_Vector_Graph {
         }
         public override void MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
+                
                 if (flagDragPoint) {
                     flagDragPoint = false;
                 }
@@ -535,7 +536,9 @@ namespace Redactor_Vector_Graph {
                 paintBox.Invalidate();
                 DrawPanel();
                 flagLeftMouseClick = false;
+                UndoRedo.SaveState();
             }
+
         }
         void DrawPanel() {
             int offset = 0;
