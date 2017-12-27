@@ -51,7 +51,7 @@ namespace Redactor_Vector_Graph {
         [DataMember] public Color colorPen;
         [DataMember] public float widthPen;
         [DataMember] public bool isFill = false;
-        public bool isSelected = false;
+        [DataMember] public bool isSelected = false;
         public Rectangle rectColider;
         public virtual void Draw(Graphics graphics) { }
         public virtual void Move(PointW offset) { }

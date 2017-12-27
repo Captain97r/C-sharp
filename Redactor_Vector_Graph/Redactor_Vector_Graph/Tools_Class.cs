@@ -303,7 +303,7 @@ namespace Redactor_Vector_Graph {
                 pointEnd = new Point(e.X + 1, e.Y + 1);
                 pointWStart = new PointW(e.X, e.Y);
                 pointWEnd = new PointW(e.X + 1, e.Y + 1);
-                figureArray.Add(new Rect(new Pen(Color.Black), pointWStart));
+                figureArray.Add(new Rect(new Pen(Color.Gray), pointWStart));
                 figureArray.Last().AddPoint(pointWStart);
                 paintBox.Invalidate();
             }
