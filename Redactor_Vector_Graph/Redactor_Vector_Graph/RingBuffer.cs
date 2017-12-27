@@ -2,6 +2,8 @@
    public class RingBuffer<T> {
         public T Value { get { return buffer[current];} }
         public int saveState = 0;
+        public bool isLastDown = false;
+        public bool isLastUp = false;
         private int head;
         private int bottom = 0;
         private int current;
@@ -28,6 +30,7 @@
               current = (current + 1) % buffer.Length;
               return false;
             }
+                isLastDown = ((current + buffer.Length - 1) % buffer.Length) == bottom;
             return true;
         }
         public bool Up() {
@@ -35,6 +38,7 @@
                 current = (current + 1) % buffer.Length;
                 return true;
             }
+            isLastUp = ((current + 1) % buffer.Length) == head;
             return false;
         }
 

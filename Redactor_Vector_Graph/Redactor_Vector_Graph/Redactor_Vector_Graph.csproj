@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RingBuffer.cs" />
     <Compile Include="SerializerFigure.cs" />
     <Compile Include="MainDrawForm.cs">
       <SubType>Form</SubType>
@@ -60,6 +61,7 @@
     <Compile Include="Figure_class.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UndoRedo.cs" />
     <EmbeddedResource Include="MainDrawForm.resx">
       <DependentUpon>MainDrawForm.cs</DependentUpon>
     </EmbeddedResource>

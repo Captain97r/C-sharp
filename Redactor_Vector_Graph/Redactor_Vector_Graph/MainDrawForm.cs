@@ -23,7 +23,6 @@ namespace Redactor_Vector_Graph {
         ToolSelection toolSelection;
         bool isFirstSave = true;
         DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Figure[]));
-        DataContractJsonSerializer jsonFormatter2 = new DataContractJsonSerializer(typeof(Figure));
         public MainDrawForm() {
             InitializeComponent();
             PanelProp.toolPanel = toolPanel;
@@ -52,6 +51,7 @@ namespace Redactor_Vector_Graph {
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects");
             fileDialogSave.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects";
             fileDialogOpen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects";
+            UndoRedo.Init(btnUndo, btnRedo, paintBox, ref figureArray);
         }
         private void PaintBox_Paint(object sender, PaintEventArgs e) {
 
@@ -80,10 +80,10 @@ namespace Redactor_Vector_Graph {
 
         private void Main_Draw_Form_KeyDown(object sender, KeyEventArgs e) {
             if (e.Control && e.KeyCode == Keys.Z) {
-                if (figureArray.Count > 0) {
-                    figureArray.RemoveAt(figureArray.Count - 1);
-                    paintBox.Invalidate();
-                }
+                UndoRedo.Undo(null,null);
+            }
+            if (e.Control && e.KeyCode == Keys.Y) {
+                UndoRedo.Redo(null, null);
             }
         }
         private void numZoom_ValueChanged(object sender, EventArgs e) {
