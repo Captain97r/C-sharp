@@ -1,9 +1,18 @@
 ﻿namespace Redactor_Vector_Graph {
-   public class RingBuffer<T> {
+    public class RingBuffer<T> {
         public T Value { get { return buffer[current];} }
-        public int saveState = 0;
         public bool isLastDown = false;
         public bool isLastUp = false;
+        public bool IsSaved {
+            get {
+                return isSavedIndex == current;
+            }
+            set {
+                isSavedIndex = current;
+            }
+        }
+      //  private bool isSaved = false;
+        private int isSavedIndex = 0;
         private int head;
         private int bottom = 0;
         private int current;

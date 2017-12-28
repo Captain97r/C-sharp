@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Json;
@@ -9,6 +10,7 @@ using System.Text;
 
 namespace Redactor_Vector_Graph {
     public partial class MainDrawForm : Form {
+      
         List<Figure> figureArray = new List<Figure>(20);
         ToolTip toolTipMain = new ToolTip();
         Pen penMain = new Pen(Color.Black);
@@ -23,6 +25,27 @@ namespace Redactor_Vector_Graph {
         ToolSelection toolSelection;
         bool isFirstSave = true;
         DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Figure[]));
+        string openedFileName = " ";
+        string OpenedFileName {
+            get => openedFileName;
+            set {
+                Text = winName + " | " + value;
+                openedFileName = value;
+            }
+        }
+
+        bool isChanged;
+        public bool IsChanged {
+            get { return isChanged; }
+            set {
+                isChanged = value;
+                if (OpenedFileName.Last() == '*')
+                    OpenedFileName = OpenedFileName.Remove(OpenedFileName.Length - 1);
+                if (value)
+                    OpenedFileName += "*";
+            }
+        }
+        string winName;
         public MainDrawForm() {
             InitializeComponent();
             PanelProp.toolPanel = toolPanel;
@@ -51,7 +74,9 @@ namespace Redactor_Vector_Graph {
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects");
             fileDialogSave.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects";
             fileDialogOpen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects";
-            UndoRedo.Init(btnUndo, btnRedo, paintBox, ref figureArray);
+            UndoRedo.Init(btnUndo, btnRedo, paintBox, ref figureArray,this);
+            winName = Text;
+            OpenedFileName = " ";
         }
         private void PaintBox_Paint(object sender, PaintEventArgs e) {
 
@@ -61,6 +86,7 @@ namespace Redactor_Vector_Graph {
             foreach (Figure primitiv in figureArray) {
                 primitiv.DrawColider(e.Graphics);
             }
+
         }
 
         private void PaintBox_MouseDown(object sender, MouseEventArgs e) =>
@@ -102,6 +128,7 @@ namespace Redactor_Vector_Graph {
         private void toolStripDelSelected_Click(object sender, EventArgs e) {
             figureArray.RemoveAll(FindFigureIsSelected);
             Tool.figureSelectionArray = null;
+            UndoRedo.SaveState();
             paintBox.Invalidate();
         }
 
@@ -109,6 +136,7 @@ namespace Redactor_Vector_Graph {
             List<Figure> figureArrayTemp = figureArray.FindAll(FindFigureIsSelected);
             figureArray.RemoveAll(FindFigureIsSelected);
             figureArray.AddRange(figureArrayTemp);
+            UndoRedo.SaveState();
             paintBox.Invalidate();
         }
         private bool FindFigureIsSelected(Figure figure) {
@@ -119,6 +147,7 @@ namespace Redactor_Vector_Graph {
             List<Figure> figureArrayTemp = figureArray.FindAll(FindFigureIsSelected);
             figureArray.RemoveAll(FindFigureIsSelected);
             figureArray.InsertRange(0, figureArrayTemp);
+            UndoRedo.SaveState();
             paintBox.Invalidate();
         }
 
@@ -133,6 +162,7 @@ namespace Redactor_Vector_Graph {
                         sw.WriteLine(SerializerFigure.SerializeAllFigures(ref figureArray));
                     }
                 }
+                UndoRedo.Saved();
             }
             else {
                 
@@ -157,20 +187,25 @@ namespace Redactor_Vector_Graph {
                         figure.Load();
                         figureArray.Add(figure);
                     }
+                    fileDialogSave.FileName = fileDialogOpen.FileName;
+                    isFirstSave = false;
+                    OpenedFileName = fileDialogOpen.FileName;
+                    UndoRedo.Reset();
                 }
                 catch {
                     MessageBox.Show("Error, file is corrupted!","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 }
             }
-            fileDialogSave.FileName = fileDialogOpen.FileName;
-            isFirstSave = false;
+
             
             paintBox.Invalidate();
         }
 
         private void fileDialogSave_FileOk(object sender, System.ComponentModel.CancelEventArgs e) {
             isFirstSave = false;
+            OpenedFileName = fileDialogSave.FileName;
             ToolStripSave_Click(null, null);
+            UndoRedo.Reset();
         }
 
         private void toolStripSaveAs_Click(object sender, EventArgs e) {
@@ -182,7 +217,18 @@ namespace Redactor_Vector_Graph {
                 figureArray.Remove(figureArray[i]);
             }
             isFirstSave = true;
+            UndoRedo.Reset();
             paintBox.Invalidate();
+        }
+
+        private void MainDrawForm_FormClosing(object sender, FormClosingEventArgs e) {
+            if (isChanged) {
+                DialogResult result = MessageBox.Show("Save file \"" + OpenedFileName + "\"?", "Save?", MessageBoxButtons.YesNoCancel);
+                if (result == DialogResult.Yes)
+                    ToolStripSave_Click(null, null);
+                if (result == DialogResult.Cancel)
+                    e.Cancel = true;
+            }
         }
     }
 }

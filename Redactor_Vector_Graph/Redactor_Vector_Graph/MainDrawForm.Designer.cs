@@ -421,6 +421,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainDrawForm";
             this.Text = "Super Vector Paint";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainDrawForm_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_Draw_Form_KeyDown);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
