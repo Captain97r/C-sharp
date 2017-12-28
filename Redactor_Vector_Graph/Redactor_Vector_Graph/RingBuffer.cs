@@ -1,29 +1,24 @@
 ﻿namespace Redactor_Vector_Graph {
     public class RingBuffer<T> {
-        public T Value { get { return buffer[current];} }
+        public T Value { get { return buffer[current]; } }
         public bool isLastDown = false;
         public bool isLastUp = false;
         public bool IsSaved {
-            get {
-                return isSavedIndex == current;
-            }
-            set {
-                isSavedIndex = current;
-            }
+            get => isSavedIndex == current;
+            set => isSavedIndex = current;
         }
-      //  private bool isSaved = false;
         private int isSavedIndex = 0;
         private int head;
         private int bottom = 0;
         private int current;
         private int maxSize;
         private T[] buffer;
-        public  RingBuffer(int max){
+        public RingBuffer(int max) {
             maxSize = max;
             head = max - 1;
             current = head;
             buffer = new T[maxSize];
-            }
+        }
         public void Push(T data) {
             if (current != head)
                 head = current;
@@ -34,16 +29,24 @@
             buffer[head] = data;
         }
         public bool Down() {
-            if(current == bottom) {
-              return false;
+            if (current == bottom) {
+                return false;
             }
             else {
                 current = (current + buffer.Length - 1) % buffer.Length;
-                if( Value == null) {
+                if (Value == null) {
                     current = (current + 1) % buffer.Length;
                     return false;
                 }
-                return current == bottom;
+                else {
+                    current = (current + buffer.Length - 1) % buffer.Length;
+                    if (Value == null) {
+                        current = (current + 1) % buffer.Length;
+                        return false;
+                    }
+                    current = (current + 1) % buffer.Length;
+                }
+                return current != bottom;
             }
         }
         public bool Up() {

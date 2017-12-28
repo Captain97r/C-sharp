@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Redactor_Vector_Graph {
@@ -22,7 +19,7 @@ namespace Redactor_Vector_Graph {
             _btnRedo.Click += Redo;
             _paintBox = paintBox;
             _figureArray = figureArray;
-           _form = form;
+            _form = form;
             ringBuffer.Push(SerializerFigure.SerializeAllFigures(ref _figureArray));
         }
 
@@ -31,18 +28,18 @@ namespace Redactor_Vector_Graph {
             _btnUndo.Enabled = true;
             _btnRedo.Enabled = ringBuffer.Up(); ;
             for (int i = _figureArray.Count - 1; i >= 0; i--) {
-                    _figureArray.Remove(_figureArray[i]);
-                }
-                _figureArray.AddRange(SerializerFigure.Parse(ringBuffer.Value));
+                _figureArray.Remove(_figureArray[i]);
+            }
+            _figureArray.AddRange(SerializerFigure.Parse(ringBuffer.Value));
             _form.IsChanged = !ringBuffer.IsSaved;
             _paintBox.Invalidate();
-            
+
         }
 
         public static void Undo(object sender, EventArgs e) {
             if (!firstSaveState) return;
-                _btnRedo.Enabled = true;
-                _btnUndo.Enabled = ringBuffer.Down();
+            _btnRedo.Enabled = true;
+            _btnUndo.Enabled = ringBuffer.Down();
 
             for (int i = _figureArray.Count - 1; i >= 0; i--) {
                 _figureArray.Remove(_figureArray[i]);
@@ -52,7 +49,7 @@ namespace Redactor_Vector_Graph {
             _paintBox.Invalidate();
         }
         public static void SaveState() {
-        
+
             firstSaveState = true;
             ringBuffer.Push(SerializerFigure.SerializeAllFigures(ref _figureArray));
             _form.IsChanged = !ringBuffer.IsSaved;
