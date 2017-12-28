@@ -63,13 +63,15 @@ namespace Redactor_Vector_Graph {
     }
     [DataContract]
     public class PolyLine : Figure {
-        [DataMember] PointW pntWmin;
-        [DataMember] PointW pntWmax;
+        [DataMember]public PointW pntWmin;
+        [DataMember] public PointW pntWmax;
         [DataMember] public List<PointW> pointsArray = new List<PointW>(10);
         public PolyLine(Pen setPen, PointW start) {
             colorPen = setPen.Color;
             widthPen = setPen.Width;
             pointsArray.Add(start);
+            pntWmin = pointsArray[0].Clone();
+            pntWmax = new PointW(0.0, 0.0);
             Load();
         }
         public override void Load() {
@@ -79,8 +81,7 @@ namespace Redactor_Vector_Graph {
                 anchorArray.Add(new Anchor(pointsArray, i, SetMaxMin));
             }
            
-            pntWmin = pointsArray[0].Clone();
-            pntWmax = new PointW(0.0, 0.0);
+
             propArray.Add("PropColor", new PropColor(Color.Black));
             propArray.Add("PropPenWidth", new PropPenWidth());
             ((PropColor)propArray["PropColor"]).colorButton.color = colorPen;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Redactor_Vector_Graph {
-    class UndoRedo {
+   static class UndoRedo {
         const int bufferSize = 30000;
         static private bool firstSaveState = false;
         static private MainDrawForm _form;

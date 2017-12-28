@@ -5,9 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Windows.Forms;
+using System.Text;
 
 namespace Redactor_Vector_Graph {
     public partial class MainDrawForm : Form {
+        public const string Signature = "<SVP>";
         List<Figure> figureArray = new List<Figure>(20);
         ToolTip toolTipMain = new ToolTip();
         Pen penMain = new Pen(Color.Black);
@@ -99,12 +101,22 @@ namespace Redactor_Vector_Graph {
             MessageBox.Show("Vector graph \nVersion: Alpha v0.1 \nMade by kenny5660(Liamaev Mikhail)");
 
         private void Main_Draw_Form_KeyDown(object sender, KeyEventArgs e) {
-            if (e.Control && e.KeyCode == Keys.Z) {
+            if (e.Control && e.KeyCode == Keys.Z)
                 UndoRedo.Undo(null, null);
-            }
-            if (e.Control && e.KeyCode == Keys.Y) {
+            if (e.Control && e.KeyCode == Keys.Y) 
                 UndoRedo.Redo(null, null);
+            if (e.Control && e.KeyCode == Keys.C)
+                CopyPaste.Copy(Tool.figureSelectionArray);
+            if (e.Control && e.KeyCode == Keys.V) {
+                CopyPaste.Paste(ref figureArray);
+                Tool.UpdateSelectionArray(figureArray);
+                UndoRedo.SaveState();
             }
+            if (e.Control && e.KeyCode == Keys.X) {
+                CopyPaste.Copy(Tool.figureSelectionArray);
+                toolStripDelSelected_Click(null, null);
+            }
+            paintBox.Invalidate();
         }
         private void numZoom_ValueChanged(object sender, EventArgs e) {
             PointW.zoom = (double)(numZoom.Value / 100);
@@ -149,7 +161,7 @@ namespace Redactor_Vector_Graph {
             if (!isFirstSave) {
                 using (FileStream fs = new FileStream(fileDialogSave.FileName, FileMode.Create)) {
                     using (StreamWriter sw = new StreamWriter(fs)) {
-                        sw.WriteLine(SerializerFigure.SerializeAllFigures(ref figureArray));
+                        sw.WriteLine(Signature + SerializerFigure.SerializeAllFigures(ref figureArray));
                     }
                 }
                 UndoRedo.Saved();
@@ -163,26 +175,32 @@ namespace Redactor_Vector_Graph {
         }
 
         private void fileDialogOpen_FileOk(object sender, System.ComponentModel.CancelEventArgs e) {
+            FileStream fs = new FileStream(fileDialogOpen.FileName, FileMode.Open);
+            StreamReader reader = new StreamReader(fs, Encoding.UTF8);
+            string str = reader.ReadLine();
 
-            using (FileStream fs = new FileStream(fileDialogOpen.FileName, FileMode.Open)) {
-
-                for (int i = figureArray.Count - 1; i >= 0; i--) {
-                    figureArray.Remove(figureArray[i]);
-                }
-                try {
-                    foreach (var figure in (Figure[])jsonFormatter.ReadObject(fs)) {
-                        figure.Load();
-                        figureArray.Add(figure);
-                    }
-                    fileDialogSave.FileName = fileDialogOpen.FileName;
-                    isFirstSave = false;
-                    OpenedFileName = fileDialogOpen.FileName;
-                    UndoRedo.Reset();
-                }
-                catch {
-                    MessageBox.Show("Error, file is corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            for (int i = figureArray.Count - 1; i >= 0; i--) {
+                figureArray.Remove(figureArray[i]);
             }
+            if (str.Substring(0, Signature.Length) == Signature) {
+               str =str.Remove(0, Signature.Length);
+            }
+            else {
+                MessageBox.Show("Error, file is corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UndoRedo.Reset();
+                return;
+            }
+            try {
+                figureArray.AddRange(SerializerFigure.Parse(str));
+                fileDialogSave.FileName = fileDialogOpen.FileName;
+                isFirstSave = false;
+                OpenedFileName = fileDialogOpen.FileName;
+
+            }
+            catch {
+                MessageBox.Show("Error, file is corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            UndoRedo.Reset();
             paintBox.Invalidate();
         }
 

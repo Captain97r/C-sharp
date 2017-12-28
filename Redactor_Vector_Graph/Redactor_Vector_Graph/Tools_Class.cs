@@ -38,6 +38,14 @@ namespace Redactor_Vector_Graph {
             pntwMaxReact.X = Math.Max(pointW.X, pntwMaxReact.X);
             pntwMaxReact.Y = Math.Max(pointW.Y, pntwMaxReact.Y);
         }
+        public static void UpdateSelectionArray(List<Figure> figureArray) {
+            figureSelectionArray = new List<Figure>();
+            foreach (var figure in figureArray) {   
+                if (figure.isSelected) {
+                    figureSelectionArray.Add(figure);
+                }
+            }
+        }
     }
 
     class ToolRect : Tool {
@@ -435,6 +443,7 @@ namespace Redactor_Vector_Graph {
         public override void MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 flagLeftMouseClick = false;
+                UndoRedo.SaveState();
             }
         }
     }
