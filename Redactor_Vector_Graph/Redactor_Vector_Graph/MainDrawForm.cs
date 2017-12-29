@@ -175,30 +175,31 @@ namespace Redactor_Vector_Graph {
         }
 
         private void fileDialogOpen_FileOk(object sender, System.ComponentModel.CancelEventArgs e) {
-            FileStream fs = new FileStream(fileDialogOpen.FileName, FileMode.Open);
-            StreamReader reader = new StreamReader(fs, Encoding.UTF8);
-            string str = reader.ReadLine();
+            using (FileStream fs = new FileStream(fileDialogOpen.FileName, FileMode.Open)) {
+                using (StreamReader reader = new StreamReader(fs, Encoding.UTF8)) {
+                    string str = reader.ReadLine();
+                    for (int i = figureArray.Count - 1; i >= 0; i--) {
+                        figureArray.Remove(figureArray[i]);
+                    }
+                    if (str.Substring(0, Signature.Length) == Signature) {
+                        str = str.Remove(0, Signature.Length);
+                    }
+                    else {
+                        MessageBox.Show("Error, file is corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        UndoRedo.Reset();
+                        return;
+                    }
+                    try {
+                        figureArray.AddRange(SerializerFigure.Parse(str));
+                        fileDialogSave.FileName = fileDialogOpen.FileName;
+                        isFirstSave = false;
+                        OpenedFileName = fileDialogOpen.FileName;
 
-            for (int i = figureArray.Count - 1; i >= 0; i--) {
-                figureArray.Remove(figureArray[i]);
-            }
-            if (str.Substring(0, Signature.Length) == Signature) {
-               str =str.Remove(0, Signature.Length);
-            }
-            else {
-                MessageBox.Show("Error, file is corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                UndoRedo.Reset();
-                return;
-            }
-            try {
-                figureArray.AddRange(SerializerFigure.Parse(str));
-                fileDialogSave.FileName = fileDialogOpen.FileName;
-                isFirstSave = false;
-                OpenedFileName = fileDialogOpen.FileName;
-
-            }
-            catch {
-                MessageBox.Show("Error, file is corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch {
+                        MessageBox.Show("Error, file is corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
             UndoRedo.Reset();
             paintBox.Invalidate();

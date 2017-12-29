@@ -50,6 +50,8 @@ namespace Redactor_Vector_Graph {
         [DataMember] public Color colorFill;
         [DataMember] public Color colorPen;
         [DataMember] public float widthPen;
+        [DataMember] public PointW startPointW;
+        [DataMember] public PointW endPointW;
         [DataMember] public bool isFill = false;
         [DataMember] public bool isSelected = false;
         public Rectangle rectColider;
@@ -63,15 +65,13 @@ namespace Redactor_Vector_Graph {
     }
     [DataContract]
     public class PolyLine : Figure {
-        [DataMember]public PointW pntWmin;
-        [DataMember] public PointW pntWmax;
         [DataMember] public List<PointW> pointsArray = new List<PointW>(10);
         public PolyLine(Pen setPen, PointW start) {
             colorPen = setPen.Color;
             widthPen = setPen.Width;
             pointsArray.Add(start);
-            pntWmin = pointsArray[0].Clone();
-            pntWmax = new PointW(0.0, 0.0);
+            startPointW = pointsArray[0].Clone();
+            endPointW = new PointW(0.0, 0.0);
             Load();
         }
         public override void Load() {
@@ -105,21 +105,21 @@ namespace Redactor_Vector_Graph {
             }
         }
         public override bool SelectArea(Rectangle area) =>
-            area.Contains(pntWmin.ToScrPnt()) && area.Contains(pntWmax.ToScrPnt());
+            area.Contains(startPointW.ToScrPnt()) && area.Contains(endPointW.ToScrPnt());
 
         public override void AddPoint(PointW pointW) {
             pointsArray.Add(pointW);
-            pntWmin.X = Math.Min(pntWmin.X, pointW.X);
-            pntWmin.Y = Math.Min(pntWmin.Y, pointW.Y);
-            pntWmax.X = Math.Max(pntWmax.X, pointW.X);
-            pntWmax.Y = Math.Max(pntWmax.Y, pointW.Y);
+            startPointW.X = Math.Min(startPointW.X, pointW.X);
+            startPointW.Y = Math.Min(startPointW.Y, pointW.Y);
+            endPointW.X = Math.Max(endPointW.X, pointW.X);
+            endPointW.Y = Math.Max(endPointW.Y, pointW.Y);
             anchorArray.Add(new Anchor(pointsArray, pointsArray.Count - 1, SetMaxMin));
         }
         public void SetMaxMin(PointW pointW) {
-            pntWmin.X = Math.Min(pntWmin.X, pointW.X);
-            pntWmin.Y = Math.Min(pntWmin.Y, pointW.Y);
-            pntWmax.X = Math.Max(pntWmax.X, pointW.X);
-            pntWmax.Y = Math.Max(pntWmax.Y, pointW.Y);
+            startPointW.X = Math.Min(startPointW.X, pointW.X);
+            startPointW.Y = Math.Min(startPointW.Y, pointW.Y);
+            endPointW.X = Math.Max(endPointW.X, pointW.X);
+            endPointW.Y = Math.Max(endPointW.Y, pointW.Y);
         }
         public override void Draw(Graphics graphics) {
             colorPen = ((PropColor)propArray["PropColor"]).colorButton.color;
@@ -142,8 +142,6 @@ namespace Redactor_Vector_Graph {
     }
     [Serializable]
     public class Line : Figure {
-        [DataMember] public PointW startPointW;
-        [DataMember] public PointW endPointW;
         public Line(Pen setPen, PointW start) {
             colorPen = setPen.Color;
             widthPen = setPen.Width;
@@ -207,8 +205,6 @@ namespace Redactor_Vector_Graph {
     }
     [DataContract]
     public class RectangularFigure : Figure {
-        [DataMember] public PointW startPointW;
-        [DataMember] public PointW endPointW;
         public override void Load() {
             anchorArray = new List<Anchor>(8);
             propArray = new Dictionary<string, Prop>(5);

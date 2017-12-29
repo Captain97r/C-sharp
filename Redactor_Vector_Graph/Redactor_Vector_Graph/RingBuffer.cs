@@ -29,12 +29,8 @@
             buffer[head] = data;
         }
         public bool Down() {
-            if (current == bottom) {
-                return false;
-            }
-            else {
                 current = (current + buffer.Length - 1) % buffer.Length;
-                if (Value == null) {
+                if (Value == null || current == head) {
                     current = (current + 1) % buffer.Length;
                     return false;
                 }
@@ -47,7 +43,6 @@
                     current = (current + 1) % buffer.Length;
                 }
                 return current != bottom;
-            }
         }
         public bool Up() {
             if (current != head) {

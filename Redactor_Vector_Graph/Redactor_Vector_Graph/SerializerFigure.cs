@@ -13,8 +13,7 @@ namespace Redactor_Vector_Graph {
     class SerializerFigure {
         static string strReturn = "";
         public static string SerializeAllFigures(ref List<Figure> figureArray) {
-            strReturn = "";
-            strReturn += "[";
+            strReturn = "[";
             foreach (var figure in figureArray) {
                 Type typeFigure = figure.GetType();
                 strReturn += "{" + "\"__type\":" + "\"" + typeFigure.Name + ":#" + typeFigure.Namespace + "\",";

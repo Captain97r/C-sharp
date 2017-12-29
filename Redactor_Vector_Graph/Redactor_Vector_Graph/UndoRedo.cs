@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Redactor_Vector_Graph {
    static class UndoRedo {
-        const int bufferSize = 30000;
+        const int bufferSize = 5;
         static private bool firstSaveState = false;
         static private MainDrawForm _form;
         static private Button _btnUndo;
