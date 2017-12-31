@@ -178,6 +178,7 @@ namespace Redactor_Vector_Graph {
             using (FileStream fs = new FileStream(fileDialogOpen.FileName, FileMode.Open)) {
                 using (StreamReader reader = new StreamReader(fs, Encoding.UTF8)) {
                     string str = reader.ReadLine();
+                    figureArray.Clear();
                     for (int i = figureArray.Count - 1; i >= 0; i--) {
                         figureArray.Remove(figureArray[i]);
                     }
@@ -192,6 +193,7 @@ namespace Redactor_Vector_Graph {
                     try {
                         figureArray.AddRange(SerializerFigure.Parse(str));
                         fileDialogSave.FileName = fileDialogOpen.FileName;
+                        fileDialogExport.InitialDirectory = fileDialogOpen.FileName;
                         isFirstSave = false;
                         OpenedFileName = fileDialogOpen.FileName;
 
@@ -233,6 +235,10 @@ namespace Redactor_Vector_Graph {
                 if (result == DialogResult.Cancel)
                     e.Cancel = true;
             }
+        }
+
+        private void toolStripExit_Click_1(object sender, EventArgs e) {
+            Application.Exit();
         }
     }
 }

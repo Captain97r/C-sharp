@@ -61,7 +61,9 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.fileDialogOpen = new System.Windows.Forms.OpenFileDialog();
             this.fileDialogSave = new System.Windows.Forms.SaveFileDialog();
+            this.fileDialogExport = new System.Windows.Forms.SaveFileDialog();
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
@@ -89,6 +91,7 @@
             this.ToolStripOpen,
             this.ToolStripSave,
             this.toolStripSaveAs,
+            this.exportToolStripMenuItem,
             this.toolStripExit});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(50, 29);
@@ -97,36 +100,37 @@
             // toolStripNew
             // 
             this.toolStripNew.Name = "toolStripNew";
-            this.toolStripNew.Size = new System.Drawing.Size(167, 30);
+            this.toolStripNew.Size = new System.Drawing.Size(210, 30);
             this.toolStripNew.Text = "New";
             this.toolStripNew.Click += new System.EventHandler(this.toolStripNew_Click);
             // 
             // ToolStripOpen
             // 
             this.ToolStripOpen.Name = "ToolStripOpen";
-            this.ToolStripOpen.Size = new System.Drawing.Size(167, 30);
+            this.ToolStripOpen.Size = new System.Drawing.Size(210, 30);
             this.ToolStripOpen.Text = "Open...";
             this.ToolStripOpen.Click += new System.EventHandler(this.ToolStripOpen_Click);
             // 
             // ToolStripSave
             // 
             this.ToolStripSave.Name = "ToolStripSave";
-            this.ToolStripSave.Size = new System.Drawing.Size(167, 30);
+            this.ToolStripSave.Size = new System.Drawing.Size(210, 30);
             this.ToolStripSave.Text = "Save";
             this.ToolStripSave.Click += new System.EventHandler(this.ToolStripSave_Click);
             // 
             // toolStripSaveAs
             // 
             this.toolStripSaveAs.Name = "toolStripSaveAs";
-            this.toolStripSaveAs.Size = new System.Drawing.Size(167, 30);
+            this.toolStripSaveAs.Size = new System.Drawing.Size(210, 30);
             this.toolStripSaveAs.Text = "Save as...";
             this.toolStripSaveAs.Click += new System.EventHandler(this.toolStripSaveAs_Click);
             // 
             // toolStripExit
             // 
             this.toolStripExit.Name = "toolStripExit";
-            this.toolStripExit.Size = new System.Drawing.Size(167, 30);
+            this.toolStripExit.Size = new System.Drawing.Size(210, 30);
             this.toolStripExit.Text = "Exit";
+            this.toolStripExit.Click += new System.EventHandler(this.toolStripExit_Click_1);
             // 
             // toolStripEdit
             // 
@@ -406,6 +410,12 @@
             this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
             // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.exportToolStripMenuItem.Text = "Export...";
+            // 
             // MainDrawForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -468,6 +478,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripNew;
         private System.Windows.Forms.Button btnRedo;
         private System.Windows.Forms.Button btnUndo;
+        private System.Windows.Forms.SaveFileDialog fileDialogExport;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
     }
 }
 
