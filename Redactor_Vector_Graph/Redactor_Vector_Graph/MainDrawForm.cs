@@ -72,6 +72,7 @@ namespace Redactor_Vector_Graph {
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects");
             fileDialogSave.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects";
             fileDialogOpen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Projects";
+            fileDialogExport.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Super Vector Paint\\Export";
             UndoRedo.Init(btnUndo, btnRedo, paintBox, ref figureArray, this);
             winName = Text;
             OpenedFileName = " ";
@@ -240,5 +241,18 @@ namespace Redactor_Vector_Graph {
         private void toolStripExit_Click_1(object sender, EventArgs e) {
             Application.Exit();
         }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e) {
+           DialogResult dialogResult = fileDialogExport.ShowDialog();
+           
+        }
+
+        private void fileDialogExport_FileOk(object sender, System.ComponentModel.CancelEventArgs e) {
+
+            switch (fileDialogExport.FilterIndex) {
+                case 1 : Export.ToSvg(fileDialogExport.FileName,figureArray); break;
+            }
+        }
+
     }
 }

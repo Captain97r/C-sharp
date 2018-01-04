@@ -62,6 +62,7 @@ namespace Redactor_Vector_Graph {
         public virtual void DrawColider(Graphics graphics) { }
         public virtual bool SelectArea(Rectangle area) { return false; }
         public virtual void Load() { }
+        public virtual string ToSvgFormat() { return ""; }
     }
     [DataContract]
     public class PolyLine : Figure {
@@ -291,10 +292,19 @@ namespace Redactor_Vector_Graph {
             if (isSelected)
                 DrawColiderRect(graphics, new Rectangle(x, y, width, height));
         }
+        public override string ToSvgFormat() {
+            string strColorFill = "rgba(255, 255, 255, 0)";
+            if (isFill)
+                 strColorFill = ColorTranslator.ToHtml(colorFill);
+
+            return "<rect x=\""+x+"\" y=\"" +y+ "\" width=\"" + width + "\" height=\"" + height + "\" " +
+                   "fill=\""+ strColorFill + "\" stroke-width=\""+widthPen+"\" stroke=\""+ ColorTranslator.ToHtml(colorPen) + "\"/>";
+        }
     }
     [DataContract]
     public class RoundedRect : RectangularFigure {
         [DataMember] public int radius = 25;
+        int x, y, width, height;
         public RoundedRect(Pen setPen, PointW start, int setRadius, Color? setColorFill = null) {
             colorPen = setPen.Color;
             widthPen = setPen.Width;
@@ -342,11 +352,10 @@ namespace Redactor_Vector_Graph {
             radius = (int)((PropRadius)propArray["PropRadius"]).numeric.Value;
             Pen pen = new Pen(colorPen);
             pen.Width = widthPen;
-            int x, y;
             x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
             y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
-            int width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
-            int height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y);
+            width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
+            height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y);
             rectColider = new Rectangle(x - (int)Math.Round(widthPen / 2, MidpointRounding.AwayFromZero), y - (int)Math.Round(widthPen / 2, MidpointRounding.AwayFromZero),
                         width + (int)(widthPen), height + (int)(widthPen));
 
@@ -382,7 +391,16 @@ namespace Redactor_Vector_Graph {
             if (isSelected)
                 DrawColiderRect(graphics, rectColider);
         }
-    }
+        public override string ToSvgFormat() {
+            string strColorFill = "rgba(255, 255, 255, 0)";
+            if (isFill)
+                strColorFill = ColorTranslator.ToHtml(colorFill);
+
+            return "<rect x=\"" + x + "\" y=\"" + y + "\" rx=\"" + radius + "\" ry=\"" + radius + "\" width=\"" + width + "\" height=\"" + height + "\" " +
+                   "fill=\"" + strColorFill + "\" stroke-width=\"" + widthPen + "\" stroke=\"" + ColorTranslator.ToHtml(colorPen) + "\"/>";
+        }
+    
+}
     [DataContract]
     public class Ellipse : RectangularFigure {
         public Ellipse(Pen setPen, PointW start, Color? setColorFill = null) {

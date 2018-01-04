@@ -35,6 +35,7 @@
             this.ToolStripOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDelSelected = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,7 +64,6 @@
             this.fileDialogSave = new System.Windows.Forms.SaveFileDialog();
             this.fileDialogExport = new System.Windows.Forms.SaveFileDialog();
             this.paintBox = new Redactor_Vector_Graph.PaintBox();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numZoom)).BeginInit();
@@ -124,6 +124,13 @@
             this.toolStripSaveAs.Size = new System.Drawing.Size(210, 30);
             this.toolStripSaveAs.Text = "Save as...";
             this.toolStripSaveAs.Click += new System.EventHandler(this.toolStripSaveAs_Click);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
+            this.exportToolStripMenuItem.Text = "Export...";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // toolStripExit
             // 
@@ -386,14 +393,20 @@
             // 
             // fileDialogOpen
             // 
+            this.fileDialogOpen.Filter = "Project File(.svp)|*.svp";
             this.fileDialogOpen.FileOk += new System.ComponentModel.CancelEventHandler(this.fileDialogOpen_FileOk);
             // 
             // fileDialogSave
             // 
             this.fileDialogSave.DefaultExt = "json";
-            this.fileDialogSave.FileName = "new.json";
-            this.fileDialogSave.Filter = "|*.json";
+            this.fileDialogSave.FileName = "new.svp";
+            this.fileDialogSave.Filter = "Project File(.svp)|*.svp";
             this.fileDialogSave.FileOk += new System.ComponentModel.CancelEventHandler(this.fileDialogSave_FileOk);
+            // 
+            // fileDialogExport
+            // 
+            this.fileDialogExport.Filter = "Vector(*.svg)|*.svg|Raster graphics(*.png)|*.png";
+            this.fileDialogExport.FileOk += new System.ComponentModel.CancelEventHandler(this.fileDialogExport_FileOk);
             // 
             // paintBox
             // 
@@ -409,12 +422,6 @@
             this.paintBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseDown);
             this.paintBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseMove);
             this.paintBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PaintBox_MouseUp);
-            // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(210, 30);
-            this.exportToolStripMenuItem.Text = "Export...";
             // 
             // MainDrawForm
             // 

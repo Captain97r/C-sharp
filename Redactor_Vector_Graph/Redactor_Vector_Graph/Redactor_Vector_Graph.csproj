@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CopyPaste.cs" />
+    <Compile Include="Export.cs" />
     <Compile Include="RingBuffer.cs" />
     <Compile Include="SerializerFigure.cs" />
     <Compile Include="MainDrawForm.cs">
