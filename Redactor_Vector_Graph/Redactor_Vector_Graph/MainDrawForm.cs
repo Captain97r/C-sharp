@@ -194,14 +194,15 @@ namespace Redactor_Vector_Graph {
                     try {
                         figureArray.AddRange(SerializerFigure.Parse(str));
                         fileDialogSave.FileName = fileDialogOpen.FileName;
-                        fileDialogExport.InitialDirectory = fileDialogOpen.FileName;
+                        
                         isFirstSave = false;
                         OpenedFileName = fileDialogOpen.FileName;
-
+                      
                     }
                     catch {
                         MessageBox.Show("Error, file is corrupted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                    Tool.ResetReactUpdate(figureArray);
                 }
             }
             UndoRedo.Reset();
@@ -248,10 +249,14 @@ namespace Redactor_Vector_Graph {
         }
 
         private void fileDialogExport_FileOk(object sender, System.ComponentModel.CancelEventArgs e) {
-
+            ExportWizard exportWizard = new ExportWizard();
             switch (fileDialogExport.FilterIndex) {
-                case 1 : Export.ToSvg(fileDialogExport.FileName,figureArray); break;
+                case 1: exportWizard.ShowDialog(); Export.ToSvg(fileDialogExport.FileName,(int)(exportWizard.numWidth.Value), (int)(exportWizard.numHeight.Value), figureArray); break;
+                case 2:
+                case 3:
+                case 4: exportWizard.ShowDialog(); Export.ToBitmap(fileDialogExport.FileName, (int)(exportWizard.numWidth.Value), (int)(exportWizard.numHeight.Value), figureArray); break;
             }
+            paintBox.Invalidate();
         }
 
     }

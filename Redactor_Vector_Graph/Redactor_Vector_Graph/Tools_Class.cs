@@ -38,6 +38,22 @@ namespace Redactor_Vector_Graph {
             pntwMaxReact.X = Math.Max(pointW.X, pntwMaxReact.X);
             pntwMaxReact.Y = Math.Max(pointW.Y, pntwMaxReact.Y);
         }
+        public static void ResetReactUpdate(List<Figure> figureArray) {
+            if(figureArray[0].startPointW !=null)
+                 pntwMinReact = figureArray[0].startPointW;
+            if (figureArray[0].endPointW != null)
+                 pntwMaxReact = figureArray[0].endPointW;
+            foreach (var figure in figureArray) {
+                pntwMinReact.X = Math.Min(figure.startPointW.X, pntwMinReact.X);
+                pntwMinReact.Y = Math.Min(figure.startPointW.Y, pntwMinReact.Y);
+                pntwMinReact.X = Math.Min(figure.endPointW.X, pntwMinReact.X);
+                pntwMinReact.Y = Math.Min(figure.endPointW.Y, pntwMinReact.Y);
+                pntwMaxReact.X = Math.Max(figure.startPointW.X, pntwMaxReact.X);
+                pntwMaxReact.Y = Math.Max(figure.startPointW.Y, pntwMaxReact.Y);
+                pntwMaxReact.X = Math.Max(figure.endPointW.X, pntwMaxReact.X);
+                pntwMaxReact.Y = Math.Max(figure.endPointW.Y, pntwMaxReact.Y);
+            }
+        }
         public static void UpdateSelectionArray(List<Figure> figureArray) {
             figureSelectionArray = new List<Figure>();
             foreach (var figure in figureArray) {   

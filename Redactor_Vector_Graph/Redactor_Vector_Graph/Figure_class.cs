@@ -71,8 +71,7 @@ namespace Redactor_Vector_Graph {
             colorPen = setPen.Color;
             widthPen = setPen.Width;
             pointsArray.Add(start);
-            startPointW = pointsArray[0].Clone();
-            endPointW = new PointW(0.0, 0.0);
+
             Load();
         }
         public override void Load() {
@@ -81,7 +80,14 @@ namespace Redactor_Vector_Graph {
             for (int i = 0; i <= pointsArray.Count - 1; i++) {
                 anchorArray.Add(new Anchor(pointsArray, i, SetMaxMin));
             }
-           
+            startPointW = pointsArray[0].Clone();
+            endPointW = new PointW(0.0, 0.0);
+            foreach (var pointW in pointsArray) {
+                startPointW.X = Math.Min(startPointW.X, pointW.X);
+                startPointW.Y = Math.Min(startPointW.Y, pointW.Y);
+                endPointW.X = Math.Max(endPointW.X, pointW.X);
+                endPointW.Y = Math.Max(endPointW.Y, pointW.Y);
+            }
 
             propArray.Add("PropColor", new PropColor(Color.Black));
             propArray.Add("PropPenWidth", new PropPenWidth());
@@ -139,6 +145,14 @@ namespace Redactor_Vector_Graph {
                     anchor.Draw(graphics);
                 }
             }
+        }
+        public override string ToSvgFormat() {
+            string str = "<polyline points='";
+            foreach(var PointW in pointsArray) {
+                str += PointW.ToScrPnt().X+","+PointW.ToScrPnt().Y+" ";
+            }
+            str += "' stroke-width='" + widthPen + "' stroke='" + ColorTranslator.ToHtml(colorPen) + "' fill = 'none'/>  ";
+            return str;
         }
     }
     [Serializable]
@@ -202,6 +216,10 @@ namespace Redactor_Vector_Graph {
                 anchorArray[0].Draw(graphics);
                 anchorArray[1].Draw(graphics);
             }
+        }
+        public override string ToSvgFormat() {
+       
+            return "<line x1='"+startPointW.ToScrPnt().X+ "' y1='" + startPointW.ToScrPnt().Y + "' x2='" + endPointW.ToScrPnt().X + "' y2='" + endPointW.ToScrPnt().Y + "' stroke-width='"+widthPen+ "' stroke='"+ ColorTranslator.ToHtml(colorPen) + "'/>  ";
         }
     }
     [DataContract]
@@ -296,7 +314,10 @@ namespace Redactor_Vector_Graph {
             string strColorFill = "rgba(255, 255, 255, 0)";
             if (isFill)
                  strColorFill = ColorTranslator.ToHtml(colorFill);
-
+            x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
+            y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
+            width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
+            height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y);
             return "<rect x=\""+x+"\" y=\"" +y+ "\" width=\"" + width + "\" height=\"" + height + "\" " +
                    "fill=\""+ strColorFill + "\" stroke-width=\""+widthPen+"\" stroke=\""+ ColorTranslator.ToHtml(colorPen) + "\"/>";
         }
@@ -395,7 +416,10 @@ namespace Redactor_Vector_Graph {
             string strColorFill = "rgba(255, 255, 255, 0)";
             if (isFill)
                 strColorFill = ColorTranslator.ToHtml(colorFill);
-
+            x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
+            y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
+            width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X);
+            height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y);
             return "<rect x=\"" + x + "\" y=\"" + y + "\" rx=\"" + radius + "\" ry=\"" + radius + "\" width=\"" + width + "\" height=\"" + height + "\" " +
                    "fill=\"" + strColorFill + "\" stroke-width=\"" + widthPen + "\" stroke=\"" + ColorTranslator.ToHtml(colorPen) + "\"/>";
         }
@@ -444,6 +468,16 @@ namespace Redactor_Vector_Graph {
             if (isSelected)
                 DrawColiderRect(graphics, new Rectangle(Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X), Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y),
                   Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X), Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y)));
+        }
+        public override string ToSvgFormat() {
+            string strColorFill = "rgba(255, 255, 255, 0)";
+            if (isFill)
+                strColorFill = ColorTranslator.ToHtml(colorFill);
+            int x = Math.Min(startPointW.ToScrPnt().X, endPointW.ToScrPnt().X);
+            int y = Math.Min(startPointW.ToScrPnt().Y, endPointW.ToScrPnt().Y);
+            int width = Math.Abs(startPointW.ToScrPnt().X - endPointW.ToScrPnt().X)/2;
+            int height = Math.Abs(startPointW.ToScrPnt().Y - endPointW.ToScrPnt().Y)/2;
+            return "<ellipse cx='"+ (x + width) + "' cy='"+(y+height)+"' rx='"+width+"' ry='"+height+ "' fill =\"" + strColorFill + "\" stroke-width=\"" + widthPen + "\" stroke=\"" + ColorTranslator.ToHtml(colorPen) + "\"/>";
         }
     }
 

@@ -405,7 +405,8 @@
             // 
             // fileDialogExport
             // 
-            this.fileDialogExport.Filter = "Vector(*.svg)|*.svg|Raster graphics(*.png)|*.png";
+            this.fileDialogExport.Filter = "Vector(*.svg)|*.svg|Raster graphics(*.png)|*.png|Raster graphics(*.bmp)|*.bmp|Ras" +
+    "ter graphics(*.jpg)|*.jpg";
             this.fileDialogExport.FileOk += new System.ComponentModel.CancelEventHandler(this.fileDialogExport_FileOk);
             // 
             // paintBox
